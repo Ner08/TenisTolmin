@@ -35,7 +35,9 @@
         @endforeach
     </div>
 
-    <button class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold mt-8 py-2 px-5 rounded">
-        Več Novic
-    </button>
+    <div class="flex justify-center">
+        <a href="{{route('news')}}" class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold mt-8 py-2 px-5 rounded text-center">
+            Več Novic
+        </a>
+    </div>
 </div>

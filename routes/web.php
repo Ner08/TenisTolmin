@@ -6,7 +6,7 @@ use Faker\Provider\Lorem;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('layouts.home', ['newsItems' => News::paginate(12), 'login' => false]);
+    return view('layouts.home', ['newsItems' => News::paginate(6), 'login' => false]);
 });
 
 Route::get('/news', function(){
@@ -38,3 +38,7 @@ Route::get('admin', function(){
 Route::get('contact', function(){
     return view('layouts.contact', ['login' => false]);
 })->name('contact');
+
+Route::get('membership', function(){
+    return view('layouts.membership', ['login' => false]);
+})->name('membership');
