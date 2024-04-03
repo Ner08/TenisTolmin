@@ -21,7 +21,7 @@
             <div class="bg-white mx-2 p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Lokacija</h2>
                 <div class="aspect-w-1 aspect-h-1 mb-4">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d387.59617860389795!2d13.730989976794332!3d46.1811735555879!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477af7c8316a5295%3A0xb9771109e916f079!2s5220%20Tolmin!5e0!3m2!1ssl!2ssi!4v1712075902095!5m2!1ssl!2ssi" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    <iframe src="https://maps.google.com/maps?q=46.180976, 13.731363&z=15&output=embed" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
                 <p class="text-gray-700">Obiščite nas za več informacij!</p>
             </div>
