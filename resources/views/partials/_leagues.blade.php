@@ -14,3 +14,12 @@
             <p class="text-gray-700">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
         </a>
     </div>
+    <div class="flex justify-center mt-8">
+        <a href="{{ route('leagues') }}" class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold py-2 px-5 rounded text-center mr-4">
+            Več Lig in Turnirjev
+        </a>
+        <a href="{{ route('scoreboard') }}" class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold py-2 px-5 rounded text-center">
+            Tminska ATP lestvica
+        </a>
+    </div>
+</div>

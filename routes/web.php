@@ -1,44 +1,41 @@
 <?php
 
-use App\Models\News;
-use App\Models\NewsComment;
-use Faker\Provider\Lorem;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LeaguesController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\NewsController;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('layouts.home', ['newsItems' => News::paginate(6), 'login' => false]);
-});
+// Home
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/news', function(){
-    return view('layouts.news', ['newsItems' => News::paginate(12), 'login' => false]);
-})->name('news');
-;
+// News
+Route::get('/news', [NewsController::class, 'index'])->name('news');
+Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
-Route::get('/news/{news}', function(News $news){
-
-return view('layouts.news_detail', ['newsItem' => $news, 'login' => false, 'comments' => NewsComment::where('news_id', 1)->paginate(10)]);
-})->where('id','[0-9]+')->name('news_detail');;
-
+// Leagues
 Route::get('/leagues', function(){
     return view('layouts.news', ['login' => false]);
-});
+})->name('leagues');
 
 Route::get('/leagues/{id}', function($id){
     return view('layouts.news', ['id' => $id, 'login' => false]);
-})->where('id','[0-9]+');
+})->name('leagues_detail');
 
-Route::get('login_view', function(){
-    return view('layouts.login');
-})->name('login_view');;
+Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
-Route::get('admin', function(){
-    return view('layouts.admin', ['login' => false]);
-})->name('admin');
+// Login/Logout
+Route::get('/login_view', [LoginController::class, 'index'])->name('login_view');;
 
-Route::get('contact', function(){
-    return view('layouts.contact', ['login' => false]);
-})->name('contact');
+//Admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 
-Route::get('membership', function(){
-    return view('layouts.membership', ['login' => false]);
-})->name('membership');
+//Contact
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
+// Membership
+Route::get('/membership',[MembershipController::class, 'index'])->name('membership');

@@ -1,8 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Home')
-
-@section('content')
+<x-layout :login="$login">
 
 {{-- Welcome --}}
 @include('partials._welcome')
@@ -13,7 +9,8 @@
 {{-- Leagues --}}
 @include('partials._leagues')
 
-</div>
+{{-- Events --}}
+{{-- @include('partials._events') --}}
 
 {{-- Membership, Rules and Reservations --}}
 @include('partials._memberships_info')
@@ -21,5 +18,5 @@
 {{-- Contact information --}}
 @include('partials._contact')
 
-@endsection
+</x-layout>
 

@@ -1,8 +1,5 @@
-@extends('layouts.master_login')
+<x-layout-login>
 
-@section('title', 'Login')
-
-@section('content')
     <style>
         /* Custom CSS for adjusting login container height */
         .login-container {
@@ -94,4 +91,5 @@
             </form>
         </div>
     </div>
-@endsection
+
+</x-layout-login>

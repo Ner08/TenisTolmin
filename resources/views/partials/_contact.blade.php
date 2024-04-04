@@ -20,5 +20,4 @@
         </div>
     </div>
 </section>
-width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" class="w-full h-full"
-46.180976, 13.731363
+

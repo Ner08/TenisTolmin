@@ -1,8 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'News Details')
-
-@section('content')
+<x-layout :login="$login">
 
     {{-- News Details --}}
     <section class="py-12">
@@ -14,7 +10,7 @@
                 <div class="p-6">
                     <h2 class="text-3xl font-semibold mb-2">{{ $newsItem['title'] }}</h2>
                     <p class="text-gray-700">{{ $newsItem['content'] }}</p>
-                    <p class="text-gray-500 mt-4">Objavljeno:  {{ $newsItem['created_at']->format('d.m.Y') }}</p>
+                    <p class="text-gray-500 mt-4">Objavljeno: {{ $newsItem['created_at']->format('d.m.Y') }}</p>
                 </div>
             </div>
 
@@ -27,7 +23,8 @@
                         <p class="text-gray-700 text-sm">{{ $comment['content'] }}</p>
                         <div class="flex justify-between items-center mt-2">
                             <p class="text-gray-500 text-xs">Komentiral <span
-                                    class="font-semibold">{{ $comment['username'] ?? 'John Doe' }}</span> | <span {{-- TODO remove john doe --}}
+                                    class="font-semibold">{{ $comment['username'] ?? 'John Doe' }}</span> | <span
+                                    {{-- TODO remove john doe --}}
                                     class="font-semibold">{{ $comment['created_at']->format('d.m.Y') }}</span></p>
                             {{-- Add reply button if needed --}}
                         </div>
@@ -51,4 +48,4 @@
         </div>
     </section>
 
-@endsection
+</x-layout>

@@ -1,8 +1,4 @@
-@extends('layouts.master')
-
-@section('title', 'Novice')
-
-@section('content')
+<x-layout :login="$login">
 
     {{-- News --}}
     <section class="py-12">
@@ -44,4 +40,4 @@
         </div>
     </section>
 
-@endsection
+</x-layout>

@@ -9,7 +9,7 @@
 
 <body>
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="{{ asset('images/logo.svg') }}" alt="logo" class="h-8 w-auto" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Teniški klub
@@ -63,15 +63,16 @@
                     @endif
 
                 </ul>
-            </div>
+        </div>
         </span>
     </nav>
 
-    @yield('content')
+    {{ $slot }}
 
     {{-- Edit button (Admin only) --}}
     <div class="fixed bottom-4 right-4">
-        <a href="{{ route('admin') }}" class="flex items-center justify-center w-16 h-16 bg-gray-900 hover:bg-gray-700 text-white font-bold rounded-full shadow-lg">
+        <a href="{{ route('admin') }}"
+            class="flex items-center justify-center w-16 h-16 bg-gray-900 hover:bg-gray-700 text-white font-bold rounded-full shadow-lg">
             Admin
         </a>
     </div>
