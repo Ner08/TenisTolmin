@@ -8,10 +8,10 @@
 </head>
 
 <body>
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
+    <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed w-full top-0 left-0 z-50">
         <div class="max-w-screen-2xl flex flex-wrap items-center justify-between mx-auto p-4">
             <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="{{ asset('images/logo.svg') }}" alt="logo" class="h-8 w-auto" />
+                <img src="{{ asset('images/logo10.png') }}" alt="logo" class="h-8 w-auto" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Teniški klub
                     Tolmin</span>
 
@@ -38,7 +38,7 @@
                             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Lige</a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('events') }}"
                             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Dogodki</a>
                     </li>
                     <li>
@@ -67,8 +67,9 @@
         </span>
     </nav>
 
-    {{ $slot }}
-
+    <div class="mt-12 pt-2">
+        {{ $slot }}
+    </div>
     {{-- Edit button (Admin only) --}}
     <div class="fixed bottom-4 right-4">
         <a href="{{ route('admin') }}"

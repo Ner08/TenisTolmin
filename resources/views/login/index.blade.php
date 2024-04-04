@@ -46,7 +46,7 @@
     <div class="login-container">
         <div class="form-container">
             <div class="text-center">
-                <img class="mx-auto h-12 w-auto" src="{{ asset('images/logo.svg') }}" alt="logo">
+                <img class="mx-auto h-12 w-auto" src="{{ asset('images/logo10.png') }}" alt="logo">
                 <h2 class="mt-4 text-center text-3xl font-extrabold text-white">
                     Prijavite se v vaš račun
                 </h2>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use App\Models\News;
 
 class HomeController extends Controller
@@ -10,7 +11,8 @@ class HomeController extends Controller
     public function index()
     {
         return view('home.index', [
-            'newsItems' => News::paginate(6),
+            'news' => News::paginate(6),
+            'events' => Event::paginate(6),
             'login' => false
         ]);
     }

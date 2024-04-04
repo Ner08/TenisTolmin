@@ -1,7 +1,11 @@
 <x-layout :login="$login">
     <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-6">Tminska ATP lestvica</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div class="flex items-center mb-6">
+            <div class="bg-gray-900 rounded-md text-white text-2xl font-bold px-3 pt-1 pb-2">
+                Tminska ATP lestvica
+            </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @php
                 // Sort players by points in descending order
                 usort($players, function($a, $b) {
@@ -27,7 +31,7 @@
                     <div class="flex-grow p-6">
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-lg font-semibold">{{ $player['name'] }}</span>
-                            <span class="bg-gray-200 text-sm px-3 py-1 rounded-full">{{ $player['points'] }} točk</span>
+                            <span class="bg-gray-200 text-sm text-center px-3 py-1 rounded-full">{{ $player['points'] }} točk</span>
                         </div>
                         <div class="bg-gray-200 h-2 rounded-full mb-4">
                             <div class="bg-blue-500 h-2 rounded-full" style="width: {{ ($player['points'] / $maxPoints) * 100 }}%;"></div>

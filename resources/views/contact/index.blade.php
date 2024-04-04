@@ -6,13 +6,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-gray-100 mx-2 p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-bold mb-4">Informacije</h2>
-                    <p class="text-gray-700">Dijaška ulica 12</p>
-                    <p class="text-gray-700">Tolmin, Slovenija, 5220</p>
-                    <p class="text-gray-700">Email: info@example.com</p>
-                    <p class="text-gray-700">Telefon: 123-456-7890</p>
-                    <p class="text-gray-700">TRR: SI56 0475 3000 0388 292 NOVA KBM d.d.</p>
-                    <p class="text-gray-700">Matična številka: 5214955000</p>
-                    <p class="text-gray-700">Delovni Čas: Predsednik: Damijan Zarli</p>
+                    <p class="text-gray-700"> <b>Naslov:</b>  Dijaška ulica 12</p>
+                    <p class="text-gray-700"><b>Mesto:</b> Tolmin, Slovenija, 5220</p>
+                    <p class="text-gray-700"><b>Email:</b> <a href="mailto:info@example.com" class="text-blue-600">info@example.com</a></p>
+                    <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p>
+                    <p class="text-gray-700"><b>TRR:</b> SI56 0475 3000 0388 292 NOVA KBM d.d.</p>
+                    <p class="text-gray-700"><b>Matična številka:</b> 5214955000</p>
+                    <p class="text-gray-700"><b>Predsednik:</b> Damijan Zarli</p>
                 </div>
                 <div class="bg-gray-100 mx-2 p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-bold mb-4">Lokacija</h2>
@@ -34,11 +34,11 @@
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Email</h3>
                     <p class="text-gray-700">Pošljite nam e-sporočilo na <a
-                            href="mailto:info@example.com">info@example.com</a>.</p>
+                            href="mailto:info@example.com" class="text-blue-600">info@example.com</a>.</p>
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Telefon</h3>
-                    <p class="text-gray-700">Pokličite nas na <a href="tel:123-456-7890">123-456-7890</a>.</p>
+                    <p class="text-gray-700">Pokličite nas na <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a>.</p>
                 </div>
             </div>
         </div>

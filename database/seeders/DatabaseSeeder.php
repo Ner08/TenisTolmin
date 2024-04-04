@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Event;
 use App\Models\News;
 use App\Models\NewsComment;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,5 +25,6 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'news_id' => 1
         ]);
+        Event::factory(5)->create();
     }
 }

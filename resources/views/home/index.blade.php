@@ -10,7 +10,7 @@
 @include('partials._leagues')
 
 {{-- Events --}}
-{{-- @include('partials._events') --}}
+@include('partials._events', ['home' => true])
 
 {{-- Membership, Rules and Reservations --}}
 @include('partials._memberships_info')

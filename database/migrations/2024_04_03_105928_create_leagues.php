@@ -18,6 +18,13 @@ return new class extends Migration
             $table->integer('participants');
             $table->timestamps();
         });
+
+        Schema::create('scoreboard', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->integer('score')->default(0);;
+            $table->timestamps();
+        });
     }
 
     /**

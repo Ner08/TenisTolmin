@@ -2,12 +2,12 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LeaguesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\NewsController;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -39,3 +39,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // Membership
 Route::get('/membership',[MembershipController::class, 'index'])->name('membership');
+
+// Events
+Route::get('/events',[EventController::class, 'index'])->name('events');
+Route::get('/events/{event}',[EventController::class, 'show'])->name('events_detail');
