@@ -1,4 +1,4 @@
-<div class="container px-4 mx-auto py-8">
+<div class="container px-2 mx-auto py-8">
     @if ($home)
         <h1 class="text-3xl font-bold mb-8">Dogodki</h1>
     @else
