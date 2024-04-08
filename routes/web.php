@@ -18,13 +18,8 @@ Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
 // Leagues
-Route::get('/leagues', function(){
-    return view('layouts.news', ['login' => false]);
-})->name('leagues');
-
-Route::get('/leagues/{id}', function($id){
-    return view('layouts.news', ['id' => $id, 'login' => false]);
-})->name('leagues_detail');
+Route::get('/leagues', [LeaguesController::class, 'index'])->name('leagues');
+Route::get('/leagues/{league}', [LeaguesController::class, 'show'])->name('league');
 
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 

@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.tournament-bracket {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.round {
+    display: flex;
+    flex-direction: column;
+}
+
+.match-up {
+    display: flex;
+    align-items: center;
+}
+
+.team {
+    padding: 8px;
+    margin: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.vs {
+    margin: 0 16px;
+}

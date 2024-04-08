@@ -1,12 +1,6 @@
 <div class="container px-2 mx-auto py-8">
     @if ($home)
         <h1 class="text-3xl font-bold mb-8">Dogodki</h1>
-    @else
-        <div class="flex items-center justify-start mb-8">
-            <div class="bg-gray-900 rounded-md text-center pt-1 pb-2 px-3 text-white text-3xl font-bold">
-                Dogodki
-            </div>
-        </div>
     @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Event items -->

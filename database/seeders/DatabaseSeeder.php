@@ -2,9 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bracket;
+use App\Models\CustomMatchUp;
 use App\Models\Event;
+use App\Models\League;
 use App\Models\News;
 use App\Models\NewsComment;
+use App\Models\ScoreBoard;
+use App\Models\Team;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -26,5 +31,10 @@ class DatabaseSeeder extends Seeder
             'news_id' => 1
         ]);
         Event::factory(5)->create();
+        ScoreBoard::factory(30)->create();
+        League::factory(3)->create();
+        Bracket::factory(9)->create();
+        Team::factory(90)->create();
+        CustomMatchUp::factory(50)->create();
     }
 }
