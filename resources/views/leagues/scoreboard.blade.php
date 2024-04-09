@@ -1,10 +1,7 @@
 <x-layout :login="$login">
+    <x-title title="Tminska ATP lestvica"/>
     <div class="bg-gray-100 p-6 rounded-lg shadow-md">
-        <div class="flex items-center mb-6">
-            <div class="bg-gray-900 rounded-md text-white text-2xl font-bold px-3 pt-1 pb-2">
-                Tminska ATP lestvica
-            </div>
-        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @php
                 // Sort players by points in descending order

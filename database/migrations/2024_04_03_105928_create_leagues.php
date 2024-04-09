@@ -44,7 +44,8 @@ return new class extends Migration
             $table->unsignedBigInteger('league_id');
             $table->string('name');
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
-            $table->longText('description');
+            $table->longText('description')->nullable();
+            $table->boolean('is_group_stage')->default(false);
         });
 
         Schema::create('teams', function (Blueprint $table) {
@@ -71,17 +72,26 @@ return new class extends Migration
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
             $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->integer('t1_first_set');
-            $table->integer('t2_first_set');
-            $table->integer('t1_second_set');
-            $table->integer('t2_second_set');
-            $table->integer('t1_third_set');
-            $table->integer('t2_third_set');
+            $table->integer('t1_first_set')->nullable();
+            $table->integer('t2_first_set')->nullable();;
+            $table->integer('t1_second_set')->nullable();;
+            $table->integer('t2_second_set')->nullable();;
+            $table->integer('t1_third_set')->nullable();;
+            $table->integer('t2_third_set')->nullable();;
             $table->integer('t1_sets_won')->nullable();
             $table->integer('t2_sets_won')->nullable();
             $table->boolean('quick_decider')->default(true);
-            $table->integer('round')->nullable(); //TODO remove nullable
+            $table->integer('round');
             $table->boolean('winner')->nullable();
+        });
+
+        Schema::create('league_news', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->unsignedBigInteger('league_id');
+            $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
+            $table->text('title');
+            $table->longText('content');
         });
     }
 

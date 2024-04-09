@@ -1,5 +1,9 @@
 <x-layout :login="$login">
-    <div class="container mx-auto">
+    @php
+        $title = 'Dogodek • ' . $event->title;
+    @endphp
+    <x-title :title="$title"/>
+    <div class="mx-auto">
         @include('partials._event')
     </div>
 </x-layout>

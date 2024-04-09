@@ -29,12 +29,15 @@ class LeaguesController extends Controller
     {
 
         $brackets = Bracket::where('league_id', $league->id)->get();
+        // Check if the user is on a mobile device
+        $isMobile = $this->isMobileDevice();
 
         return view('leagues.show', [
             'league' => $league,
             'brackets' => $brackets,
-            'login' => false
-            ]);
+            'login' => false,
+            'isMobile' => $isMobile,
+        ]);
     }
     public function showScoreboard()
     {
@@ -75,5 +78,11 @@ class LeaguesController extends Controller
             'players' => $players,
             'login' => false
         ]);
+    }
+
+    // Function to check if the user is on a mobile device
+    private function isMobileDevice()
+    {
+        return preg_match('/(android|iphone|ipad|ipod)/i', request()->header('User-Agent'));
     }
 }

@@ -1,7 +1,11 @@
 <x-layout :login="$login">
+    @php
+        $title = 'Novice • ' . $newsItem->title;
+    @endphp
+    <x-title :title="$title" />
 
     {{-- News Details --}}
-    <section class="py-8 m-3">
+    <section class="m-3">
         <div class="container mx-auto">
             <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden text-white">
                 @if (isset($newsItem['image']))

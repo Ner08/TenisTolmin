@@ -6,7 +6,7 @@ $timeFromFormated = date('h:i:s', strtotime($event['fromDate']));
 @endphp
 
 {{-- Event Details --}}
-<section class="py-8 m-3">
+<section class="m-3">
     <div class="container mx-auto">
         <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden text-white">
             <div class="p-6">

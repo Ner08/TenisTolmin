@@ -39,11 +39,11 @@
     </div>
     <div class="flex justify-center mt-12 gap-2">
         <a href="{{ route('leagues') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+            class="bg-gray-900 hover:bg-gray-800 text-center text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
             Več Lig in Turnirjev
         </a>
         <a href="{{ route('scoreboard') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+            class="bg-gray-900 hover:bg-gray-800 text-center text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
             Tminska ATP lestvica
         </a>
     </div>

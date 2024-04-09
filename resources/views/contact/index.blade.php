@@ -1,4 +1,5 @@
 <x-layout :login="$login">
+    <x-title title="Kontaktne informacije"/>
 
     {{-- Informacije za stik --}}
     <section class="py-6">
