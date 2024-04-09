@@ -28,13 +28,16 @@ class LeaguesController extends Controller
     public function show(League $league)
     {
 
-        $brackets = Bracket::where('league_id', $league->id)->get();
+        $brackets = Bracket::where('league_id', $league->id)->where('is_group_stage', false)->get();
+        $brackets_groupstage = Bracket::where('league_id', $league->id)->where('is_group_stage',true)->get();
+
         // Check if the user is on a mobile device
         $isMobile = $this->isMobileDevice();
 
         return view('leagues.show', [
             'league' => $league,
             'brackets' => $brackets,
+            'brackets_group' => $brackets_groupstage,
             'login' => false,
             'isMobile' => $isMobile,
         ]);
