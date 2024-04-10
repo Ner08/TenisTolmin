@@ -1,4 +1,4 @@
-<x-layout :login="$login">
+<x-layout :login="$login" :admin="$admin">
     <x-title title="Tminska ATP lestvica"/>
     <div class="bg-gray-100 p-6 rounded-lg shadow-md">
 

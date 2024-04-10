@@ -15,7 +15,8 @@ class HomeController extends Controller
             'news' => News::paginate(6),
             'events' => Event::paginate(6),
             'leagues' => League::paginate(3),
-            'login' => false
+            'login' => false,
+            'admin' => true
         ]);
     }
 }

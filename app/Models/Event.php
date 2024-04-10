@@ -21,4 +21,10 @@ class Event extends Model
         'title',
         'description'
     ];
+    public function scopeFilter($query, array $filter) {
+        if ($filter['search_events'] ?? false) {
+            $query->where('title', 'like', '%' . request('search_events') . '%')
+            ->orWhere('description', 'like', '%' . request('search_events') . '%');
+        }
+    }
 }

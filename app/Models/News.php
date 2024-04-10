@@ -20,4 +20,11 @@ class News extends Model
         'password',
         'is_admin'
     ];
+
+    public function scopeFilter($query, array $filter) {
+        if ($filter['search_news'] ?? false) {
+            $query->where('title', 'like', '%' . request('search_news') . '%')
+            ->orWhere('content', 'like', '%' . request('search_news') . '%');
+        }
+    }
 }

@@ -70,13 +70,16 @@
     <div class="mt-12 pt-2">
         {{ $slot }}
     </div>
+
     {{-- Edit button (Admin only) --}}
-    <div class="fixed bottom-4 right-4">
-        <a href="{{ route('admin') }}"
-            class="flex items-center justify-center w-16 h-16 bg-gray-900 hover:bg-gray-700 text-white font-bold rounded-full shadow-lg">
-            Admin
-        </a>
-    </div>
+    @if ($admin)
+        <div class="fixed bottom-4 right-4">
+            <a href="{{ route('admin') }}"
+                class="flex items-center justify-center border-2 border-white w-16 h-16 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-full shadow-2xls">
+                Admin
+            </a>
+        </div>
+    @endif
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -87,6 +90,18 @@
                 navbarDefault.classList.toggle('hidden');
             });
         });
+        @if (isset($scroll))
+            document.addEventListener("DOMContentLoaded", function() {
+                var scrollTarget = document.querySelector("{{ $scroll }}");
+                if (scrollTarget) {
+                    var scrollTop = scrollTarget.offsetTop - 370;
+                    window.scrollTo({
+                        top: scrollTop,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        @endif
     </script>
 </body>
 

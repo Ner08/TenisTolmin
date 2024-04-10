@@ -22,7 +22,8 @@ class LeaguesController extends Controller
 
         return view('leagues.index', [
             'leagues' => $leagues,
-            'login' => false
+            'login' => false,
+            'admin' => true
         ]);
     }
     public function show(League $league)
@@ -40,6 +41,7 @@ class LeaguesController extends Controller
             'brackets_group' => $brackets_groupstage,
             'login' => false,
             'isMobile' => $isMobile,
+            'admin' => true
         ]);
     }
     public function showScoreboard()
@@ -79,7 +81,8 @@ class LeaguesController extends Controller
 
         return view('leagues.scoreboard', [
             'players' => $players,
-            'login' => false
+            'login' => false,
+            'admin' => true
         ]);
     }
 

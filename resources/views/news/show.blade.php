@@ -1,4 +1,4 @@
-<x-layout :login="$login">
+<x-layout :login="$login" :admin="$admin">
     @php
         $title = 'Novice • ' . $newsItem->title;
     @endphp

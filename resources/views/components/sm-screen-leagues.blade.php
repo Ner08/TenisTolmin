@@ -1,5 +1,3 @@
-<!-- resources/views/components/small_screen_layout.blade.php -->
-
 @foreach ($brackets as $bracket)
     @php
         $lastRound = $bracket->matchUps->max('round');

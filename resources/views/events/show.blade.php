@@ -1,4 +1,4 @@
-<x-layout :login="$login">
+<x-layout :login="$login" :admin="$admin">
     @php
         $title = 'Dogodek • ' . $event->title;
     @endphp

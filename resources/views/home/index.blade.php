@@ -1,4 +1,4 @@
-<x-layout :login="$login">
+<x-layout :login="$login" :admin="$admin">
 
 {{-- Welcome --}}
 @include('partials._welcome')

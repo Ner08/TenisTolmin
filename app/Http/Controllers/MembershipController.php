@@ -9,7 +9,8 @@ class MembershipController extends Controller
     public function index()
     {
         return view('membership.index', [
-            'login' => false
+            'login' => false,
+            'admin' => true
         ]);
     }
 }

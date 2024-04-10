@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'news_id' => 1
         ]);
-        Event::factory(5)->create();
+        Event::factory(15)->create();
         ScoreBoard::factory(30)->create();
         League::factory(3)->create();
         Bracket::factory(9)->create();

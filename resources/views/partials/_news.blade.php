@@ -10,7 +10,7 @@
 
     <div class="flex justify-center mt-8">
         <a href="{{route('news')}}" class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-            Več Novic
+            Več novic
         </a>
     </div>
 </div>
