@@ -48,12 +48,23 @@ return new class extends Migration
             $table->boolean('is_group_stage')->default(false);
         });
 
+        Schema::create('players', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('name');
+            $table->integer('points');
+        });
+
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('bracket_id');
             $table->string('name')->nullable();
+            $table->unsignedBigInteger('bracket_id');
+            $table->unsignedBigInteger('p1_id');
+            $table->unsignedBigInteger('p2_id')->nullable();
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
+            $table->foreign('p1_id')->references('id')->on('players')->onDelete('cascade');
+            $table->foreign('p2_id')->references('id')->on('players')->onDelete('cascade')->nullable();
             $table->string('p1_name');
             $table->integer('p1_score');
             $table->integer('p1_ranking');
@@ -106,5 +117,6 @@ return new class extends Migration
         Schema::dropIfExists('brackets');
         Schema::dropIfExists('teams');
         Schema::dropIfExists('custom_matchups');
+        Schema::dropIfExists('league_news');
     }
 };

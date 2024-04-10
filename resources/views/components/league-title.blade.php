@@ -1,4 +1,4 @@
-<div class="flex mx-2- p-3 pl-10 bg-gray-900 border-t-2 border-gray-800 justify-between">
+<div class="flex mx-2- p-3 pl-10 bg-gray-900 border-y-2 border-opacity-30 border-gray-800 justify-between">
     <h1 class="p-2 inline-block text-white font-bold text-2xl">{{ $data['name'] }}</h1>
     <div class="flex items-end mr-4 text-lg">
         <div class="flex items-center pr-5">

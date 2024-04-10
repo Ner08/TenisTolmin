@@ -24,10 +24,19 @@ class TeamFactory extends Factory
         $score = $this->faker->numberBetween(0, 100);
         return [
             'bracket_id' => $this->faker->numberBetween(1, 9),
+            'p1_id' => function () {
+                return \App\Models\Player::factory()->create()->id;
+            },
             'p1_name' => $this->faker->name(),
             'p1_score' => $score,
             'p1_ranking' => $this->faker->numberBetween(1, 29),
-            'team_score' => $score
+            'p2_id' => function () {
+                return \App\Models\Player::factory()->create()->id;
+            },
+            'p2_name' => $this->faker->name(),
+            'p2_score' => $this->faker->numberBetween(0, 100),
+            'p2_ranking' => $this->faker->numberBetween(1, 29),
+            'team_score' => $score + $this->faker->numberBetween(-10, 10),
         ];
     }
 }

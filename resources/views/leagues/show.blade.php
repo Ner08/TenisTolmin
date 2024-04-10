@@ -2,13 +2,21 @@
     <div>
         @if ($isMobile)
             <x-sm-league-title :data="['name' => $league->name, 'start_date' => $league->start_date, 'end_date' => $league->end_date]" />
+            @if ($brackets->isNotEmpty())
+                <x-league-group-title title="Izločitveni del" />
+            @endif
             <x-sm-screen-leagues :brackets="$brackets" />
+            @if ($brackets_group->isNotEmpty())
+                <x-league-group-title title="Skupinski del" />
+            @endif
+            @include('partials._sm_league_group_stage', ['brackets' => $brackets_group])
         @else
             <x-league-title :data="['name' => $league->name, 'start_date' => $league->start_date, 'end_date' => $league->end_date]" />
-
-
+            @if ($brackets->isNotEmpty())
+                <x-league-group-title title="Izločitveni del" />
+            @endif
             @foreach ($brackets as $bracket)
-                <div class="mx-2- p-3 pl-12 bg-gray-200">
+                <div class="p-2 pl-12 bg-gray-200">
                     <h1 class="p-2 inline-block text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h1>
                 </div>
 
@@ -143,6 +151,10 @@
                     </div>
                 </div>
             @endforeach
+            @if ($brackets_group->isNotEmpty())
+                <x-league-group-title title="Skupinski del" />
+            @endif
+            @include('partials._league_group_stage', ['brackets' => $brackets_group])
         @endif
     </div>
 </x-layout>
