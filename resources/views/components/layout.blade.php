@@ -80,29 +80,36 @@
             </a>
         </div>
     @endif
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const navbarToggle = document.getElementById('navbar-toggle');
-            const navbarDefault = document.getElementById('navbar-default');
-
-            navbarToggle.addEventListener('click', function() {
-                navbarDefault.classList.toggle('hidden');
-            });
-        });
-        @if (isset($scroll))
-            document.addEventListener("DOMContentLoaded", function() {
-                var scrollTarget = document.querySelector("{{ $scroll }}");
-                if (scrollTarget) {
-                    var scrollTop = scrollTarget.offsetTop - 370;
-                    window.scrollTo({
-                        top: scrollTop,
-                        behavior: "smooth"
-                    });
-                }
-            });
-        @endif
-    </script>
+    <x-flash-message />
 </body>
+
+<script>
+    window.onload = function() {
+        if (performance.navigation.type === 1) {
+            // Remove query parameters from the URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+        const navbarToggle = document.getElementById('navbar-toggle');
+        const navbarDefault = document.getElementById('navbar-default');
+
+        navbarToggle.addEventListener('click', function() {
+            navbarDefault.classList.toggle('hidden');
+        });
+    });
+    @if (isset($scroll))
+        document.addEventListener("DOMContentLoaded", function() {
+            var scrollTarget = document.querySelector("{{ $scroll }}");
+            if (scrollTarget) {
+                var scrollTop = scrollTarget.offsetTop - 370;
+                window.scrollTo({
+                    top: scrollTop,
+                    behavior: "smooth"
+                });
+            }
+        });
+    @endif
+</script>
 
 </html>

@@ -20,6 +20,7 @@ Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail')
 // Leagues
 Route::get('/leagues', [LeaguesController::class, 'index'])->name('leagues');
 Route::get('/leagues/{league}', [LeaguesController::class, 'show'])->name('league');
+Route::post('/leagues', [LeaguesController::class,'store'])->name('leagues.store');
 
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
@@ -28,6 +29,7 @@ Route::get('/login_view', [LoginController::class, 'index'])->name('login_view')
 
 //Admin
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/admin/leagues', [AdminController::class, 'leagues_index'])->name('league_managment');
 
 //Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

@@ -10,6 +10,8 @@ class League extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['name', 'description', 'short_description', 'start_date', 'end_date'];
+
     /**
      * Get the brackets in the league.
      */

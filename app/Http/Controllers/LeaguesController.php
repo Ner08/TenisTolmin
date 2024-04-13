@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bracket;
 use App\Models\League;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class LeaguesController extends Controller
@@ -30,7 +31,7 @@ class LeaguesController extends Controller
     {
 
         $brackets = Bracket::where('league_id', $league->id)->where('is_group_stage', false)->get();
-        $brackets_groupstage = Bracket::where('league_id', $league->id)->where('is_group_stage',true)->get();
+        $brackets_groupstage = Bracket::where('league_id', $league->id)->where('is_group_stage', true)->get();
 
         // Check if the user is on a mobile device
         $isMobile = $this->isMobileDevice();
@@ -84,6 +85,19 @@ class LeaguesController extends Controller
             'login' => false,
             'admin' => true
         ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated_data = $request->validate([
+            'name' => ['required', 'unique:leagues', 'max:40'],
+            'description' => ['required', 'max:500'],
+            'short_description' => 'max:200',
+            'start_date' => ['required']
+        ]);
+        $league = League::create($validated_data);
+
+        return back()->with('league',  $league);
     }
 
     // Function to check if the user is on a mobile device

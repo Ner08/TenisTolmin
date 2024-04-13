@@ -9,6 +9,13 @@
             @if ($brackets_group->isNotEmpty())
                 <x-league-group-title title="Skupinski del" />
             @endif
+            @if ($brackets->isEmpty() && $brackets_group->isEmpty())
+                <div class="m-6">
+                    <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
+                        Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
+                    </div>
+                </div>
+            @endif
             @include('partials._sm_league_group_stage', ['brackets' => $brackets_group])
         @else
             <x-league-title :data="['name' => $league->name, 'start_date' => $league->start_date, 'end_date' => $league->end_date]" />
@@ -153,6 +160,13 @@
             @endforeach
             @if ($brackets_group->isNotEmpty())
                 <x-league-group-title title="Skupinski del" />
+            @endif
+            @if ($brackets->isEmpty() && $brackets_group->isEmpty())
+                <div class="m-6">
+                    <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
+                        Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
+                    </div>
+                </div>
             @endif
             @include('partials._league_group_stage', ['brackets' => $brackets_group])
         @endif
