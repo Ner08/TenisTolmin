@@ -32,7 +32,7 @@ Route::get('/login_view', [LoginController::class, 'index'])->name('login_view')
 Route::get('/admin', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/leagues', [AdminController::class, 'leagues_index'])->name('league_managment');
 Route::get('/admin/league/bracket/{league}', [AdminController::class, 'bracket_setup'])->name('bracket_setup');
-Route::get('/admin/league/matchup/{bracket}', [AdminController::class, 'mathcup_setup'])->name('matchup_setup');
+Route::get('/admin/league/matchup/{bracket}', [AdminController::class, 'matchup_setup'])->name('matchup_setup');
 
 //Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');

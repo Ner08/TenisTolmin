@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Bracket;
-use App\Models\League;
 use App\Models\Team;
+use App\Models\League;
+use App\Models\Bracket;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class LeaguesController extends Controller
 {
@@ -103,7 +104,13 @@ class LeaguesController extends Controller
     public function bracket_store(Request $request)
     {
         $validated_data_bracket = $request->validate([
-            'name' => ['required', 'unique:brackets', 'max:40'],
+            'name' => [
+                'required',
+                Rule::unique('brackets')->where(function ($query) use ($request) {
+                    return $query->where('league_id', $request->league_id);
+                }),
+                'max:40'
+            ],
             'description' => ['required', 'max:500'],
             'is_group_stage' => ['boolean'],
             'league_id' => ['required', 'integer'],

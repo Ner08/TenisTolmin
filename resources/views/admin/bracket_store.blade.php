@@ -79,28 +79,42 @@
                     skupino
                 </button>
             </form>
-            <!-- Display list of news with edit and delete buttons -->
+            <!-- Display list of brackets with edit and delete buttons -->
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @if ($brackets->isEmpty())
-                    <h2 class="p-4 text-gray-900">Nismo našli nobene novice.</h2>
+                    <h2 class="p-4 text-gray-900">Nismo našli nobene skupine.</h2>
                 @else
                     @foreach ($brackets as $item)
-                        <li class="bg-white rounded-lg shadow-md p-6">
-                            <h3 class="text-xl font-bold mb-2">{{ $item->title }}</h3>
-                            <p class="text-gray-700">{{ $item->content }}</p>
-                            <p class="text-gray-500 mt-2"> {{ $item->created_at->format('d.m.Y') }}</p>
-                            <div class="flex justify-end mt-4">
-                                <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Edit</a>
+                    <li class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
+                                <p class="text-gray-700">{{ $item->description }}</p>
+                            </div>
+                            <p class="text-sm font-semibold text-gray-500">{{ $item->teams->count() }} igralcev/ekip</p>
+                        </div>
+                        <div class="text-sm underline text-gray-500">{{ $item->is_group_stage ? 'Skupinski del' : 'Izločitveni del' }}</div>
+                        <div class="flex items-center justify-between">
+                            <p>
+                                <span class="text-sm font-semibold text-gray-500">Ustvarjeno:</span>
+                                <span class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
+                            </p>
+                            <div class="flex items-center">
+                                <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
                                 <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                                    <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
                                 </form>
                             </div>
-                        </li>
+                        </div>
+                    </li>
+
+
                     @endforeach
                 @endif
             </ul>
+
             <div class="p-4">{{ $brackets->links() }}</div>
         </div>
     </div>

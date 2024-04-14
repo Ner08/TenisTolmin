@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\League;
 use App\Models\News;
 use App\Models\Player;
+use App\Models\Team;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -55,7 +56,7 @@ class AdminController extends Controller
     {
         return view('admin.matchup_store', [
             'bracket' => $bracket,
-            'teams' => Bracket::where('bracket_id', $bracket->id)->get(),
+            'teams' => Team::where('bracket_id', $bracket->id)->get(),
             'players' => Player::orderBy('name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -36,6 +37,16 @@ class Bracket extends Model
     public function matchUps(): HasMany
     {
         return $this->hasMany(CustomMatchUp::class);
+    }
+
+    /**
+     * Get the user that owns the Bracket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function league(): BelongsTo
+    {
+        return $this->belongsTo(League::class);
     }
 }
 

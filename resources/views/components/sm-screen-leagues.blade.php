@@ -1,6 +1,6 @@
 @foreach ($brackets as $bracket)
     @php
-        $lastRound = $bracket->matchUps->max('round');
+        $lastRound = $bracket->matchUps->max('round') ?? 10;
         $roundTitles = [
             1 => ['Finale'],
             2 => ['Polfinale', 'Finale'],
@@ -32,6 +32,7 @@
                 'Polfinale',
                 'Finale',
             ],
+            10 => ['Tekme še niso določene.'],
         ];
     @endphp
 

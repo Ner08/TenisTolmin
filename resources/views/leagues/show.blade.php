@@ -29,7 +29,7 @@
 
                 <div class="m-2 p-4 bg-white rounded-xl">
                     @php
-                        $lastRound = $bracket->matchUps->max('round');
+                        $lastRound = $bracket->matchUps->max('round') ?? 10;
                         $roundTitles = [
                             1 => ['Finale'],
                             2 => ['Polfinale', 'Finale'],
@@ -61,6 +61,7 @@
                                 'Polfinale',
                                 'Finale',
                             ],
+                            10 => ['Tekme še niso določene.'],
                         ];
 
                         // Calculate the width of each column
