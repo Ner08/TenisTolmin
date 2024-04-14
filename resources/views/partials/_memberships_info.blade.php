@@ -11,13 +11,13 @@
             </p>
         </div>
         <a href="{{-- {{ route('signup') }} --}}"
-            class="inline-block px-3 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center mt-4 md:mt-0 text-l font-bold">Več
+            class="inline-block px-3 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none text-center mt-4 md:mt-0 text-l font-bold">Več
             informacij</a>
     </div>
     <div class="flex p-4 bg-gray-900 text-white rounded-lg justify-between items-center">
         <h1 class="text-2xl mx-4 font-bold">Rezervacije</h1>
         <a href="https://tk-tolmin.sportifiq.com/" target='blank'
-            class="p-4 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center text-l font-bold">Nadaljuj
+            class="p-4 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none text-center text-l font-bold">Nadaljuj
             na spletno stran za rezervacije</a>
     </div>
 </div>

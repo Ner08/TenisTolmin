@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Bracket;
 use App\Models\League;
+use App\Models\Team;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class LeaguesController extends Controller
 {
@@ -97,8 +97,51 @@ class LeaguesController extends Controller
         ]);
         $league = League::create($validated_data);
 
-        return back()->with('league',  $league);
+        return back()->with(['flash' => $league->id, 'message' => 'Liga ali turnir uspešno ustvarjen(a). Želite ustvariti skupine v ligi ali turnirju?', 'route' => 'bracket_setup', 'model' => 'league']);
     }
+
+    public function bracket_store(Request $request)
+    {
+        $validated_data_bracket = $request->validate([
+            'name' => ['required', 'unique:brackets', 'max:40'],
+            'description' => ['required', 'max:500'],
+            'is_group_stage' => ['boolean'],
+            'league_id' => ['required', 'integer'],
+        ]);
+
+        $validated_data_teams = $request->validate([
+            'teams' => ['required', 'array'],
+            'teams.*.name' => ['required', 'string', 'max:255'],
+            'teams.*.player_ids' => ['required', 'array'],
+            'teams.*.player_ids.0' => ['required', 'integer'],
+            'teams.*.player_ids.1' => ['sometimes'],
+        ]);
+
+        $validated_data_teams_compressed = $validated_data_teams['teams'];
+
+        $bracket = Bracket::create($validated_data_bracket);
+
+        foreach ($validated_data_teams_compressed as &$team) {
+            $player1_id = $team['player_ids'][0];
+            $player2_id = $team['player_ids'][1] ?? null;
+            $data = [
+                'name' => $team['name'],
+                'bracket_id' => $bracket->id,
+                'p1_id' => $player1_id,
+                'p2_id' => $player2_id,
+            ];
+            Team::create($data);
+        }
+
+        // Set flash message and redirect
+        return back()->with([
+            'flash' => $bracket->id,
+            'message' => 'Skupina uspešno ustvarjen(a). Želite ustvariti tekme v skupini?',
+            'route' => 'matchup_setup',
+            'model' => 'bracket'
+        ]);
+    }
+
 
     // Function to check if the user is on a mobile device
     private function isMobileDevice()

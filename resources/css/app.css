@@ -29,3 +29,13 @@
     margin: 0 16px;
 }
 
+/* Hide the vertical scrollbar */
+.blurred {
+    overflow-y: hidden; /* Disable vertical scrollbar */
+    pointer-events: none; /* Prevent interaction with blurred elements */
+}
+
+/* Display the cursor when hovering over the flash message */
+.blurred .flash-message {
+    pointer-events: auto; /* Allow interaction with the flash message */
+}

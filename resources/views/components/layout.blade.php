@@ -67,7 +67,7 @@
         </span>
     </nav>
 
-    <div class="mt-12 pt-2">
+    <div class="mt-12 pt-2 @if (session()->has('flash') && session()->has('message')) blurred @endif">
         {{ $slot }}
     </div>
 
@@ -80,7 +80,14 @@
             </a>
         </div>
     @endif
-    <x-flash-message />
+
+    @if (session()->has('flash') && session()->has('message'))
+        <x-flash-message :route="$route ?? null" :flash="$flash ?? null" :message="$message ?? null" :model="$model ?? null" />
+        <script>
+            // JavaScript to disable scrolling and change cursor style
+            document.body.classList.add('blurred');
+        </script>
+    @endif
 </body>
 
 <script>

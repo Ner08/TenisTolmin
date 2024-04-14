@@ -10,6 +10,20 @@ class Team extends Model
 {
     use HasFactory;
 
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'bracket_id',
+        'p1_id',
+        'p2_id',
+    ];
+
+
     /**
      * Get the user that owns the Team
      *

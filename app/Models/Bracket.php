@@ -11,6 +11,18 @@ class Bracket extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'league_id',
+        'description',
+        'is_group_stage',
+    ];
+
+    /**
      * Get the teams in the bracket.
      */
     public function teams(): HasMany

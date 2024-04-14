@@ -65,13 +65,13 @@ return new class extends Migration
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
             $table->foreign('p1_id')->references('id')->on('players')->onDelete('cascade');
             $table->foreign('p2_id')->references('id')->on('players')->onDelete('cascade')->nullable();
-            $table->string('p1_name');
-            $table->integer('p1_score');
-            $table->integer('p1_ranking');
+            $table->string('p1_name')->nullable();
+            $table->integer('p1_score')->nullable();
+            $table->integer('p1_ranking')->nullable();
             $table->string('p2_name')->nullable();
             $table->integer('p2_score')->nullable();
             $table->integer('p2_ranking')->nullable();
-            $table->integer('team_score');
+            $table->integer('team_score')->nullable();
         });
 
         Schema::create('custom_match_ups', function (Blueprint $table) {

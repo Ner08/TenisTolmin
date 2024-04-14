@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :scroll="$scroll">
+<x-layout :login="$login" :admin="$admin" :scroll="$scroll" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
 
     <x-admin-title title="Adminstracijska plošča" />
 
@@ -27,8 +27,7 @@
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-semibold">Ime lige ali turnirja:</label>
                         <input type="text" name="name" id="name" placeholder="Enter league name"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -37,8 +36,7 @@
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
                         <textarea name="description" id="description" placeholder="Enter league description"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
                         @error('description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -48,8 +46,7 @@
                         <label for="short_description" class="block text-gray-700 font-semibold">Kratek opis:</label>
                         <input type="text" name="short_description" id="short_description"
                             placeholder="Enter short description"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
                         @error('short_description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -58,8 +55,7 @@
                     <div class="mb-4">
                         <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
                         <input type="date" name="start_date" id="start_date"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
                         @error('start_date')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -68,14 +64,14 @@
                     <div class="mb-4">
                         <label for="end_date" class="block text-gray-700 font-semibold">End Date (neobvezno):</label>
                         <input type="date" name="end_date" id="end_date"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4">
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4">
                         @error('end_date')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
 
                     <button type="submit"
-                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none focus:bg-blue-600 transition duration-300">Dodaj
+                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Dodaj
                     </button>
                 </form>
 
@@ -83,30 +79,54 @@
                 <form action="" method="GET" class="flex flex-col items-start">
                     <div class="flex mb-4" id="news">
                         <input type="text" name="search_news" id="search_news" placeholder="Iskanje"
-                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none "
                             value="{{ isset($search_news) ? $search_news : '' }}">
                         <button type="submit"
                             class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
                         </button>
                     </div>
                 </form>
-                <!-- Display list of news with edit and delete buttons -->
+                <!-- Display list of leagues with edit and delete buttons -->
                 <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @if ($leagues->isEmpty())
-                        <h2 class="p-4 text-gray-900">Nismo našli nobene novice.</h2>
+                        <h2 class="p-4 text-gray-900">Nismo našli nobene lige.</h2>
                     @else
                         @foreach ($leagues as $item)
-                            <li class="bg-white rounded-lg shadow-md p-6">
-                                <h3 class="text-xl font-bold mb-2">{{ $item->title }}</h3>
-                                <p class="text-gray-700">{{ $item->content }}</p>
-                                <p class="text-gray-500 mt-2"> {{ $item->created_at->format('d.m.Y') }}</p>
-                                <div class="flex justify-end mt-4">
-                                    <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Edit</a>
-                                    <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:underline">Delete</button>
-                                    </form>
+                            <li class="bg-white rounded-lg shadow-md p-6 mb-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
+                                        <p class="text-gray-700">{{ $item->description }}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-gray-500 mt-4">
+                                        <span class="text-sm font-semibold">Od:</span>
+                                        <span
+                                            class="text-sm">{{ \Carbon\Carbon::parse($item->start_date)->format('d.m.Y') }}</span>
+                                        <span class="text-sm font-semibold ml-4">Do:</span>
+                                        <span
+                                            class="text-sm">{{ \Carbon\Carbon::parse($item->end_date)->format('d.m.Y') }}</span>
+
+                                    </p>
+
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <p>
+                                        <span class="text-sm font-semibold text-gray-500">Ustvarjeno:</span>
+
+                                        <span
+                                            class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
+                                    </p>
+                                    <div class="flex items-center">
+                                        <a href="{{-- {{ route('news.edit', $item->id) }} --}}"
+                                            class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                        <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </li>
                         @endforeach
@@ -133,15 +153,16 @@
                             <div class="flex flex-col mb-2 sm:flex-row">
                                 <div class="flex flex-col mr-4 mb-2 sm:mb-0">
                                     <label for="name" class="mb-2">Ime:</label>
-                                    <input type="text" name="name" id="name" placeholder="Vnesi ime igralca"
-                                        class="form-input rounded-lg py-3 px-4 w-full sm:w-64 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                                    <input type="text" name="name" id="name"
+                                        placeholder="Vnesi ime igralca"
+                                        class="form-input rounded-lg py-3 px-4 w-full sm:w-64 mb-2 sm:mb-0 focus:outline-none "
                                         required>
                                 </div>
                                 <div class="flex flex-col mr-4 mb-2 sm:mb-0">
                                     <label for="points" class="mb-2">Točke:</label>
                                     <input type="number" name="points" id="points" value="0"
                                         min="0"
-                                        class="form-input rounded-lg py-3 px-4 w-full sm:w-24 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                                        class="form-input rounded-lg py-3 px-4 w-full sm:w-24 mb-2 sm:mb-0 focus:outline-none "
                                         required>
                                 </div>
                                 <div class="flex flex-col mr-4">
@@ -156,7 +177,7 @@
                 <form action="" method="GET" class="flex flex-col items-start">
                     <div class="flex mb-4" id="players">
                         <input type="text" name="search_players" id="search_players" placeholder="Iskanje"
-                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none"
                             value="{{ isset($search_players) ? $search_players : '' }}">
                         <button type="submit"
                             class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
@@ -181,7 +202,7 @@
                                         <form action="{{-- {{ route('players.add_points', $player->id) }} --}}" method="POST" class="mr-4">
                                             @csrf
                                             <input type="number" name="points" id="points" placeholder="Točke"
-                                                class="form-input rounded-lg pl-2 h-8 w-16 focus:outline-none focus:border-blue-500 bg-gray-300"
+                                                class="form-input rounded-lg pl-2 h-8 w-16 focus:outline-none  bg-gray-300"
                                                 required>
                                             <button type="submit"
                                                 class="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Dodaj</button>
@@ -221,23 +242,21 @@
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 font-semibold">Naslov:</label>
                         <input type="text" name="title" id="title" placeholder="Vnesite naslov"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
                             required>
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-semibold">Vsebina:</label>
                         <textarea name="content" id="content" placeholder="Vnesite vsebino"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="file" class="block text-gray-700 font-semibold">Datoteka:</label>
                         <input type="file" name="file" id="file"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3"
-                            required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3" required>
                     </div>
                     <button type="submit"
-                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none focus:bg-blue-600 transition duration-300">Dodaj
+                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Dodaj
                     </button>
                 </form>
 
@@ -245,7 +264,7 @@
                 <form action="" method="GET" class="flex flex-col items-start">
                     <div class="flex mb-4" id="news">
                         <input type="text" name="search_news" id="search_news" placeholder="Iskanje"
-                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none "
                             value="{{ isset($search_news) ? $search_news : '' }}">
                         <button type="submit"
                             class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
@@ -292,30 +311,29 @@
                     <div class="mb-4">
                         <label for="title" class="block text-gray-700 font-semibold">Naslov:</label>
                         <input type="text" name="title" id="title" placeholder="Vnesite naslov dogodka"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
                             required>
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-semibold">Vsebina:</label>
                         <textarea name="content" id="content" placeholder="Vnesite opis dogodka"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                            required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
                     </div>
                     <div class="mb-4">
                         <label for="datetime" class="block text-gray-700 font-semibold">Datum in čas začetka:</label>
                         <input type="datetime-local" name="datetime" id="datetime"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
                             required>
                     </div>
                     <div class="mb-4">
                         <label for="datetime" class="block text-gray-700 font-semibold">Datum in čas zaključka
                             (neobvezno):</label>
                         <input type="datetime-local" name="datetime" id="datetime"
-                            class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
                             required>
                     </div>
                     <button type="submit"
-                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none focus:bg-blue-600 transition duration-300">
+                        class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">
                         Dodaj
                     </button>
                 </form>
@@ -324,7 +342,7 @@
                 <form action="" method="GET" class="flex flex-col items-start">
                     <div class="flex mb-4" id="events">
                         <input type="text" name="search_events" id="search_events" placeholder="Iskanje"
-                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none focus:border-blue-500"
+                            class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none "
                             value="{{ isset($search_events) ? $search_events : '' }}">
                         <button type="submit"
                             class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
