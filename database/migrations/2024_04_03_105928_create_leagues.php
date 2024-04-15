@@ -11,6 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('players', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('p_name');
+            $table->integer('points');
+            $table->boolean('is_standin')->default(false);
+        });
+
         Schema::create('leagues', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -46,13 +54,6 @@ return new class extends Migration
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
             $table->longText('description')->nullable();
             $table->boolean('is_group_stage')->default(false);
-        });
-
-        Schema::create('players', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name');
-            $table->integer('points');
         });
 
         Schema::create('teams', function (Blueprint $table) {
@@ -111,6 +112,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('players');
         Schema::dropIfExists('leagues');
         Schema::dropIfExists('score_boards');
         Schema::dropIfExists('league_comments');

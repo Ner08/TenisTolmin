@@ -19,5 +19,11 @@ class League extends Model
     {
         return $this->hasMany(Bracket::class);
     }
-
+    public function scopeFilter($query, array $filter) {
+        if ($filter['search_leagues'] ?? false) {
+            $query->where('name', 'like', '%' . request('search_leagues') . '%')
+            ->orWhere('description', 'like', '%' . request('search_leagues') . '%')
+            ->orWhere('short_description', 'like', '%' . request('search_leagues') . '%');
+        }
+    }
 }

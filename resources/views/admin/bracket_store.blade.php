@@ -15,7 +15,7 @@
                     <label for="name" class="block text-gray-700 font-semibold">Ime skupine:</label>
                     <input type="text" name="name" id="name" placeholder="Vnesite ime skupine"
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                        required>
+                        value="{{ old('name') }}" required>
                     @error('name')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -23,7 +23,7 @@
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
-                    <textarea name="description" id="description" placeholder="Vnesite opis skupine"
+                    <textarea name="description" id="description" placeholder="Vnesite opis skupine" value="{{old('description')}}"
                         class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"></textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -45,24 +45,29 @@
                             <div class="border-b-2 border-gray-300 pb-4">
                                 <input type="text" name="teams[0][name]" placeholder="Ime ekipe (neobvezno)"
                                     class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
-                                <select name="teams[0][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" required>
+                                <select name="teams[0][player_ids][]"
+                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
+                                    required>
                                     <option value="">Izberi prvega igralca</option>
                                     <!-- Use foreach to generate dropdown options for players -->
                                     @foreach ($players as $player)
                                         <option value="{{ $player->id }}">{{ $player->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('teams.0.player_ids.0') {{-- Error for the first player ID --}}
+                                @error('teams.0.player_ids.0')
+                                    {{-- Error for the first player ID --}}
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
-                                <select name="teams[0][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
+                                <select name="teams[0][player_ids][]"
+                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
                                     <option value="">Izberi drugega igralca (neobvezno)</option>
                                     <!-- Use foreach to generate dropdown options for players -->
                                     @foreach ($players as $player)
                                         <option value="{{ $player->id }}">{{ $player->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('teams.0.player_ids.1') {{-- Error for the second player ID --}}
+                                @error('teams.0.player_ids.1')
+                                    {{-- Error for the second player ID --}}
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -85,32 +90,33 @@
                     <h2 class="p-4 text-gray-900">Nismo našli nobene skupine.</h2>
                 @else
                     @foreach ($brackets as $item)
-                    <li class="bg-white rounded-lg shadow-md p-6 mb-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div>
-                                <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
-                                <p class="text-gray-700">{{ $item->description }}</p>
+                        <li class="bg-white rounded-lg shadow-md p-6 mb-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
+                                    <p class="text-gray-700">{{ $item->description }}</p>
+                                </div>
+                                <p class="text-sm font-semibold text-gray-500">{{ $item->teams->count() }}
+                                    igralcev/ekip</p>
                             </div>
-                            <p class="text-sm font-semibold text-gray-500">{{ $item->teams->count() }} igralcev/ekip</p>
-                        </div>
-                        <div class="text-sm underline text-gray-500">{{ $item->is_group_stage ? 'Skupinski del' : 'Izločitveni del' }}</div>
-                        <div class="flex items-center justify-between">
-                            <p>
-                                <span class="text-sm font-semibold text-gray-500">Ustvarjeno:</span>
-                                <span class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
-                            </p>
-                            <div class="flex items-center">
-                                <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
-                                <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
-                                </form>
+                            <div class="text-sm underline text-gray-500">
+                                {{ $item->is_group_stage ? 'Skupinski del' : 'Izločitveni del' }}</div>
+                            <div class="flex items-center justify-between">
+                                <p>
+                                    <span class="text-sm font-semibold text-gray-500">Ustvarjeno:</span>
+                                    <span
+                                        class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
+                                </p>
+                                <div class="flex items-center">
+                                    <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                    <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    </li>
-
-
+                        </li>
                     @endforeach
                 @endif
             </ul>
@@ -192,5 +198,3 @@
         }
     });
 </script>
-
-

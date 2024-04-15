@@ -27,49 +27,48 @@
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700 font-semibold">Ime lige ali turnirja:</label>
                         <input type="text" name="name" id="name" placeholder="Enter league name"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                            value="{{ old('name') }}" required>
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
                         <textarea name="description" id="description" placeholder="Enter league description"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('description') }}</textarea>
                         @error('description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="short_description" class="block text-gray-700 font-semibold">Kratek opis:</label>
                         <input type="text" name="short_description" id="short_description"
                             placeholder="Enter short description"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                            value="{{ old('short_description') }}" required>
                         @error('short_description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
                         <input type="date" name="start_date" id="start_date"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4" required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                            value="{{ old('start_date') }}" required>
                         @error('start_date')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <div class="mb-4">
                         <label for="end_date" class="block text-gray-700 font-semibold">End Date (neobvezno):</label>
                         <input type="date" name="end_date" id="end_date"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4">
+                            class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
+                            value="{{ old('end_date') }}">
                         @error('end_date')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-
                     <button type="submit"
                         class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Dodaj
                     </button>
@@ -78,9 +77,9 @@
 
                 <form action="" method="GET" class="flex flex-col items-start">
                     <div class="flex mb-4" id="news">
-                        <input type="text" name="search_news" id="search_news" placeholder="Iskanje"
+                        <input type="text" name="search_leagues" id="search_news" placeholder="Iskanje"
                             class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none "
-                            value="{{ isset($search_news) ? $search_news : '' }}">
+                            value="{{ isset($search_leagues) ? $search_leagues : '' }}">
                         <button type="submit"
                             class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
                         </button>
@@ -144,7 +143,8 @@
             <!-- Players Section -->
             <div class="container mx-auto pt-4 px-4 mb-8">
                 <div class="mb-4">
-                    <form action="{{-- {{ route('players.store') }} --}}" method="POST" class="bg-gray-100 rounded-lg overflow-hidden">
+                    <form action="{{-- {{ route('players.store') }} --}}" method="POST"
+                        class="bg-gray-100 rounded-lg overflow-hidden">
                         <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
                             <h2 class="text-xl font-bold">Dodaj igralca</h2>
                         </div>
@@ -152,18 +152,31 @@
                             @csrf
                             <div class="flex flex-col mb-2 sm:flex-row">
                                 <div class="flex flex-col mr-4 mb-2 sm:mb-0">
-                                    <label for="name" class="mb-2">Ime:</label>
-                                    <input type="text" name="name" id="name"
+                                    <label for="p_name" class="mb-2">Ime:</label>
+                                    <input type="text" name="p_name" id="p_name"
                                         placeholder="Vnesi ime igralca"
                                         class="form-input rounded-lg py-3 px-4 w-full sm:w-64 mb-2 sm:mb-0 focus:outline-none "
-                                        required>
+                                        value="{{ old('p_name') }}" required>
+                                    @error('p_name')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="flex flex-col mr-4 mb-2 sm:mb-0">
                                     <label for="points" class="mb-2">Točke:</label>
                                     <input type="number" name="points" id="points" value="0"
                                         min="0"
                                         class="form-input rounded-lg py-3 px-4 w-full sm:w-24 mb-2 sm:mb-0 focus:outline-none "
-                                        required>
+                                        value="{{ old('points') }}" required>
+                                    @error('points')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div class="flex items-end pb-4 sm:mb-0">
+                                    <input type="checkbox" name="is_standin" id="is_standin" class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()" value="1">
+                                    <label for="is_standin" class="text-gray-700 font-semibold mr-4">Ni pravi igralec</label>
+                                    @error('is_standin')
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="flex flex-col mr-4">
                                     <button type="submit"
@@ -194,7 +207,7 @@
                             <li class="bg-white rounded-lg shadow-md p-3">
                                 <div class="flex flex-col md:flex-row justify-between items-center">
                                     <div class="mb-2 md:mb-0">
-                                        <p class="text-xl font-semibold">{{ $player->name }}</p>
+                                        <p class="text-xl font-semibold">{{ $player->p_name }}</p>
                                         <p class="text-gray-600">Točke: {{ $player->points }}</p>
                                     </div>
                                     <div class="flex items-center">
@@ -243,17 +256,27 @@
                         <label for="title" class="block text-gray-700 font-semibold">Naslov:</label>
                         <input type="text" name="title" id="title" placeholder="Vnesite naslov"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
-                            required>
+                            value="{{ old('title') }}" required>
+                        @error('title')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-semibold">Vsebina:</label>
                         <textarea name="content" id="content" placeholder="Vnesite vsebino"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('content') }}</textarea>
+                        @error('content')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="file" class="block text-gray-700 font-semibold">Datoteka:</label>
                         <input type="file" name="file" id="file"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3" required>
+                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3"
+                            value="{{ old('file') }}" required>
+                        @error('file')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <button type="submit"
                         class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Dodaj
@@ -312,25 +335,38 @@
                         <label for="title" class="block text-gray-700 font-semibold">Naslov:</label>
                         <input type="text" name="title" id="title" placeholder="Vnesite naslov dogodka"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
-                            required>
+                            value="{{ old('title') }}" required>
+                        @error('title')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
                         <label for="content" class="block text-gray-700 font-semibold">Vsebina:</label>
                         <textarea name="content" id="content" placeholder="Vnesite opis dogodka"
-                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
+                            class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('content') }}</textarea>
+                        @error('content')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="datetime" class="block text-gray-700 font-semibold">Datum in čas začetka:</label>
+                        <label for="start_date" class="block text-gray-700 font-semibold">Datum in čas
+                            začetka:</label>
                         <input type="datetime-local" name="datetime" id="datetime"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
-                            required>
+                            value="{{ old('start_date') }}" required>
+                        @error('start_date')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="datetime" class="block text-gray-700 font-semibold">Datum in čas zaključka
+                        <label for="end_date" class="block text-gray-700 font-semibold">Datum in čas zaključka
                             (neobvezno):</label>
                         <input type="datetime-local" name="datetime" id="datetime"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
-                            required>
+                            value="{{ old('end_date') }}" required>
+                        @error('end_date')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <button type="submit"
                         class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">
@@ -386,3 +422,15 @@
             </div>
         </div>
 </x-layout>
+
+<script>
+    function togglePointsInput() {
+        var pointsInput = document.getElementById('points');
+        var isGroupStageCheckbox = document.getElementById('is_standin');
+
+        pointsInput.disabled = isGroupStageCheckbox.checked;
+        if (isGroupStageCheckbox.checked) {
+            pointsInput.value = '0';
+        }
+    }
+</script>
