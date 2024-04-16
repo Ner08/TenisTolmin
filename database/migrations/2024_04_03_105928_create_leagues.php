@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('p_name');
             $table->integer('points');
-            $table->boolean('is_standin')->default(false);
+            $table->boolean('is_fake')->default(false);
         });
 
         Schema::create('leagues', function (Blueprint $table) {
@@ -66,13 +66,6 @@ return new class extends Migration
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
             $table->foreign('p1_id')->references('id')->on('players')->onDelete('cascade');
             $table->foreign('p2_id')->references('id')->on('players')->onDelete('cascade')->nullable();
-            $table->string('p1_name')->nullable();
-            $table->integer('p1_score')->nullable();
-            $table->integer('p1_ranking')->nullable();
-            $table->string('p2_name')->nullable();
-            $table->integer('p2_score')->nullable();
-            $table->integer('p2_ranking')->nullable();
-            $table->integer('team_score')->nullable();
         });
 
         Schema::create('custom_match_ups', function (Blueprint $table) {
@@ -82,19 +75,15 @@ return new class extends Migration
             $table->unsignedBigInteger('team1_id');
             $table->unsignedBigInteger('team2_id');
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
-            $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade')->default(1);
+            $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade')->default(1);
             $table->integer('t1_first_set')->nullable();
             $table->integer('t2_first_set')->nullable();;
             $table->integer('t1_second_set')->nullable();;
             $table->integer('t2_second_set')->nullable();;
             $table->integer('t1_third_set')->nullable();;
             $table->integer('t2_third_set')->nullable();;
-            $table->integer('t1_sets_won')->nullable();
-            $table->integer('t2_sets_won')->nullable();
-            $table->boolean('quick_decider')->default(true);
             $table->integer('round');
-            $table->boolean('winner')->nullable();
         });
 
         Schema::create('league_news', function (Blueprint $table) {

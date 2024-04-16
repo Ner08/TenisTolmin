@@ -92,6 +92,7 @@
                     @else
                         @foreach ($leagues as $item)
                             <li class="bg-white rounded-lg shadow-md p-6 mb-6">
+                                <!-- League Details -->
                                 <div class="flex items-center justify-between mb-4">
                                     <div>
                                         <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
@@ -106,29 +107,33 @@
                                         <span class="text-sm font-semibold ml-4">Do:</span>
                                         <span
                                             class="text-sm">{{ \Carbon\Carbon::parse($item->end_date)->format('d.m.Y') }}</span>
-
                                     </p>
-
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <p>
                                         <span class="text-sm font-semibold text-gray-500">Ustvarjeno:</span>
-
                                         <span
                                             class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
                                     </p>
                                     <div class="flex items-center">
-                                        <a href="{{-- {{ route('news.edit', $item->id) }} --}}"
+                                        <a href="{{ route('bracket_setup', $item->id) }}"
                                             class="text-blue-500 hover:underline mr-4">Uredi</a>
-                                        <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                        <!-- Delete Form with Confirmation Dialog -->
+                                        <form id="deleteForm{{ $item->id }}"
+                                            action="{{ route('league.destroy', ['league' => $item->id]) }}"
+                                            method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
+                                            <button type="button"
+                                                onclick="showDeleteConfirmation({{ $item->id }})"
+                                                class="text-red-500 hover:underline">Izbriši</button>
                                         </form>
                                     </div>
                                 </div>
                             </li>
                         @endforeach
+                        <!-- Include Delete Confirmation Component -->
+                        <x-delete-confirmation model="Ligo" />
                     @endif
                 </ul>
                 <div class="p-4">{{ $leagues->links() }}</div>
@@ -172,8 +177,11 @@
                                     @enderror
                                 </div>
                                 <div class="flex items-end pb-4 sm:mb-0">
-                                    <input type="checkbox" name="is_standin" id="is_standin" class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()" value="1">
-                                    <label for="is_standin" class="text-gray-700 font-semibold mr-4">Ni pravi igralec</label>
+                                    <input type="checkbox" name="is_standin" id="is_standin"
+                                        class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()"
+                                        value="1">
+                                    <label for="is_standin" class="text-gray-700 font-semibold mr-4">Ni pravi
+                                        igralec</label>
                                     @error('is_standin')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror

@@ -23,7 +23,7 @@
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
-                    <textarea name="description" id="description" placeholder="Vnesite opis skupine" value="{{old('description')}}"
+                    <textarea name="description" id="description" placeholder="Vnesite opis skupine" value="{{ old('description') }}"
                         class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"></textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -51,7 +51,7 @@
                                     <option value="">Izberi prvega igralca</option>
                                     <!-- Use foreach to generate dropdown options for players -->
                                     @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->name }}</option>
+                                        <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('teams.0.player_ids.0')
@@ -63,7 +63,7 @@
                                     <option value="">Izberi drugega igralca (neobvezno)</option>
                                     <!-- Use foreach to generate dropdown options for players -->
                                     @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->name }}</option>
+                                        <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                     @endforeach
                                 </select>
                                 @error('teams.0.player_ids.1')
@@ -108,19 +108,22 @@
                                         class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
                                 </p>
                                 <div class="flex items-center">
-                                    <a href="{{-- {{ route('news.edit', $item->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
-                                    <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                    <a href="{{ route('matchup_setup', $item->id) }}" class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                    <form id="deleteForm{{ $item->id }}"
+                                        action="{{ route('league.bracket_destroy', ['bracket' => $item->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:underline">Izbriši</button>
+                                        <button type="button" onclick="showDeleteConfirmation({{ $item->id }})"
+                                            class="text-red-500 hover:underline">Izbriši</button>
                                     </form>
                                 </div>
                             </div>
                         </li>
                     @endforeach
+                    <x-delete-confirmation model="Skupino" />
                 @endif
             </ul>
-
             <div class="p-4">{{ $brackets->links() }}</div>
         </div>
     </div>
@@ -157,7 +160,7 @@
                                 <option value="">Izberi prvega igralca</option>
                                 <!-- Use foreach to generate dropdown options for players -->
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">{{ $player->name }}</option>
+                                    <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                 @endforeach
                             </select>
                             @error('teams.${teamIndex}.player_ids.0') {{-- Error for the first player ID --}}
@@ -167,7 +170,7 @@
                                 <option value="">Izberi drugega igralca (neobvezno)</option>
                                 <!-- Use foreach to generate dropdown options for players -->
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">{{ $player->name }}</option>
+                                    <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                 @endforeach
                             </select>
                             @error('teams.${teamIndex}.player_ids.1') {{-- Error for the second player ID --}}

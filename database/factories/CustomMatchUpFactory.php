@@ -40,11 +40,8 @@ class CustomMatchUpFactory extends Factory
             't1_second_set' => $this->faker->numberBetween(0, 7),
             't2_second_set' => $this->faker->numberBetween(0, 7),
             't1_third_set' => $this->faker->numberBetween(0, 7),
-            'round' => $this->faker->numberBetween(1,5),
             't2_third_set' => $this->faker->numberBetween(0, $quickDecider ? 7 : 10),
-            'quick_decider' => $this->faker->boolean(), // Quick decider field
-            'winner' => $this->faker->boolean(), // Who won
-
+            'round' => $this->faker->numberBetween(1,5),
         ];
     }
 }

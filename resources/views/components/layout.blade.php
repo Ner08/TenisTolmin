@@ -4,9 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- @vite('resources/css/app.css') --}}
+    @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>
-    <script src="https://cdn.tailwindcss.com"></script>+
 </head>
 
 <body>
@@ -69,7 +68,7 @@
         </span>
     </nav>
 
-    <div class="mt-6 pt-2 @if (session()->has('flash') && session()->has('message')) blurred @endif">
+    <div class="mt-12 pt-2 @if (session()->has('flash') && session()->has('message')) blurred @endif">
         {{ $slot }}
     </div>
 
@@ -86,7 +85,7 @@
     @if (session()->has('flash') && session()->has('message'))
         <x-flash-message :route="$route ?? null" :flash="$flash ?? null" :message="$message ?? null" :model="$model ?? null" />
     @elseif (session()->has('message'))
-        <x-flash-message-2 :message="$message"/>
+        <x-flash-message-2 :message="$message" />
     @endif
 </body>
 
@@ -117,6 +116,22 @@
             }
         });
     @endif
+    function showDeleteConfirmation(itemId) {
+        // Set the action of the form dynamically based on the item ID
+        var deleteForm = document.getElementById('deleteForm' + itemId);
+        var confirmationForm = document.getElementById('confirmDeleteForm');
+        confirmationForm.action = deleteForm.action;
+
+        // Show the confirmation dialog
+        var deleteConfirmationDialog = document.getElementById('deleteConfirmationDialog');
+        deleteConfirmationDialog.classList.remove('hidden');
+    }
+
+    function hideDeleteConfirmation() {
+        // Hide the confirmation dialog
+        var deleteConfirmationDialog = document.getElementById('deleteConfirmationDialog');
+        deleteConfirmationDialog.classList.add('hidden');
+    }
 </script>
 
 </html>

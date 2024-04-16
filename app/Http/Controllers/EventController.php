@@ -13,7 +13,7 @@ class EventController extends Controller
     public function index()
     {
         return view('events.index', [
-            'events' => Event::paginate(6),
+            'events' => Event::paginate(12),
             'login' => false,
             'admin' => true
         ]);

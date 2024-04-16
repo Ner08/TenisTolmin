@@ -52,86 +52,96 @@
             <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
                 <h2 class="text-xl font-bold">Dodaj igro</h2>
             </div>
-
-            <form action="{{ route('leagues.bracket_store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6">
+            <form action="{{-- {{ route('leagues.matchup_store') }} --}}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6">
                 @csrf
+                <!-- Team 1 Inputs -->
                 <div class="mb-4">
-                    <label for="name" class="block text-gray-700 font-semibold">Ime skupine:</label>
-                    <input type="text" name="name" id="name" placeholder="Vnesite ime skupine"
-                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                        value="{{ old('name') }}" required>
-                    @error('name')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
-                    <textarea name="description" id="description" placeholder="Vnesite opis skupine" value="{{old('description')}}"
-                        class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"></textarea>
-                    @error('description')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label for="is_group_stage">Skupinski del</label>
-                    <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2" value="1">
-                    @error('is_group_stage')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div class="mt-4 mb-4" id="teamsContainer">
-                    <label for="teams" class="block text-gray-700 font-semibold mb-2">Ekipe:</label>
-                    <div id="teamsInputs">
-                        <div class="mb-2 teamInput">
-                            <div class="border-b-2 border-gray-300 pb-4">
-                                <input type="text" name="teams[0][name]" placeholder="Ime ekipe (neobvezno)"
-                                    class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
-                                <select name="teams[0][player_ids][]"
-                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                                    required>
-                                    <option value="">Izberi prvega igralca</option>
-                                    <!-- Use foreach to generate dropdown options for players -->
-                                    @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('teams.0.player_ids.0')
-                                    {{-- Error for the first player ID --}}
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                                <select name="teams[0][player_ids][]"
-                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
-                                    <option value="">Izberi drugega igralca (neobvezno)</option>
-                                    <!-- Use foreach to generate dropdown options for players -->
-                                    @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('teams.0.player_ids.1')
-                                    {{-- Error for the second player ID --}}
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                        </div>
+                    <label for="teams" class="block text-gray-700 font-semibold mb-2">Igralec / Ekipa 1:</label>
+                    <div>
+                        <!-- Team 1 ID -->
+                        <select name="team1_id" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" required>
+                            <option value="">Izberite ekipo</option>
+                            <!-- Use foreach to generate dropdown options for players -->
+                            @foreach ($teams as $team)
+                                <option value="{{ $team->id }}">{{ isset($team->name) ? $team->name : (isset($team->p2_id) ? $team->p2_name : $team->p1_name) }}</option>
+                            @endforeach
+                        </select>
+                        @error('team1_id')
+                            {{-- Error for the first player ID --}}
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-
-                    <button type="button" id="addTeamBtn"
-                        class="bg-zinc-900 text-white px-4 py-2 rounded-lg hover:bg-zinc-800 focus:outline-none mt-4">Dodaj
-                        ekipo</button>
                 </div>
 
-                <button type="submit"
-                    class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300 mt-2">Dodaj
-                    skupino
-                </button>
+                <!-- Team 2 Inputs -->
+                <div class="mb-4">
+                    <label for="teams" class="block text-gray-700 font-semibold mb-2">Igralec / Ekipa 2:</label>
+                    <div>
+                        <!-- Team 2 ID -->
+                        <select name="team2_id" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" required>
+                            <option value="">Izberite ekipo</option>
+                            <!-- Use foreach to generate dropdown options for players -->
+                            @foreach ($teams as $team)
+                                <option value="{{ $team->id }}">{{ isset($team->name) ? $team->name : (isset($team->p2_id) ? $team->p2_name : $team->p1_name) }}</option>
+                            @endforeach
+                        </select>
+                        @error('team2_id')
+                            {{-- Error for the second team ID --}}
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <label for="t1_first_set" class="block text-gray-700 font-semibold mb-2">1. Set:</label>
+                <!--Score input -->
+                <div class="mb-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <input type="number" name="t1_first_set" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 1 prvi set" />
+                    </div>
+                    <div>
+                        <input type="number" name="t2_first_set" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 2 prvi set" />
+                    </div>
+                </div>
+
+                <label for="t1_first_set" class="block text-gray-700 font-semibold mb-2">2. Set:</label>
+                <!-- Repeat for other sets -->
+                <div class="mb-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <input type="number" name="t1_second_set" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 1 drugi set" />
+                    </div>
+                    <div>
+                        <input type="number" name="t2_second_set" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 2 drugi set" />
+                    </div>
+                </div>
+
+                <label for="t1_first_set" class="block text-gray-700 font-semibold mb-2">3. Set:</label>
+                <!-- Repeat for other sets -->
+                <div class="mb-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <input type="number" name="t1_third_set" min="0" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 1 tretji set" />
+                    </div>
+                    <div>
+                        <input type="number" name="t2_third_set" min="0" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Ekipa/igralec 2 tretji set" />
+                    </div>
+                </div>
+
+                <div class="mb-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
+                        <input type="number" name="round" min="0" max="9" class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" placeholder="Enter Round" />
+                    </div>
+                </div>
+
+                <!-- End of Additional Inputs -->
+
+                <!-- Submit Button -->
+                <button type="submit" class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300 mt-2">Dodaj igro</button>
             </form>
+
             <!-- Display list of brackets with edit and delete buttons -->
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @if ($matchups->isEmpty())
-                    <h2 class="p-4 text-gray-900">Nismo našli nobene skupine.</h2>
+                    <h2 class="p-4 text-gray-900">Nismo našli nobene igre.</h2>
                 @else
                     @foreach ($matchups as $item)
                         <li class="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -162,7 +172,6 @@
                     @endforeach
                 @endif
             </ul>
-
             <div class="p-4">{{ $matchups->links() }}</div>
         </div>
     </div>

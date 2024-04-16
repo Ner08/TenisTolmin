@@ -48,26 +48,55 @@
             </thead>
             <tbody class="divide-y divide-gray-200">
                 @php
-                    $players = [1,2,3,4,5];
+                    // Sort the teams by multiple criteria
+                    $sortedTeams = $bracket->teams->sortByDesc(function ($team) {
+                        // Sort by group points first
+                        $points = $team->group_points();
+                        // Then by group set delta
+                        $setDelta = $team->group_set_delta();
+                        // Finally by group game delta
+                        $gameDelta = $team->group_game_delta();
+                        // Combine all criteria into a single value for sorting
+                        return [$points, $setDelta, $gameDelta];
+                    });
                 @endphp
-                @foreach($players as $player)
-                <tr class="hover:bg-gray-100">
-                    <td class="px-6 py-4 whitespace-nowrap">
-                       {{--  {{ $player->name }} --}} Nejc Robič
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                       {{--  {{ $player->matches_played }} --}} 5
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{-- {{ $player->delta_sets }} --}} 12
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{-- {{ $player->delta_games }} --}} -23
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        {{-- {{ $player->points }} --}} 29
-                    </td>
-                </tr>
+                @foreach ($sortedTeams as $team)
+                    @php
+                        $p1 = $team->player1;
+                        $p2 = $team->player2;
+                        $team_name = isset($team->name)
+                            ? $team->name . '<span class="text-blue-500"> (' . $p1->ranking() . ')</span>'
+                            : (isset($p2)
+                                ? $p1->p_name .
+                                    '<span class="text-blue-500"> (' .
+                                    $p1->ranking() .
+                                    ')</span> | ' .
+                                    $p2->p_name .
+                                    '<span class="text-blue-500"> (' .
+                                    $p2->ranking() .
+                                    ')</span>'
+                                : $p1->p_name);
+
+                        $t1_ranking = ($p1->ranking() ?? '') . (isset($p2) ? '-' . $p2->ranking() : '');
+                        // Calculate total points for the team
+                    @endphp
+                    <tr class="hover:bg-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span>{!! $team_name !!}</span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $team->matchups->count() }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $team->group_set_delta() }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $team->group_game_delta() }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $team->group_points() }}
+                        </td>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
@@ -79,63 +108,78 @@
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-1 my-5">
             @foreach ($bracket->matchUps->where('round', $key) as $match)
-                <div class="bg-gray-100 rounded-md overflow-hidden shadow-md mx-4">
-                    <div class="bg-gray-200 p-4 grid grid-cols-2 gap-4">
+                <div class="bg-gray-200 rounded-md overflow-hidden shadow-md mx-4 flex flex-col">
+                    <div class="bg-gray-200 p-4 grid grid-cols-2 h-full gap-4">
                         @php
-                            $team1 = App\Models\Team::find($match->team1_id);
-                            $team2 = App\Models\Team::find($match->team2_id);
-                            $p1_name = $team1 ? $team1->name ?? $team1->p1_name : '';
-                            $p2_name = $team2 ? $team2->name ?? $team2->p1_name : '';
-                            $p1_score = $team1 ? $team1->team_score ?? $team1->p1_score : '';
-                            $p2_score = $team2 ? $team2->team_score ?? $team2->p1_score : '';
-                            $p1_sets_won = $match->t1_sets_won;
-                            $p2_sets_won = $match->t2_sets_won;
+                            $team1 = App\Models\Team::where('id', $match->team1_id)->first();
+                            $t1p1 = $team1->player1;
+                            $t1p2 = $team1->player2;
+                            $team2 = App\Models\Team::where('id', $match->team2_id)->first();
+                            $t2p1 = $team2->player1;
+                            $t2p2 = $team2->player2;
+
+                            $t1_name =
+                                $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
+                            $t2_name =
+                                $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+
+                            $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
+                            $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
+
+                            $winner = $match->winner() ?? null;
+
+                            $t1_sets_won = $match->t1SetsWon();
+                            $t2_sets_won = $match->t2SetsWon();
                         @endphp
-                        <div class="text-center border-r border-gray-400 pr-4 flex flex-col justify-center items-center">
-                            <p class="font-semibold mb-2">{{ $p1_name }} <span class="text-blue-500">({{ $p1_score }})</span></p>
-                            @if (isset($match->t1_sets_won))
+                        <div
+                            class="text-center border-r border-gray-400 pr-4 flex flex-col justify-around items-center">
+                            <p class="font-semibold mb-2">{{ $t1_name }} <span
+                                    class="text-blue-500">({{ $t1_ranking }})</span></p>
+                            @if (isset($t1_sets_won))
                                 <div class="flex items-center justify-center">
                                     <div @class([
-                                        'text-white' => isset($match->winner),
+                                        'text-white' => isset($winner),
                                         'px-4',
                                         'py-2',
                                         'rounded-full',
-                                        'bg-green-600' => isset($match->winner) && $match->winner,
-                                        'bg-red-600' => isset($match->winner) && !$match->winner,
+                                        'bg-green-600' => isset($winner) && $winner,
+                                        'bg-red-600' => isset($winner) && !$winner,
                                         'font-semibold',
-                                        'text-gray-100' => isset($match->winner),
+                                        'text-gray-100' => isset($winner),
                                     ])>
-                                        <p>{{ $match->t1_sets_won }}</p>
+                                        <p>{{ $t1_sets_won }}</p>
                                     </div>
                                 </div>
                             @endif
                         </div>
-                        <div class="text-center pl-4 flex flex-col justify-center items-center">
-                            <p class="font-semibold mb-2">{{ $p2_name }} <span class="text-blue-500">({{ $p2_score }})</span></p>
-                            @if (isset($match->t2_sets_won))
+                        <div class="text-center pl-4 flex flex-col justify-around items-center">
+                            <p class="font-semibold mb-2">{{ $t2_name }} <span
+                                    class="text-blue-500">({{ $t2_ranking }})</span></p>
+                            @if (isset($t2_sets_won))
                                 <div class="flex items-center justify-center">
                                     <div @class([
-                                        'text-white' => isset($match->winner),
+                                        'text-white' => isset($winner),
                                         'px-4',
                                         'py-2',
                                         'rounded-full',
-                                        'bg-green-600' => isset($match->winner) && !$match->winner,
-                                        'bg-red-600' => isset($match->winner) && $match->winner,
+                                        'bg-green-600' => isset($winner) && !$winner,
+                                        'bg-red-600' => isset($winner) && $winner,
                                         'font-semibold',
-                                        'text-gray-100' => isset($match->winner),
+                                        'text-gray-100' => isset($winner),
                                     ])>
-                                        <p>{{ $match->t2_sets_won }}</p>
+                                        <p>{{ $t2_sets_won }}</p>
                                     </div>
                                 </div>
                             @endif
                         </div>
                     </div>
-                    @if (isset($match->endResult))
-                        <div
-                            class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                    <!-- Move the endResult div to the bottom -->
+                    <div
+                        class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center p-1 pb-2 mt-auto">
+                        @if (isset($match->endResult))
                             <p>{{ $match->endResult }}</p>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
                 </div>
             @endforeach
         </div>

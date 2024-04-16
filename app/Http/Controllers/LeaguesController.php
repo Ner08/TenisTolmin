@@ -4,32 +4,54 @@ namespace App\Http\Controllers;
 
 use App\Models\Team;
 use App\Models\League;
+use App\Models\Player;
 use App\Models\Bracket;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
 use App\Http\Requests\StoreLeagueRequest;
-use App\Models\Player;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Route;
 
 class LeaguesController extends Controller
 {
     public function index()
     {
-        // Get the leagues with their brackets and teams
-        $leagues = League::with(['brackets.teams'])->get();
+        // Get the leagues with their brackets (without teams)
+        $leagues = League::with('brackets')->get();
+
+        // Paginate the leagues
+        $currentPage = request()->get('page') ?: 1;
+        $perPage = 9; // Adjust as needed
+        $path = Route::currentRouteName(); // Get the current route name
+        $paginatedLeagues = new LengthAwarePaginator(
+            $leagues->forPage($currentPage, $perPage),
+            $leagues->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $path] // Specify the route
+        );
+
+        // Eager load teams for the paginated brackets
+        foreach ($paginatedLeagues as $league) {
+            $league->brackets->load('teams');
+        }
 
         // Calculate the total number of players for each league
-        $leagues->each(function ($league) {
+        $paginatedLeagues->each(function ($league) {
             $league->totalPlayers = $league->brackets->sum(function ($bracket) {
                 return $bracket->teams->count();
             });
         });
 
         return view('leagues.index', [
-            'leagues' => $leagues,
+            'leagues' => $paginatedLeagues,
             'login' => false,
             'admin' => true
         ]);
     }
+
     public function show(League $league)
     {
 
@@ -48,13 +70,21 @@ class LeaguesController extends Controller
             'admin' => true
         ]);
     }
+
+    public function destroy(League $league)
+    {
+        $league->delete();
+
+        return back()->with(['message' => 'Liga ali turnir zbrisan(a)']);
+    }
+
     public function showScoreboard()
     {
         return view('leagues.scoreboard', [
-            'players' => Player::where('is_standin', false)->orderByDesc('points')->get(),
+            'players' => Player::where('is_fake', false)->orderByDesc('points')->get(),
             'login' => false,
             'admin' => true,
-            'maxPoints' => Player::where('is_standin', false)->max('points')
+            'maxPoints' => Player::where('is_fake', false)->max('points')
         ]);
     }
 
@@ -63,7 +93,7 @@ class LeaguesController extends Controller
         /* $league =  */
         League::create($request->validated());
 
-        return back()->with([/* 'flash' => $league->id, */ 'message' => 'Liga ali turnir uspešno ustvarjen(a). Želite ustvariti skupine v ligi ali turnirju?', 'route' => 'bracket_setup', 'model' => 'league']);
+        return back()->with(['message' => 'Liga ali turnir uspešno ustvarjen(a)']);
     }
 
     public function bracket_store(Request $request)
@@ -83,7 +113,7 @@ class LeaguesController extends Controller
 
         $validated_data_teams = $request->validate([
             'teams' => ['required', 'array'],
-            'teams.*.name' => ['required', 'string', 'max:255'],
+            'teams.*.name' => ['max:50'],
             'teams.*.player_ids' => ['required', 'array'],
             'teams.*.player_ids.0' => ['required', 'integer'],
             'teams.*.player_ids.1' => ['sometimes'],
@@ -92,6 +122,12 @@ class LeaguesController extends Controller
         $validated_data_teams_compressed = $validated_data_teams['teams'];
 
         $bracket = Bracket::create($validated_data_bracket);
+
+        Team::create([
+            'name' => 'Nedoločen igralec / ekipa',
+            'p1_id' => 1,
+            'bracket_id' => $bracket->id
+        ]);
 
         foreach ($validated_data_teams_compressed as &$team) {
             $player1_id = $team['player_ids'][0];
@@ -106,12 +142,23 @@ class LeaguesController extends Controller
         }
 
         // Set flash message and redirect
-        return back()->with([
-           /*  'flash' => $bracket->id, */
-            'message' => 'Skupina uspešno ustvarjen(a). Želite ustvariti tekme v skupini?',
-            'route' => 'matchup_setup',
-            'model' => 'bracket'
+        return back()->with(['message' => 'Skupina uspešno ustvarjena']);
+    }
+    public function matchup_store(Request $request)
+    {
+        $validated_data = $request->validate([
+            'team1_id' => ['required', 'integer'],
+            'team2_id' => ['required', 'integer']
         ]);
+
+        // Set flash message and redirect
+        return back()->with(['message' => 'Igra uspešno ustvarjena']);
+    }
+
+    public function bracket_destroy(Bracket $bracket)
+    {
+        $bracket->delete();
+        return back()->with(['message' => 'Skupina zbrisana.']);
     }
 
 

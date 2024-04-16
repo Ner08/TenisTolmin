@@ -22,7 +22,7 @@ class AdminController extends Controller
             'leagues' => League::latest()->paginate(21),
             'events' => Event::latest()->filter(request(['search_events']))->paginate(12),
             'news' => News::latest()->filter(request(['search_news']))->paginate(12),
-            'players' => Player::orderBy('name')->filter(request(['search_players']))->paginate(21),
+            'players' => Player::orderBy('p_name')->filter(request(['search_players']))->paginate(21),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),
             'search_events' => request('search_events'),
@@ -37,7 +37,7 @@ class AdminController extends Controller
     {
         return view('admin.leagues.index', [
             'leagues' => League::orderBy('start_date')->paginate(12),
-            'players' => Player::orderBy('name')->get(),
+            'players' => Player::orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
@@ -49,7 +49,7 @@ class AdminController extends Controller
         return view('admin.bracket_store', [
             'league' => $league,
             'brackets' => $brackets,
-            'players' => Player::orderBy('name')->get(),
+            'players' => Player::orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
@@ -60,7 +60,7 @@ class AdminController extends Controller
             'bracket' => $bracket,
             'matchups' => CustomMatchUp::orderBy('round')->paginate(21),
             'teams' => Team::where('bracket_id', $bracket->id)->get(),
-            'players' => Player::orderBy('name')->get(),
+            'players' => Player::orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);

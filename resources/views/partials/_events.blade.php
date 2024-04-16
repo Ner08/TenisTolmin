@@ -10,8 +10,7 @@
                     <div
                         class="bg-gray-100 rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1 flex">
                         <div class="bg-gray-900 text-white w-16 flex justify-center items-center">
-                            <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon"
-                                class="h-6 w-6 text-white" />
+                            <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon" class="h-6 w-6 text-white" />
                         </div>
                         <div class="p-6">
                             <h2 class="text-xl font-semibold mb-4 text-gray-800">{{ $event['title'] }}</h2>
@@ -29,10 +28,14 @@
         @endforeach
     </div>
 
-    <div class="flex justify-center mt-12">
-        <a href="{{ route('events') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-            Več dogodkov
-        </a>
-    </div>
+    @if ($home)
+        <div class="flex justify-center mt-12">
+            <a href="{{ route('events') }}"
+                class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                Več dogodkov
+            </a>
+        </div>
+    @else
+        <div class="mt-8">{{ $events->links() }}</div>
+    @endif
 </div>

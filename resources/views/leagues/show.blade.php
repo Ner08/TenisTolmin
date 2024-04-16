@@ -93,28 +93,36 @@
                                 @foreach ($bracket->matchUps->where('round', $key) as $match)
                                     @php
                                         $team1 = App\Models\Team::where('id', $match->team1_id)->first();
+                                        $t1p1 = $team1->player1;
+                                        $t1p2 = $team1->player2;
                                         $team2 = App\Models\Team::where('id', $match->team2_id)->first();
+                                        $t2p1 = $team2->player1;
+                                        $t2p2 = $team2->player2;
 
-                                        $p1_name = $team1->name ?? $team1->p1_name;
-                                        $p2_name = $team2->name ?? $team2->p1_name;
-                                        $p1_score = $team1->team_score ?? $team1->p1_score;
-                                        $p2_score = $team2->team_score ?? $team2->p1_score;
-                                        $p1_ranking =
-                                            ($team1->p1_ranking ?? '') .
-                                            (isset($team1->p2_ranking) ? '-' . $team1->p2_ranking : '');
-                                        $p2_ranking =
-                                            ($team2->p1_ranking ?? '') .
-                                            (isset($team2->p2_ranking) ? '-' . $team2->p2_ranking : '');
+                                        $t1_name =
+                                            $team1->name ??
+                                            (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
+                                        $t2_name =
+                                            $team2->name ??
+                                            (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
 
-                                        $winner = $match->winner ?? null;
+                                        $t1_ranking =
+                                            ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
+                                        $t2_ranking =
+                                            ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
+
+                                        $winner = $match->winner() ?? null;
+
+                                        $t1_sets_won = $match->t1SetsWon();
+                                        $t2_sets_won = $match->t2SetsWon();
                                     @endphp
                                     <div class="mb-4 rounded-md bg-gray-200 pt-2 text-gray-900">
                                         <div class="flex justify-between items-center px-4">
                                             <div>
-                                                <p class="font-semibold text-sm">{{ $p1_name }} <span
-                                                        class="text-blue-500">({{ $p1_ranking }})</span></p>
+                                                <p class="font-semibold text-sm">{{ $t1_name }} <span
+                                                        class="text-blue-500">({{ $t1_ranking }})</span></p>
                                             </div>
-                                            @if (isset($match->t1_sets_won))
+                                            @if (isset($t1_sets_won))
                                                 <div @class([
                                                     'text-white' => isset($winner),
                                                     'px-3',
@@ -122,17 +130,17 @@
                                                     'rounded-full',
                                                     'bg-green-600' => isset($winner) && $winner,
                                                     'bg-red-600' => isset($winner) && !$winner,
-                                                ]) class=" ">
-                                                    <p class="text-right">{{ $match->t1_sets_won }}</p>
+                                                ])>
+                                                    <p class="text-right">{{ $t1_sets_won }}</p>
                                                 </div>
                                             @endif
                                         </div>
                                         <div class="flex justify-between items-center my-2 px-4 ">
                                             <div>
-                                                <p class="font-semibold text-sm">{{ $p2_name }} <span
-                                                        class="text-blue-500">({{ $p2_ranking }})</span></p>
+                                                <p class="font-semibold text-sm">{{ $t2_name }} <span
+                                                        class="text-blue-500">({{ $t2_ranking }})</span></p>
                                             </div>
-                                            @if (isset($match->t2_sets_won))
+                                            @if (isset($t2_sets_won))
                                                 <div @class([
                                                     'text-white' => isset($winner),
                                                     'px-3',
@@ -140,8 +148,8 @@
                                                     'rounded-full',
                                                     'bg-green-600' => isset($winner) && !$winner,
                                                     'bg-red-600' => isset($winner) && $winner,
-                                                ]) class=" ">
-                                                    <p class="text-right">{{ $match->t2_sets_won }}</p>
+                                                ])>
+                                                    <p class="text-right">{{ $t2_sets_won }}</p>
                                                 </div>
                                             @endif
 

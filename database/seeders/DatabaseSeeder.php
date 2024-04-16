@@ -56,6 +56,13 @@ class DatabaseSeeder extends Seeder
             ['p_name' => 'Perendija Dragan', 'points' => 1],
         ];
 
+        Player::create([
+            'id' => 1,
+            'p_name' => 'Nedoločeno',
+            'points' => 0,
+            'is_fake' => true
+        ]);
+
         foreach ($players as $playerData) {
             Player::create($playerData);
         }
@@ -73,6 +80,7 @@ class DatabaseSeeder extends Seeder
         Bracket::factory(9)->create();
         Team::factory(90)->create();
         CustomMatchUp::factory(50)->create();
+
 
 
     }
