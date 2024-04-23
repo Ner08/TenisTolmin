@@ -20,6 +20,7 @@ class BracketFactory extends Factory
             'league_id' => fake()->numberBetween(1,3),
             'name' => fake()->sentence(2),
             'description' => fake()->sentence(10),
+            'points_description' => fake()->sentence(5),
             'is_group_stage' => fake()->boolean()
         ];
     }

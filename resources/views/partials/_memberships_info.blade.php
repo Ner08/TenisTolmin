@@ -10,7 +10,7 @@
                 Za rezervacijo teniškega igrišča kliknite na spodnjo povezavo in se prijavite v svoj račun. Pogoj za rezervacijo igrišč je plačana članarina.
             </p>
         </div>
-        <a href="{{-- {{ route('signup') }} --}}"
+        <a href="{{ route('membership') }}"
             class="inline-block px-3 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none text-center mt-4 md:mt-0 text-l font-bold">Več
             informacij</a>
     </div>

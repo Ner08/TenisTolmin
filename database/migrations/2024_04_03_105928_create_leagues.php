@@ -53,6 +53,7 @@ return new class extends Migration
             $table->string('name');
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
             $table->longText('description')->nullable();
+            $table->text('points_description')->nullable();
             $table->boolean('is_group_stage')->default(false);
         });
 

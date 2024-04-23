@@ -27,7 +27,7 @@
                     <h1 class="p-2 inline-block text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h1>
                 </div>
 
-                <div class="m-2 p-4 bg-white rounded-xl">
+                <div class="m-2 p-4 pb-0 bg-white rounded-xl">
                     @php
                         $lastRound = $bracket->matchUps->max('round') ?? 10;
                         $roundTitles = [
@@ -43,7 +43,6 @@
                                 '2.Krog',
                                 '3.Krog',
                                 '4.Krog',
-                                '5.Krog',
                                 'Osminafinala',
                                 'Četrtfinale',
                                 'Polfinale',
@@ -55,7 +54,6 @@
                                 '3.Krog',
                                 '4.Krog',
                                 '5.Krog',
-                                '6.Krog',
                                 'Osminafinala',
                                 'Četrtfinale',
                                 'Polfinale',
@@ -126,6 +124,7 @@
                                                 <div @class([
                                                     'text-white' => isset($winner),
                                                     'px-3',
+                                                    'ml-2',
                                                     'py-1',
                                                     'rounded-full',
                                                     'bg-green-600' => isset($winner) && $winner,
@@ -144,6 +143,7 @@
                                                 <div @class([
                                                     'text-white' => isset($winner),
                                                     'px-3',
+                                                    'ml-2',
                                                     'py-1',
                                                     'rounded-full',
                                                     'bg-green-600' => isset($winner) && !$winner,
@@ -166,6 +166,12 @@
                         @endforeach
                     </div>
                 </div>
+                <div class="m-3 mr-8 pb-4 flex justify-end">
+                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                        <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+                    </div>
+                </div>
+
             @endforeach
             @if ($brackets_group->isNotEmpty())
                 <x-league-group-title title="Skupinski del" />

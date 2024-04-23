@@ -14,7 +14,6 @@
                 '2.Krog',
                 '3.Krog',
                 '4.Krog',
-                '5.Krog',
                 'Osminafinala',
                 'Četrtfinale',
                 'Polfinale',
@@ -26,7 +25,6 @@
                 '3.Krog',
                 '4.Krog',
                 '5.Krog',
-                '6.Krog',
                 'Osminafinala',
                 'Četrtfinale',
                 'Polfinale',
@@ -36,12 +34,12 @@
         ];
     @endphp
 
-    <div class="mx-2- p-3 pl-12 bg-gray-700">
+    <div class="p-3 pl-12 bg-gray-700">
         <h2 class="text-gray-200 font-bold text-xl">{{ $bracket->name }}</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
         @foreach ($bracket->matchUps->sortBy('round')->groupBy('round') as $key => $match)
-            <div class="mx-2- p-1 pl-12 bg-gray-200">
+            <div class="p-1 pl-12 bg-gray-200">
                 <h2 class="text-gray-900 font-bold text-lg">{{ $roundTitles[$lastRound][$key - 1] }}</h2>
             </div>
             @foreach ($bracket->matchUps->where('round', $key) as $match)
@@ -127,5 +125,11 @@
                 </div>
             @endforeach
         @endforeach
+        <div class="px-4 mx-auto max-w-xl">
+            <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+            </div>
+        </div>
     </div>
 @endforeach
+

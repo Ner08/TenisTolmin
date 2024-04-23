@@ -18,7 +18,7 @@
 
         <div class="bg-gray-200">
             <div class="container mx-auto pt-4 px-4 ">
-                <!-- Add new news form -->
+                <!-- Add new legue form -->
                 <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
                     <h2 class="text-xl font-bold">Dodaj ligo ali turnir</h2>
                 </div>

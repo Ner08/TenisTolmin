@@ -1,5 +1,62 @@
 <x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <x-admin-title-simple :title="'Liga / Turnir • ' . $league->name" />
+    <div class="container mx-auto mt-4">
+        <!-- Add new legue form -->
+        <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
+            <h2 class="text-xl font-bold">Uredi</h2>
+        </div>
+        <form action="{{ route('leagues.store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6">
+            @csrf
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-semibold">Ime lige ali turnirja:</label>
+                <input type="text" name="name" id="name" placeholder="Enter league name"
+                    class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                    value="{{ $league->name }}" required>
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
+                <textarea name="description" id="description" placeholder="Enter league description"
+                    class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ $league->description }}</textarea>
+                @error('description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="short_description" class="block text-gray-700 font-semibold">Kratek opis:</label>
+                <input type="text" name="short_description" id="short_description"
+                    placeholder="Enter short description"
+                    class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                    value="{{ $league->short_description }}" required>
+                @error('short_description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
+                <input type="date" name="start_date" id="start_date"
+                    class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+                    value="{{ $league->start_date }}" required>
+                @error('start_date')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="mb-4">
+                <label for="end_date" class="block text-gray-700 font-semibold">End Date (neobvezno):</label>
+                <input type="date" name="end_date" id="end_date"
+                    class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
+                    value="{{ $league->end_date }}">
+                @error('end_date')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+            <button type="submit"
+                class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Shrani
+            </button>
+        </form>
+    </div>
     <x-title title='Skupine' />
 
     <div class="bg-gray-200 min-h-screen pt-4">
@@ -23,8 +80,8 @@
 
                 <div class="mb-4">
                     <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
-                    <textarea name="description" id="description" placeholder="Vnesite opis skupine" value="{{ old('description') }}"
-                        class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"></textarea>
+                    <textarea name="description" id="description" placeholder="Vnesite opis skupine"
+                        class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4">{{ old('description') }}</textarea>
                     @error('description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -38,38 +95,63 @@
                     @enderror
                 </div>
 
+                <div class="mb-4" id="pointsDescriptionContainer">
+                    <label for="points_description" class="block text-gray-700 font-semibold">Opis števila
+                        točk:</label>
+                    <input type="text" name="points_description" id="points_description"
+                        placeholder="Vnesite opis števila točk pridobljenih glede na doseženo mesto"
+                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                        value="{{ old('points_description') }}">
+                    @error('points_description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
                 <div class="mt-4 mb-4" id="teamsContainer">
-                    <label for="teams" class="block text-gray-700 font-semibold mb-2">Ekipe:</label>
+                    <label for="teams" class="block bg-gray-600 text-white font-semibold py-2 mb-2 px-4 rounded">Ekipe:</label>
                     <div id="teamsInputs">
                         <div class="mb-2 teamInput">
+                            <label for="teams" class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-2 px-4 rounded">Ekipa 1</label>
                             <div class="border-b-2 border-gray-300 pb-4">
-                                <input type="text" name="teams[0][name]" placeholder="Ime ekipe (neobvezno)"
-                                    class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
-                                <select name="teams[0][player_ids][]"
-                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                                    required>
-                                    <option value="">Izberi prvega igralca</option>
-                                    <!-- Use foreach to generate dropdown options for players -->
-                                    @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->p_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('teams.0.player_ids.0')
-                                    {{-- Error for the first player ID --}}
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                                <select name="teams[0][player_ids][]"
-                                    class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
-                                    <option value="">Izberi drugega igralca (neobvezno)</option>
-                                    <!-- Use foreach to generate dropdown options for players -->
-                                    @foreach ($players as $player)
-                                        <option value="{{ $player->id }}">{{ $player->p_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('teams.0.player_ids.1')
-                                    {{-- Error for the second player ID --}}
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
+                                <div>
+                                    <label for="teamName" class="block text-gray-700 font-semibold">Ime ekipe:</label>
+                                    <input type="text" name="teams[0][name]" id="teamName"
+                                        placeholder="Ime ekipe (neobvezno)"
+                                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
+                                </div>
+                                <div>
+                                    <label for="firstPlayer" class="block text-gray-700 font-semibold mt-3">Prvi
+                                        igralec:</label>
+                                    <select name="teams[0][player_ids][]" id="firstPlayer"
+                                        class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1"
+                                        required>
+                                        <option value="">Izberi prvega igralca</option>
+                                        <!-- Use foreach to generate dropdown options for players -->
+                                        @foreach ($players as $player)
+                                            <option value="{{ $player->id }}">{{ $player->p_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('teams.0.player_ids.0')
+                                        {{-- Error for the first player ID --}}
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label for="secondPlayer" class="block text-gray-700 font-semibold mt-3">Drugi
+                                        igralec:</label>
+                                    <select name="teams[0][player_ids][]" id="secondPlayer"
+                                        class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
+                                        <option value="">Izberi drugega igralca (neobvezno)</option>
+                                        <!-- Use foreach to generate dropdown options for players -->
+                                        @foreach ($players as $player)
+                                            <option value="{{ $player->id }}">{{ $player->p_name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('teams.0.player_ids.1')
+                                        {{-- Error for the second player ID --}}
+                                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -84,6 +166,7 @@
                     skupino
                 </button>
             </form>
+
             <!-- Display list of brackets with edit and delete buttons -->
             <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @if ($brackets->isEmpty())
@@ -108,7 +191,8 @@
                                         class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($item->created_at)->format('d.m.Y') }}</span>
                                 </p>
                                 <div class="flex items-center">
-                                    <a href="{{ route('matchup_setup', $item->id) }}" class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                    <a href="{{ route('matchup_setup', $item->id) }}"
+                                        class="text-blue-500 hover:underline mr-4">Uredi</a>
                                     <form id="deleteForm{{ $item->id }}"
                                         action="{{ route('league.bracket_destroy', ['bracket' => $item->id]) }}"
                                         method="POST">
@@ -144,6 +228,11 @@
     .removeTeamBtn:hover {
         color: #DC2626;
     }
+
+    input:disabled {
+        background-color: #e2e5ea;
+        /* Custom color */
+    }
 </style>
 
 <script>
@@ -154,8 +243,12 @@
         const newInput = document.createElement('div');
         newInput.classList.add('mb-2', 'teamInput');
         newInput.innerHTML = `<div class="border-b-2 border-gray-300 pb-4">
-                            <input type="text" name="teams[${teamIndex}][name]" placeholder="Team name"
+            <label for="teams" class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-2 px-4 rounded">Ekipa ${teamIndex + 1}</label>
+                            <label for="teamName" class="block text-gray-700 font-semibold">Ime ekipe:</label>
+                            <input type="text" name="teams[${teamIndex}][name]" placeholder="Ime ekipe (neobvezno)"
                                 class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
+                                <label for="firstPlayer" class="block text-gray-700 font-semibold mt-3">Prvi
+                                        igralec:</label>
                             <select name="teams[${teamIndex}][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" required>
                                 <option value="">Izberi prvega igralca</option>
                                 <!-- Use foreach to generate dropdown options for players -->
@@ -166,6 +259,8 @@
                             @error('teams.${teamIndex}.player_ids.0') {{-- Error for the first player ID --}}
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
+                            <label for="secondPlayer" class="block text-gray-700 font-semibold mt-3">Drugi
+                                        igralec:</label>
                             <select name="teams[${teamIndex}][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
                                 <option value="">Izberi drugega igralca (neobvezno)</option>
                                 <!-- Use foreach to generate dropdown options for players -->
@@ -199,5 +294,11 @@
             hiddenInput.value = '0';
             form.appendChild(hiddenInput);
         }
+    });
+
+    // Function to enable/disable the points description input based on checkbox status
+    document.getElementById('is_group_stage').addEventListener('change', function() {
+        var pointsDescriptionInput = document.getElementById('points_description');
+        pointsDescriptionInput.disabled = this.checked;
     });
 </script>

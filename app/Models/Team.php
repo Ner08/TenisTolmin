@@ -64,6 +64,14 @@ class Team extends Model
     {
         return $this->hasOne(Player::class, 'id', 'p2_id');
     }
+    /**
+     * Get the players associated with the Team.
+     */
+    public function players(): HasMany
+    {
+        return $this->hasMany(Player::class, 'id', 'p1_id')
+            ->orWhere('id', $this->p2_id);
+    }
 
     public function numOfPlayers(): int
     {

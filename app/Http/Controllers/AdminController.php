@@ -37,7 +37,7 @@ class AdminController extends Controller
     {
         return view('admin.leagues.index', [
             'leagues' => League::orderBy('start_date')->paginate(12),
-            'players' => Player::orderBy('p_name')->get(),
+            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
@@ -49,7 +49,7 @@ class AdminController extends Controller
         return view('admin.bracket_store', [
             'league' => $league,
             'brackets' => $brackets,
-            'players' => Player::orderBy('p_name')->get(),
+            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
@@ -60,7 +60,7 @@ class AdminController extends Controller
             'bracket' => $bracket,
             'matchups' => CustomMatchUp::orderBy('round')->paginate(21),
             'teams' => Team::where('bracket_id', $bracket->id)->get(),
-            'players' => Player::orderBy('p_name')->get(),
+            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
