@@ -49,6 +49,7 @@ class AdminController extends Controller
         return view('admin.bracket_store', [
             'league' => $league,
             'brackets' => $brackets,
+            'playersSelect' => Player::where('is_fake', false)->orderBy('p_name')->get(),
             'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
@@ -58,8 +59,9 @@ class AdminController extends Controller
     {
         return view('admin.matchup_store', [
             'bracket' => $bracket,
-            'matchups' => CustomMatchUp::orderBy('round')->paginate(21),
+            'matchups' => CustomMatchUp::where('bracket_id', $bracket->id)->orderBy('round')->paginate(21),
             'teams' => Team::where('bracket_id', $bracket->id)->get(),
+            'playersSelect' => Player::where('is_fake', false)->orderBy('p_name')->get(),
             'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up

@@ -65,7 +65,7 @@
                             <p class="font-semibold text-sm">{{ $t2_name }} <span
                                     class="text-blue-500">({{ $t2_ranking }})</span></p>
                         </div>
-                        @if (isset($match->t2_sets_won))
+                        @if (isset($t2_sets_won))
                             <div @class([
                                 'text-white' => isset($winner),
                                 'px-3',

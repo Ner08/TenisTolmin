@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +20,10 @@ class BracketFactory extends Factory
         return [
             'league_id' => fake()->numberBetween(1,3),
             'name' => fake()->sentence(2),
-            'description' => fake()->sentence(10),
+            'b_description' => fake()->sentence(10),
             'points_description' => fake()->sentence(5),
-            'is_group_stage' => fake()->boolean()
+            'is_group_stage' => fake()->boolean(),
+            'tag' => Str::limit($this->faker->text(), 5, '')
         ];
     }
 }

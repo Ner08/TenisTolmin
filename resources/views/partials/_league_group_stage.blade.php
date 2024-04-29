@@ -26,6 +26,10 @@
                 <tr>
                     <th scope="col"
                         class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                        Oznaka
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                         Ime
                     </th>
                     <th scope="col"
@@ -81,6 +85,9 @@
                         // Calculate total points for the team
                     @endphp
                     <tr class="hover:bg-gray-100">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span>{!! $bracket->tag . $loop->iteration !!}</span>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span>{!! $team_name !!}</span>
                         </td>

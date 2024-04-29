@@ -51,8 +51,9 @@ return new class extends Migration
             $table->timestamps();
             $table->unsignedBigInteger('league_id');
             $table->string('name');
+            $table->string('tag')->nullable();
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
-            $table->longText('description')->nullable();
+            $table->longText('b_description')->nullable();
             $table->text('points_description')->nullable();
             $table->boolean('is_group_stage')->default(false);
         });
@@ -67,6 +68,7 @@ return new class extends Migration
             $table->foreign('bracket_id')->references('id')->on('brackets')->onDelete('cascade');
             $table->foreign('p1_id')->references('id')->on('players')->onDelete('cascade');
             $table->foreign('p2_id')->references('id')->on('players')->onDelete('cascade')->nullable();
+            $table->boolean('is_fake')->default(0);
         });
 
         Schema::create('custom_match_ups', function (Blueprint $table) {
@@ -79,12 +81,15 @@ return new class extends Migration
             $table->foreign('team1_id')->references('id')->on('teams')->onDelete('cascade')->default(1);
             $table->foreign('team2_id')->references('id')->on('teams')->onDelete('cascade')->default(1);
             $table->integer('t1_first_set')->nullable();
-            $table->integer('t2_first_set')->nullable();;
-            $table->integer('t1_second_set')->nullable();;
-            $table->integer('t2_second_set')->nullable();;
-            $table->integer('t1_third_set')->nullable();;
-            $table->integer('t2_third_set')->nullable();;
+            $table->integer('t2_first_set')->nullable();
+            $table->integer('t1_second_set')->nullable();
+            $table->integer('t2_second_set')->nullable();
+            $table->integer('t1_third_set')->nullable();
+            $table->integer('t2_third_set')->nullable();
+            $table->string('t1_tag')->nullable();
+            $table->string('t2_tag')->nullable();
             $table->integer('round');
+            $table->string('exception')->nullable();
         });
 
         Schema::create('league_news', function (Blueprint $table) {

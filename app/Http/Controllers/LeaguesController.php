@@ -11,6 +11,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
 use App\Http\Requests\StoreLeagueRequest;
+use App\Models\CustomMatchUp;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Route;
 
@@ -101,15 +102,20 @@ class LeaguesController extends Controller
         $validated_data_bracket = $request->validate([
             'name' => [
                 'required',
-                Rule::unique('brackets')->where(function ($query) use ($request) {
-                    return $query->where('league_id', $request->league_id);
-                }),
                 'max:40'
             ],
-            'description' => ['required', 'max:500'],
+            'b_description' => 'max:500',
+            'tag' => 'max:5',
             'is_group_stage' => ['boolean'],
             'league_id' => ['required', 'integer'],
         ]);
+
+        // If 'is_group_stage' is true, make 'tag' required
+        if ($request->input('is_group_stage')) {
+            $validated_data_bracket = $request->validate([
+                'tag' => ['required', 'max:5'],
+            ]);
+        }
 
         $validated_data_teams = $request->validate([
             'teams' => ['required', 'array'],
@@ -126,7 +132,8 @@ class LeaguesController extends Controller
         Team::create([
             'name' => 'Nedoločen igralec / ekipa',
             'p1_id' => 1,
-            'bracket_id' => $bracket->id
+            'bracket_id' => $bracket->id,
+            'is_fake' => true
         ]);
 
         foreach ($validated_data_teams_compressed as &$team) {
@@ -146,10 +153,24 @@ class LeaguesController extends Controller
     }
     public function matchup_store(Request $request)
     {
+        /* dd($request); */
         $validated_data = $request->validate([
-            'team1_id' => ['required', 'integer'],
-            'team2_id' => ['required', 'integer']
+            'team1_id' => 'integer|required_without:t1_tag',
+            't1_tag' => 'nullable|required_without:team1_id',
+            'team2_id' => 'integer|required_without:t2_tag',
+            't2_tag' => 'nullable|required_without:team2_id',
+            't1_first_set' => 'nullable|integer',
+            't2_first_set' => 'nullable|integer',
+            't1_second_set' => 'nullable|integer',
+            't2_second_set' => 'nullable|integer',
+            't1_third_set' => 'nullable|integer',
+            't2_third_set' => 'nullable|integer',
+            'round' => 'required|integer',
+            'exception' => 'string|max:30',
+            'bracket_id' => ['required', 'integer']
         ]);
+
+        CustomMatchUp::create($validated_data);
 
         // Set flash message and redirect
         return back()->with(['message' => 'Igra uspešno ustvarjena']);
@@ -161,6 +182,11 @@ class LeaguesController extends Controller
         return back()->with(['message' => 'Skupina zbrisana.']);
     }
 
+    public function matchup_destroy(CustomMatchUp $matchup)
+    {
+        $matchup->delete();
+        return back()->with(['message' => 'Igra zbrisana.']);
+    }
 
     // Function to check if the user is on a mobile device
     private function isMobileDevice()

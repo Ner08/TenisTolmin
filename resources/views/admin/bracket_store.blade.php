@@ -78,15 +78,6 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
-                    <textarea name="description" id="description" placeholder="Vnesite opis skupine"
-                        class="form-textarea rounded-lg w-full h-48 focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4">{{ old('description') }}</textarea>
-                    @error('description')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <div class="mb-6">
                     <label for="is_group_stage">Skupinski del</label>
                     <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2" value="1">
@@ -103,6 +94,17 @@
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
                         value="{{ old('points_description') }}">
                     @error('points_description')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4" id="pointsDescriptionContainer">
+                    <label for="tag" class="block text-gray-700 font-semibold">Oznaka skupine:</label>
+                    <input type="text" name="tag" id="tag"
+                        placeholder="Vpišite oznako skupine (Primer: A)"
+                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
+                        value="{{ old('tag') }}" disabled>
+                    @error('tag')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -127,7 +129,7 @@
                                         required>
                                         <option value="">Izberi prvega igralca</option>
                                         <!-- Use foreach to generate dropdown options for players -->
-                                        @foreach ($players as $player)
+                                        @foreach ($playersSelect as $player)
                                             <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                         @endforeach
                                     </select>
@@ -143,7 +145,7 @@
                                         class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
                                         <option value="">Izberi drugega igralca (neobvezno)</option>
                                         <!-- Use foreach to generate dropdown options for players -->
-                                        @foreach ($players as $player)
+                                        @foreach ($playersSelect as $player)
                                             <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                         @endforeach
                                     </select>
@@ -177,7 +179,7 @@
                             <div class="flex items-center justify-between mb-4">
                                 <div>
                                     <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
-                                    <p class="text-gray-700">{{ $item->description }}</p>
+                                    <p class="text-gray-700">{{ $item->b_description }}</p>
                                 </div>
                                 <p class="text-sm font-semibold text-gray-500">{{ $item->teams->count() }}
                                     igralcev/ekip</p>
@@ -252,7 +254,7 @@
                             <select name="teams[${teamIndex}][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3" required>
                                 <option value="">Izberi prvega igralca</option>
                                 <!-- Use foreach to generate dropdown options for players -->
-                                @foreach ($players as $player)
+                                @foreach ($playersSelect as $player)
                                     <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                 @endforeach
                             </select>
@@ -264,7 +266,7 @@
                             <select name="teams[${teamIndex}][player_ids][]" class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-1">
                                 <option value="">Izberi drugega igralca (neobvezno)</option>
                                 <!-- Use foreach to generate dropdown options for players -->
-                                @foreach ($players as $player)
+                                @foreach ($playersSelect as $player)
                                     <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                                 @endforeach
                             </select>
@@ -299,6 +301,8 @@
     // Function to enable/disable the points description input based on checkbox status
     document.getElementById('is_group_stage').addEventListener('change', function() {
         var pointsDescriptionInput = document.getElementById('points_description');
+        var tagInput = document.getElementById('tag');
         pointsDescriptionInput.disabled = this.checked;
+        tagInput.disabled = !this.checked;
     });
 </script>

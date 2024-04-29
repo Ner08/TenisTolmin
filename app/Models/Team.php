@@ -23,6 +23,7 @@ class Team extends Model
         'bracket_id',
         'p1_id',
         'p2_id',
+        'is_fake'
     ];
 
     /**

@@ -10,7 +10,19 @@ class CustomMatchUp extends Model
     use HasFactory;
 
     protected $fillable = [
-        //Here
+        'team1_id',
+        't1_tag',
+        'team2_id',
+        't2_tag',
+        't1_first_set',
+        't2_first_set',
+        't1_second_set',
+        't2_second_set',
+        't1_third_set',
+        't2_third_set',
+        'round',
+        'exception',
+        'bracket_id'
     ];
 
     // Accessor mutator to generate end result string

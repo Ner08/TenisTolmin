@@ -23,8 +23,10 @@ Route::get('/leagues/{league}', [LeaguesController::class, 'show'])->name('leagu
 Route::post('/leagues', [LeaguesController::class,'store'])->name('leagues.store');
 Route::delete('/leagues/{league}', [LeaguesController::class, 'destroy'])->name('league.destroy');
 Route::delete('/leagues/brackets/{bracket}', [LeaguesController::class, 'bracket_destroy'])->name('league.bracket_destroy');
+Route::delete('/leagues/matchup/{matchup}', [LeaguesController::class, 'matchup_destroy'])->name('league.matchup_destroy');
 Route::post('/leagues/brackets', [LeaguesController::class,'bracket_store'])->name('leagues.bracket_store');
-Route::post('/leagues/matchups', [LeaguesController::class,'matchup_store'])->name('leagues.matchup_store');
+Route::post('/leagues/matchups', [LeaguesController::class, 'matchup_store'])->name('leagues.matchup_store');
+
 
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
