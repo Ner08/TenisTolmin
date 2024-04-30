@@ -9,16 +9,7 @@
             5 => ['1.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
             6 => ['1.Krog', '2.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
             7 => ['1.Krog', '2.Krog', '3.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            8 => [
-                '1.Krog',
-                '2.Krog',
-                '3.Krog',
-                '4.Krog',
-                'Osminafinala',
-                'Četrtfinale',
-                'Polfinale',
-                'Finale',
-            ],
+            8 => ['1.Krog', '2.Krog', '3.Krog', '4.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
             9 => [
                 '1.Krog',
                 '2.Krog',
@@ -53,10 +44,8 @@
                             $t2p1 = $team2->player1;
                             $t2p2 = $team2->player2;
 
-                            $t1_name =
-                                $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
-                            $t2_name =
-                                $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+                            $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
+                            $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
 
                             $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                             $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -68,9 +57,25 @@
                         @endphp
                         <div class="text-center border-r border-gray-400 pr-4 flex flex-col justify-between">
                             <div>
-                                <p class="font-semibold mb-2">{{ $t1_name }} <span
-                                        class="text-blue-500">({{ $t1_ranking }})</span></p>
-                                <!-- Player 1 content here -->
+                                @if ($match->t1_tag)
+                                    <div
+                                        class="inline-block bg-gray-900 text-white px-3 py-1 font-semibold text-sm rounded-md mx-1 mb-2">
+                                        {{ $match->t1_tag }}
+                                    </div>
+                                @endif
+                                @if (isset($t2_name))
+                                    @if (!isset($match->t1_tag) && $team1->is_fake)
+                                        <div>
+                                            <p class="font-semibold text-sm">{{ $t1_name }}</p>
+                                        </div>
+                                    @elseif (isset($match->t1_tag) && $team1->is_fake)
+
+                                    @elseif (!$team1->is_fake)
+                                        <p class="font-semibold mb-3">{{ $t1_name }} <span
+                                                class="text-blue-500">({{ $t1_ranking }})</span></p>
+                                        <!-- Player 1 content here -->
+                                    @endif
+                                @endif
                             </div>
                             <div class="text-center">
                                 @if (isset($t1_sets_won))
@@ -91,11 +96,28 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="text-center pl-4 flex flex-col justify-between">
                             <div>
-                                <p class="font-semibold mb-2">{{ $t2_name }} <span
-                                        class="text-blue-500">({{ $t2_ranking }})</span></p>
-                                <!-- Player 2 content here -->
+                                @if ($match->t2_tag)
+                                    <div
+                                        class="inline-block bg-gray-900 text-white px-3 py-1 font-semibold text-sm rounded-md mx-1 mb-2">
+                                        {{ $match->t2_tag }}
+                                    </div>
+                                @endif
+                                @if (isset($t2_name))
+                                    @if (!isset($match->t2_tag) && $team2->is_fake)
+                                        <div>
+                                            <p class="font-semibold text-sm">{{ $t1_name }}</p>
+                                        </div>
+                                    @elseif (isset($match->t2_tag) && $team2->is_fake)
+
+                                    @elseif (!$team2->is_fake)
+                                        <p class="font-semibold mb-3">{{ $t2_name }} <span
+                                                class="text-blue-500">({{ $t2_ranking }})</span></p>
+                                        <!-- Player 1 content here -->
+                                    @endif
+                                @endif
                             </div>
                             <div class="text-center">
                                 @if (isset($t2_sets_won))
@@ -117,10 +139,12 @@
                             </div>
                         </div>
                     </div>
-                    @if (isset($match->endResult))
+                    @if (isset($match->exception))
                         <div class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
-                            <p>{{ $match->endResult }} </p>
-                        </div>
+                            {{ $match->exception }}</div>
+                    @elseif (isset($match->endResult))
+                        <div class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                            {{ $match->endResult }}</div>
                     @endif
                 </div>
             @endforeach
@@ -132,4 +156,3 @@
         </div>
     </div>
 @endforeach
-

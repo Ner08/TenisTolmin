@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
 
         Player::create([
             'id' => 1,
-            'p_name' => 'Nedoločeno',
+            'p_name' => 'Nedoločen igralec / ekipa',
             'points' => 0,
             'is_fake' => true
         ]);

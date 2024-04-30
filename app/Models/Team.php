@@ -74,6 +74,15 @@ class Team extends Model
             ->orWhere('id', $this->p2_id);
     }
 
+     /**
+     * Get the players names
+     */
+    public function playerNames()
+    {
+        $name = isset($this->player2) ? $this->player1->p_name . ' | ' . $this->player2->p_name : $this->player1->p_name;
+        return $name;
+    }
+
     public function numOfPlayers(): int
     {
         return $this->p2_name ? 2 : 1;

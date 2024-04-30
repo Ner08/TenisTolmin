@@ -153,12 +153,12 @@ class LeaguesController extends Controller
     }
     public function matchup_store(Request $request)
     {
-        /* dd($request); */
+       /*  dd($request); */
         $validated_data = $request->validate([
-            'team1_id' => 'integer|required_without:t1_tag',
-            't1_tag' => 'nullable|required_without:team1_id',
-            'team2_id' => 'integer|required_without:t2_tag',
-            't2_tag' => 'nullable|required_without:team2_id',
+            'team1_id' => 'integer|required',
+            't1_tag' => 'nullable',
+            'team2_id' => 'integer|required',
+            't2_tag' => 'nullable',
             't1_first_set' => 'nullable|integer',
             't2_first_set' => 'nullable|integer',
             't1_second_set' => 'nullable|integer',
@@ -166,7 +166,7 @@ class LeaguesController extends Controller
             't1_third_set' => 'nullable|integer',
             't2_third_set' => 'nullable|integer',
             'round' => 'required|integer',
-            'exception' => 'string|max:30',
+            'exception' => 'nullable|string|max:30',
             'bracket_id' => ['required', 'integer']
         ]);
 

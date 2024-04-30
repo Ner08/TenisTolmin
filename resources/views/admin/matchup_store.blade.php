@@ -19,8 +19,6 @@
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
-
-            {{-- {{ dd( $bracket->is_group_stage) }} --}}
             <div class="mb-6">
                 <label for="is_group_stage">Skupinski del</label>
                 <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2" value="1"
@@ -96,7 +94,6 @@
                                             @endforeach
                                         </select>
                                         @error("teams.${nonFakeIndex}.player_ids.${playerIndex}")
-                                            {{-- Error for the player ID --}}
                                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                         @enderror
                                     @endforeach
@@ -177,16 +174,15 @@
                         <!-- Team 1 ID -->
                         <select name="team1_id"
                             class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
-                            <option value="">Izberite ekipo</option>
+                            <option required>Izberite ekipo</option>
                             <!-- Use foreach to generate dropdown options for players -->
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">
-                                    {{ isset($team->name) ? $team->name : (isset($team->p2_id) ? $team->p2_name : $team->p1_name) }}
+                                    {{ $team->playerNames() }}
                                 </option>
                             @endforeach
                         </select>
                         @error('team1_id')
-                            {{-- Error for the first player ID --}}
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
@@ -197,7 +193,6 @@
                             class="form-input w-full focus:outline-none border-gray-300 py-2 px-4 mt-0 rounded-t-none rounded-lg"
                             placeholder="Oznaka igralca / ekipe" />
                         @error('t1_tag')
-                            {{-- Error for the first player ID --}}
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     @endif
@@ -210,11 +205,11 @@
                         <!-- Team 2 ID -->
                         <select name="team2_id"
                             class="form-select rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3">
-                            <option value="">Izberite ekipo</option>
+                            <option required>Izberite ekipo</option>
                             <!-- Use foreach to generate dropdown options for players -->
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">
-                                    {{ isset($team->name) ? $team->name : (isset($team->p2_id) ? $team->p2_name : $team->p1_name) }}
+                                    {{ $team->playerNames() }}
                                 </option>
                             @endforeach
                         </select>
@@ -230,7 +225,6 @@
                             class="form-input w-full focus:outline-none border-gray-300 py-2 px-4 mt-0 rounded-t-none rounded-lg"
                             placeholder="Oznaka igralca / ekipe" />
                         @error('t2_tag')
-                            {{-- Error for the first player ID --}}
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     @endif
@@ -251,11 +245,9 @@
                     </div>
                 </div>
                 @error('t1_first_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
                 @error('t2_first_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
 
@@ -274,11 +266,9 @@
                     </div>
                 </div>
                 @error('t1_second_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
                 @error('t2_second_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
 
@@ -297,14 +287,20 @@
                     </div>
                 </div>
                 @error('t1_third_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
                 @error('t2_third_set')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-
+                <div class="mb-4">
+                    <label for="exception" class="block text-gray-700 font-semibold mb-2">Besedilo po meri</label>
+                    <input type="text" name="exception"
+                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
+                        placeholder="Vnesi besedilo (Prepiše skupni rezultat) Primer: Brez boja " />
+                </div>
+                @error('exception')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
@@ -314,10 +310,8 @@
                     </div>
                 </div>
                 @error('round')
-                    {{-- Error for the first player ID --}}
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-
 
                 <!-- End of Additional Inputs -->
 
@@ -342,9 +336,9 @@
                             $t2p2 = $team2->player2;
 
                             $t1_name =
-                                $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
+                                isset($t1p2) ? ($t1p1->p_name . ' | ' . $t1p2->p_name) : $t1p1->p_name;
                             $t2_name =
-                                $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+                                isset($t2p2) ? ($t2p1->p_name . ' | ' . $t2p2->p_name) : $t2p1->p_name;
 
                             $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                             $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -361,7 +355,14 @@
                                         Runda</h3>
                                     <h3 class="text-xl font-semibold text-gray-900 mb-2">{{ $t1_name }} -
                                         {{ $t2_name }}</h3>
-                                    @if (isset($match->endResult))
+                                    @if (isset($match->exception))
+                                        <div class="inline-block mt-2">
+                                            <h4 class="text-xl font-bold text-gray-500 mx-auto">
+                                                <span
+                                                    class="bg-gray-900 text-gray-100 px-2 py-1 rounded">{{ $match->exception }}</span>
+                                            </h4>
+                                        </div>
+                                    @elseif (isset($match->endResult))
                                         <div class="inline-block mt-2">
                                             <h4 class="text-xl font-bold text-gray-500 mx-auto">
                                                 <span
@@ -378,8 +379,7 @@
                                     class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($match->created_at)->format('d.m.Y') }}</span>
                             </p>
                             <div class="flex items-center">
-                                <a href="{{-- {{ route('matchup_setup', $match->id) }} --}}"
-                                    class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                <a href="{{-- {{ route('matchup_setup', $match->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
                                 <form id="deleteForm{{ $match->id }}"
                                     action="{{ route('league.matchup_destroy', ['matchup' => $match->id]) }}"
                                     method="POST">
@@ -455,7 +455,7 @@
                             <option value="{{ $player->id }}">{{ $player->p_name }}</option>
                         @endforeach
                     </select>
-                    @error('teams.${teamIndex}.player_ids.0') {{-- Error for the first player ID --}}
+                    @error('teams.${teamIndex}.player_ids.0')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
                     <label for="secondPlayer" class="block text-gray-700 font-semibold mt-3">Drugi igralec:</label>

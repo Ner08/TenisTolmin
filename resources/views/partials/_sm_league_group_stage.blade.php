@@ -116,8 +116,8 @@
         </div>
         <div class="grid grid-cols-1 gap-1 my-5">
             @foreach ($bracket->matchUps->where('round', $key) as $match)
-                <div class="bg-gray-100 rounded-md overflow-hidden shadow-md mx-4">
-                    <div class="bg-gray-200 p-4 grid grid-cols-2 gap-4">
+                <div class="bg-gray-100 rounded-md overflow-hidden shadow-md mx-4 mb-2">
+                    <div class="bg-gray-200 p-2 grid grid-cols-2 gap-4">
                         @php
                             $team1 = App\Models\Team::where('id', $match->team1_id)->first();
                             $t1p1 = $team1->player1;
@@ -127,9 +127,9 @@
                             $t2p2 = $team2->player2;
 
                             $t1_name =
-                                $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
+                                isset($t1p2) ? ($t1p1->p_name . ' | ' . $t1p2->p_name) : $t1p1->p_name;
                             $t2_name =
-                                $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+                                isset($t2p2) ? ($t2p1->p_name . ' | ' . $t2p2->p_name) : $t2p1->p_name;
 
                             $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                             $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -182,10 +182,15 @@
                         </div>
                     </div>
                     @if (isset($match->endResult))
-                        <div
-                            class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
-                            <p>{{ $match->endResult }}</p>
-                        </div>
+                        @if (isset($match->exception))
+                            <div
+                                class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                                {{ $match->exception }}</div>
+                        @elseif (isset($match->endResult))
+                            <div
+                                class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                                {{ $match->endResult }}</div>
+                        @endif
                     @endif
                 </div>
             @endforeach

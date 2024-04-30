@@ -41,7 +41,9 @@ class CustomMatchUpFactory extends Factory
             't2_second_set' => $this->faker->numberBetween(0, 7),
             't1_third_set' => $this->faker->numberBetween(0, 7),
             't2_third_set' => $this->faker->numberBetween(0, $quickDecider ? 7 : 10),
-            'round' => $this->faker->numberBetween(1,5),
+            't1_tag' => strtoupper($this->faker->randomLetter()) . rand(1, 9),
+            't2_tag' => strtoupper($this->faker->randomLetter()) . rand(1, 9),
+            'round' => $this->faker->numberBetween(1, 5),
         ];
     }
 }

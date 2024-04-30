@@ -122,8 +122,8 @@
                 $t2p1 = $team2->player1;
                 $t2p2 = $team2->player2;
 
-                $t1_name = $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
-                $t2_name = $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+                $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
+                $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
 
                 $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                 $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -142,10 +142,8 @@
                         $t2p1 = $team2->player1;
                         $t2p2 = $team2->player2;
 
-                        $t1_name =
-                            $team1->name ?? (isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name);
-                        $t2_name =
-                            $team2->name ?? (isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name);
+                        $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
+                        $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
 
                         $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                         $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -199,8 +197,12 @@
                 <!-- Move the endResult div to the bottom -->
                 <div
                     class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center p-1 pb-2 mt-auto">
-                    @if (isset($match->endResult))
-                        <p>{{ $match->endResult }}</p>
+                    @if (isset($match->exception))
+                        <div class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                            {{ $match->exception }}</div>
+                    @elseif (isset($match->endResult))
+                        <div class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                            {{ $match->endResult }}</div>
                     @endif
                 </div>
             </div>
