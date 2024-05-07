@@ -13,7 +13,7 @@
                             <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon" class="h-6 w-6 text-white" />
                         </div>
                         <div class="p-6">
-                            <h2 class="text-xl font-semibold mb-4 text-gray-800">{{ $event['title'] }}</h2>
+                            <h2 class="text-xl font-semibold mb-4 text-gray-800">{{ $event['e_title'] }}</h2>
                             <div class="flex items-center">
                                 <div class="bg-gray-900 text-white px-3 py-1 rounded-full mr-2">
                                     <span class="font-bold">{{ date('d.m.Y', strtotime($event['fromDate'])) }}</span>

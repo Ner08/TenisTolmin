@@ -20,8 +20,8 @@ class EventFactory extends Factory
         $dateTo = fake()->dateTimeBetween($dateFrom,'+2 day');
 
         return [
-            'title' => fake()->sentence(2),
-            'description' => fake()->text(),
+            'e_title' => fake()->sentence(2),
+            'e_description' => fake()->text(),
             'fromDate' => $dateFrom,
             'toDate' =>  $dateTo,
             'location' => fake()->streetAddress(),

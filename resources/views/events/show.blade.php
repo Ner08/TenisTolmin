@@ -1,6 +1,6 @@
 <x-layout :login="$login" :admin="$admin">
     @php
-        $title = 'Dogodek • ' . $event->title;
+        $title = 'Dogodek • ' . $event->e_title;
     @endphp
     <x-title :title="$title"/>
     <div class="mx-auto">

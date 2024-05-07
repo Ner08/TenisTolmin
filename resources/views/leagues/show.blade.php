@@ -195,11 +195,13 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="m-3 mr-8 pb-4 flex justify-end">
-                    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                        <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+                @if (isset($bracket->points_description))
+                    <div class="m-3 mr-8 pb-4 flex justify-end">
+                        <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+                            <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+                        </div>
                     </div>
-                </div>
+                @endif
             @endforeach
             @if ($brackets_group->isNotEmpty())
                 <x-league-group-title title="Skupinski del" />

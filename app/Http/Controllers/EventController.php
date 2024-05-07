@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
+use App\Http\Requests\EventRequest;
 use App\Models\Event;
 use DateTime;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -30,5 +29,13 @@ class EventController extends Controller
             'login' => false,
             'admin' => true
         ]);
+    }
+
+    public function store(EventRequest $request)
+    {
+        // Create event
+        Event::create($request->validated());
+
+        return back()->with(['message' => 'Dogodek uspešno ustvarjen(a)']);
     }
 }

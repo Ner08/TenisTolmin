@@ -18,8 +18,8 @@ class Event extends Model
         'location',
         'fromDate',
         'toDate',
-        'title',
-        'description'
+        'e_title',
+        'e_description'
     ];
     public function scopeFilter($query, array $filter) {
         if ($filter['search_events'] ?? false) {

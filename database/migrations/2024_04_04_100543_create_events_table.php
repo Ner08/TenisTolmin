@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->dateTime('fromDate');
-            $table->dateTime('toDate');
-            $table->string('location');
-            $table->string('title');
-            $table->longText('description');
+            $table->dateTime('toDate')->nullable();
+            $table->string('location')->nullable();
+            $table->string('e_title');
+            $table->longText('e_description');
         });
     }
 

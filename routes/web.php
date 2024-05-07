@@ -8,6 +8,7 @@ use App\Http\Controllers\LeaguesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PlayerController;
 use Illuminate\Support\Facades\Route;
 
 // Home
@@ -47,3 +48,9 @@ Route::get('/membership',[MembershipController::class, 'index'])->name('membersh
 // Events
 Route::get('/events',[EventController::class, 'index'])->name('events');
 Route::get('/events/{event}',[EventController::class, 'show'])->name('events_detail');
+Route::post('/events',[EventController::class, 'store'])->name('events_store');
+
+
+//Players
+Route::post('/players', [PlayerController::class, 'store'])->name('players_store');
+Route::post('/players/{player_id}/points_add', [PlayerController::class, 'add_points'])->name('players_add_points');

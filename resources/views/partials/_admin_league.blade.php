@@ -44,7 +44,8 @@
                 <div class="mb-4 rounded-md bg-gray-200 pt-2 text-gray-900">
                     <div class="flex justify-between items-center px-4">
                         @if ($match->t1_tag)
-                            <div class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">{{ $match->t1_tag }}</div>
+                            <div class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">
+                                {{ $match->t1_tag }}</div>
                         @endif
                         @if (isset($t1_name))
                             @if (!isset($match->t1_tag) && $team1->is_fake)
@@ -74,7 +75,8 @@
                     </div>
                     <div class="flex justify-between items-center my-2 px-4 ">
                         @if ($match->t2_tag)
-                            <div class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">{{ $match->t2_tag }}</div>
+                            <div class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">
+                                {{ $match->t2_tag }}</div>
                         @endif
                         @if (isset($t2_name))
                             @if (!isset($match->t2_tag) && $team2->is_fake)
@@ -116,8 +118,10 @@
         </div>
     @endforeach
 </div>
-<div class="m-3 mr-8 pb-4 flex justify-end">
-    <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-        <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+@if (isset($bracket->points_description))
+    <div class="m-3 mr-8 pb-4 flex justify-end">
+        <div class="bg-gray-100 rounded-lg p-4 shadow-md">
+            <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+        </div>
     </div>
-</div>
+@endif

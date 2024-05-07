@@ -149,10 +149,13 @@
                 </div>
             @endforeach
         @endforeach
-        <div class="px-4 mx-auto max-w-xl">
-            <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+        @if (isset($bracket->points_description))
+            <div class="px-4 mx-auto max-w-xl">
+                <div class="bg-gray-12514++
+                00 rounded-lg p-4 shadow-md">
+                    <p class="text-gray-700 leading-relaxed">{{ $bracket->points_description }}</p>
+                </div>
             </div>
-        </div>
+        @endif
     </div>
 @endforeach
