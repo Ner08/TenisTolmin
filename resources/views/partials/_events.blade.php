@@ -1,6 +1,7 @@
 <div class="container px-2 mx-auto py-8">
     @if ($home)
-        <h1 class="text-3xl font-bold mb-8">Dogodki</h1>
+        <h1 class="text-3xl font-bold mb-3">Dogodki</h1>
+        <h4 class="text-lg text-gray-600 mb-8"> V našem koledarju teniških dogodkov se združujemo ne samo zaradi tekmovanj, ampak tudi zaradi druženja in zabave. Od piknikov do delovnih akcij, naši dogodki ponujajo priložnost za srečanje, povezovanje in uživanje ob skupnih interesih izven igrišča.</h4>
     @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Event items -->

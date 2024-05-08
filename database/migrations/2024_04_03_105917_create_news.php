@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('title');
             $table->longText('content');
-            /* $table->file('image'); */
+            $table->string('image')->nullable();
         });
 
         Schema::create('news_comments', function (Blueprint $table) {

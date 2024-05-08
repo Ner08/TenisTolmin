@@ -15,10 +15,9 @@ class News extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_admin'
+        'title',
+        'content',
+        'image',
     ];
 
     public function scopeFilter($query, array $filter) {

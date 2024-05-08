@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PlayerRequest extends FormRequest
+class NewsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,9 +20,8 @@ class PlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'p_name' => ['required', 'unique:players,p_name', 'max:40'], // Use 'name' as the column name
-            'points' => ['integer', 'nullable'],
-            'is_fake' => ['boolean', 'nullable'],
+            'title' => ['required', 'string', 'max:255'],
+            'content' => ['required', 'string']
         ];
     }
 
@@ -32,9 +31,12 @@ class PlayerRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'p_name.required' => 'Ime igralca je obvezno.',
-            'p_name.unique' => 'Ime že obstaja.',
-            'p_name.max' => 'Ime igralca ne sme biti daljše od 40 znakov.',
+            'title.required' => 'Naslov je obvezen.',
+            'title.string' => 'Naslov mora biti besedilo.',
+            'title.max' => 'Naslov ne sme biti daljši od :max znakov.',
+            'content.required' => 'Vsebina je obvezna.',
+            'content.string' => 'Vsebina mora biti besedilo.',
+            'image.string' => 'Napaka pri formatu.'
         ];
     }
 }

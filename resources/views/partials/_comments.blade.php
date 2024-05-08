@@ -1,6 +1,6 @@
 {{-- Comments Section --}}
 <div class="mt-8">
-    <h3 class="text-xl font-semibold mb-4">Comments</h3>
+    <span class="text-xl font-semibold mb-4">Komentarji<p class="inline text-xs font-semibold text-green-600"> (prihajajo kmalu)</p></span>
     {{-- Display comments --}}
     @foreach ($comments as $comment)
         <div class="bg-gray-100 rounded-lg shadow-md p-4 mb-4">
@@ -26,6 +26,6 @@
                 Comment</button>
         </form>
     @else
-        <p class="text-gray-600">Log in to leave a comment.</p>
+        <p class="text-gray-600 mb-10">Prijavite se, in komentirajte.</p>
     @endauth
 </div>

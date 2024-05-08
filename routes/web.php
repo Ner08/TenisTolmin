@@ -16,6 +16,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // News
 Route::get('/news', [NewsController::class, 'index'])->name('news');
+Route::post('/news', [NewsController::class, 'store'])->name('news_store');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
 // Leagues
@@ -32,10 +33,10 @@ Route::post('/leagues/matchups', [LeaguesController::class, 'matchup_store'])->n
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
 // Login/Logout
-Route::get('/login_view', [LoginController::class, 'index'])->name('login_view');;
+Route::get('/admin', [LoginController::class, 'index'])->name('login_view');;
 
 //Admin
-Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+Route::get('/admin_board', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/league/bracket/{league}', [AdminController::class, 'bracket_setup'])->name('bracket_setup');
 Route::get('/admin/league/matchup/{bracket}', [AdminController::class, 'matchup_setup'])->name('matchup_setup');
 

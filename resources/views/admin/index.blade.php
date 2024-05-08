@@ -258,7 +258,7 @@
                 <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
                     <h2 class="text-xl font-bold">Dodaj novice</h2>
                 </div>
-                <form action="{{-- {{ route('news.store') }} --}}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6"
+                <form action="{{ route('news_store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
@@ -280,10 +280,10 @@
                     </div>
                     <div class="mb-4">
                         <label for="file" class="block text-gray-700 font-semibold">Datoteka:</label>
-                        <input type="file" name="file" id="file"
+                        <input type="file" name="image" id="image"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3"
-                            value="{{ old('file') }}" required>
-                        @error('file')
+                            value="{{ old('image') }}" required>
+                        @error('image')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>

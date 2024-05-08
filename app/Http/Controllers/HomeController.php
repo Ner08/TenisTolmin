@@ -12,9 +12,9 @@ class HomeController extends Controller
     public function index()
     {
         return view('home.index', [
-            'news' => News::paginate(6),
-            'events' => Event::paginate(6),
-            'leagues' => League::paginate(3),
+            'news' => News::latest()->paginate(6),
+            'events' => Event::latest()->paginate(6),
+            'leagues' => League::latest()->paginate(3),
             'login' => false,
             'admin' => true
         ]);

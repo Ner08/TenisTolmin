@@ -1,8 +1,11 @@
 @php
-$dateFromFormated = date('d.m.Y', strtotime($event['fromDate']));
- $dateToFormated = date('d.m.Y', strtotime($event['toDate']));
-$timeToFormated = date('h:i:s', strtotime($event['fromDate']));
-$timeFromFormated = date('h:i:s', strtotime($event['fromDate']));
+    $dateFromFormated = date('d.m.Y', strtotime($event['fromDate']));
+    $timeFromFormated = date('h:i:s', strtotime($event['fromDate']));
+
+    if (isset($event['toDate'])) {
+        $dateToFormated = date('d.m.Y', strtotime($event['toDate']));
+        $timeToFormated = date('h:i:s', strtotime($event['toDate']));
+    }
 @endphp
 
 {{-- Event Details --}}
@@ -12,24 +15,45 @@ $timeFromFormated = date('h:i:s', strtotime($event['fromDate']));
             <div class="p-6">
                 <h2 class="text-3xl font-semibold mb-4">{{ $event['e_title'] }}</h2>
                 <p class="text-gray-300 mb-4">{{ $event['e_description'] }}</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="flex items-center">
-                        <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon"
-                            class="w-6 h-6 text-gray-300 mr-3" />
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-0 mr-2">
+                    <div class="p-2">
                         <div>
-                            <p class="text-lg font-semibold text-gray-200">{{ $dateFromFormated }}</p>
-                            <p class="text-sm text-gray-400">Datum</p>
+                            <div class="flex items-center mb-1">
+                                <p class="text-lg font-bold text-gray-200 inline-block">Začetek: </p>
+                            </div>
+                            <div class="flex items-center mb-1">
+                                <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon"
+                                    class="w-6 h-6 text-gray-300 mr-2 inline-block" />
+                                <p class="text-lg font-semibold text-gray-200 inline-block">{{ $dateFromFormated }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="{{ asset('images/clock.svg') }}" alt="Clock Icon"
+                                    class="w-6 h-6 text-gray-300 mr-2" />
+                                <p class="text-lg font-semibold text-gray-200">{{ $timeFromFormated }}</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-center">
-                        <img src="{{ asset('images/clock.svg') }}" alt="Clock Icon"
-                            class="w-6 h-6 text-gray-300 mr-3" />
+                    <div class="p-2">
                         <div>
-                            <p class="text-lg font-semibold text-gray-200">{{ $timeToFormated }}</p>
-                            <p class="text-sm text-gray-400">Čas</p>
+                            <div class="flex items-center mb-1">
+                                <p class="text-lg font-bold text-gray-200 inline-block">Konec: </p>
+                            </div>
+                            <div class="flex items-center mb-1">
+                                <img src="{{ asset('images/calandar.svg') }}" alt="Calendar Icon"
+                                    class="w-6 h-6 text-gray-300 mr-2 inline-block" />
+                                <p class="text-lg font-semibold text-gray-200 inline-block">{{ $dateToFormated }}</p>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="{{ asset('images/clock.svg') }}" alt="Clock Icon"
+                                    class="w-6 h-6 text-gray-300 mr-2" />
+                                <p class="text-lg font-semibold text-gray-200">{{ $timeToFormated }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
+
                 <div class="flex items-center mt-4">
                     <img src="{{ asset('images/location.svg') }}" alt="Location Icon"
                         class="w-6 h-6 text-gray-300 mr-3" />
