@@ -4,8 +4,8 @@
         dosežkih in novostih v naši teniški skupnosti. Bodite vedno na tekočem z našimi novicami!</h4>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- News items -->
-        @foreach ($news as $newsItem)
-            @include('partials._news_item', $newsItem)
+        @foreach ($news as $item)
+            @include('partials._news_item', $item)
         @endforeach
     </div>
 

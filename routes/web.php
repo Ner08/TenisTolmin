@@ -17,6 +17,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // News
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::post('/news', [NewsController::class, 'store'])->name('news_store');
+Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news_destroy');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
 // Leagues
@@ -28,7 +29,6 @@ Route::delete('/leagues/brackets/{bracket}', [LeaguesController::class, 'bracket
 Route::delete('/leagues/matchup/{matchup}', [LeaguesController::class, 'matchup_destroy'])->name('league.matchup_destroy');
 Route::post('/leagues/brackets', [LeaguesController::class,'bracket_store'])->name('leagues.bracket_store');
 Route::post('/leagues/matchups', [LeaguesController::class, 'matchup_store'])->name('leagues.matchup_store');
-
 
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
@@ -48,10 +48,12 @@ Route::get('/membership',[MembershipController::class, 'index'])->name('membersh
 
 // Events
 Route::get('/events',[EventController::class, 'index'])->name('events');
-Route::get('/events/{event}',[EventController::class, 'show'])->name('events_detail');
 Route::post('/events',[EventController::class, 'store'])->name('events_store');
-
+Route::delete('/events{event}',[EventController::class, 'destroy'])->name('events_destroy');
+Route::get('/events/{event}',[EventController::class, 'show'])->name('events_detail');
 
 //Players
 Route::post('/players', [PlayerController::class, 'store'])->name('players_store');
+Route::put('/players/{player}', [PlayerController::class, 'edit'])->name('players_edit');
+Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players_destroy');
 Route::post('/players/{player_id}/points_add', [PlayerController::class, 'add_points'])->name('players_add_points');

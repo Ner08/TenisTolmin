@@ -385,14 +385,14 @@
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="showDeleteConfirmation({{ $match->id }})"
+                                    <button type="button" onclick="showDeleteConfirmation('deleteForm', {{ $item->id }})"
                                         class="text-red-500 hover:underline">Izbriši</button>
                                 </form>
                             </div>
                         </li>
                     @endforeach
                 @endif
-                <x-delete-confirmation model="Igro" />
+                <x-delete-confirmation/>
             </ul>
             <div class="p-4">{{ $matchups->links() }}</div>
         </div>

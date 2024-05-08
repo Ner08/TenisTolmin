@@ -110,10 +110,13 @@
                 </div>
 
                 <div class="mt-4 mb-4" id="teamsContainer">
-                    <label for="teams" class="block bg-gray-600 text-white font-semibold py-2 mb-2 px-4 rounded">Ekipe:</label>
+                    <label for="teams"
+                        class="block bg-gray-600 text-white font-semibold py-2 mb-2 px-4 rounded">Ekipe:</label>
                     <div id="teamsInputs">
                         <div class="mb-2 teamInput">
-                            <label for="teams" class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-2 px-4 rounded">Ekipa 1</label>
+                            <label for="teams"
+                                class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-2 px-4 rounded">Ekipa
+                                1</label>
                             <div class="border-b-2 border-gray-300 pb-4">
                                 <div>
                                     <label for="teamName" class="block text-gray-700 font-semibold">Ime ekipe:</label>
@@ -200,14 +203,15 @@
                                         method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="showDeleteConfirmation({{ $item->id }})"
+                                        <button type="button"
+                                            onclick="showDeleteConfirmation('deleteForm', {{ $item->id }})"
                                             class="text-red-500 hover:underline">Izbriši</button>
                                     </form>
                                 </div>
                             </div>
                         </li>
                     @endforeach
-                    <x-delete-confirmation model="Skupino" />
+                    <x-delete-confirmation/>
                 @endif
             </ul>
             <div class="p-4">{{ $brackets->links() }}</div>

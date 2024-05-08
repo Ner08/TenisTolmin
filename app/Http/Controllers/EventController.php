@@ -36,6 +36,14 @@ class EventController extends Controller
         // Create event
         Event::create($request->validated());
 
-        return back()->with(['message' => 'Dogodek uspešno ustvarjen(a)']);
+        return back()->with(['message' => 'Dogodek uspešno ustvarjen(a).']);
+    }
+
+    public function destroy(Event $event)
+    {
+        //Delete event
+        $event->delete();
+
+        return back()->with(['message' => 'Dogodek uspešno zbrisan.']);
     }
 }

@@ -12,9 +12,8 @@ class NewsController extends Controller
     //Show all news
     public function index()
     {
-        $newsItems = News::paginate(12);
         return view('news.index', [
-            'newsItems' => $newsItems,
+            'newsItems' => News::latest()->paginate(12),
             'login' => false,
             'admin' => true
         ]);
@@ -23,7 +22,7 @@ class NewsController extends Controller
     //Show single news
     public function show(News $news)
     {
-        $comments = NewsComment::where('news_id', 1)->paginate(10);
+        $comments = NewsComment::where('news_id', $news->id)->latest()->paginate(10);
         return view('news.show', [
             'newsItem' => $news,
             'login' => false,
@@ -35,18 +34,21 @@ class NewsController extends Controller
     //Store news
     public function store(NewsRequest $request)
     {
-        /* dd($request->file('image')); */
         $formFields = $request->validated();
 
         if ($request->hasFile('image')) {
-            /* dd('here'); */
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
 
-        /* dd($formFields); */
         News::create($formFields);
 
         return back()->with(['message' => 'Novica uspešno ustvarjen(a)']);
+    }
+
+    public function destroy(News $news)
+    {
+        $news->delete();
+        return back()->with(['message' => 'Novica uspešno zbirsana(a)']);
     }
 
 }

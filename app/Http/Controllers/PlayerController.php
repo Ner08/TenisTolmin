@@ -30,4 +30,19 @@ class PlayerController extends Controller
 
         return back()->with(['message' => 'Točke uspešno dodane.'], 200);
     }
+
+    public function edit(Player $player, PlayerRequest $request)
+    {
+        $player->update($request->validated());
+
+        return back()->with(['message' => 'Točke uspešno dodane.'], 200);
+    }
+
+    public function destroy(Player $player)
+    {
+        // Delete player
+        $player->delete();
+
+        return back()->with(['message' => 'Igralec uspešno izbrisan.']);
+    }
 }

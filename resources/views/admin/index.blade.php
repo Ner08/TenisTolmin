@@ -93,10 +93,10 @@
                         @foreach ($leagues as $item)
                             <li class="bg-white rounded-lg shadow-md p-6 mb-6">
                                 <!-- League Details -->
-                                <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center justify-between mb-4 overflow-hidden">
                                     <div>
                                         <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
-                                        <p class="text-gray-700">{{ $item->description }}</p>
+                                        <p class="text-gray-700 line-clamp-3">{{ $item->description }}</p>
                                     </div>
                                 </div>
                                 <div>
@@ -125,7 +125,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="button"
-                                                onclick="showDeleteConfirmation({{ $item->id }})"
+                                                onclick="showDeleteConfirmation('deleteForm', {{ $item->id }})"
                                                 class="text-red-500 hover:underline">Izbriši</button>
                                         </form>
                                     </div>
@@ -133,7 +133,7 @@
                             </li>
                         @endforeach
                         <!-- Include Delete Confirmation Component -->
-                        <x-delete-confirmation model="Ligo" />
+                        <x-delete-confirmation/>
                     @endif
                 </ul>
                 <div class="p-4">{{ $leagues->links() }}</div>
@@ -232,12 +232,15 @@
                                         <!-- Edit and Delete buttons -->
                                         <a href="{{-- {{ route('players.edit', $player->id) }} --}}"
                                             class="text-blue-500 hover:underline mr-4">Uredi</a>
-                                        <form action="{{-- {{ route('players.destroy', $player->id) }} --}}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit"
-                                                class="text-red-500 hover:underline bg-transparent border-none">Zbriši</button>
-                                        </form>
+                                            <form id="deletePlayersForm{{ $player->id }}"
+                                                action="{{ route('players_destroy', ['player' => $player->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="button"
+                                                    onclick="showDeleteConfirmation('deletePlayersForm', {{ $player->id }})"
+                                                    class="text-red-500 hover:underline">Izbriši</button>
+                                            </form>
                                     </div>
                                 </div>
                             </li>
@@ -309,17 +312,22 @@
                         <h2 class="p-4 text-gray-900">Nismo našli nobene novice.</h2>
                     @else
                         @foreach ($news as $item)
-                            <li class="bg-white rounded-lg shadow-md p-6">
+                            <li class="bg-white rounded-lg shadow-md p-6 overflow-hidden">
                                 <h3 class="text-xl font-bold mb-2">{{ $item->title }}</h3>
-                                <p class="text-gray-700">{{ $item->content }}</p>
+                                <p class="text-gray-700 line-clamp-3">{{ $item->content }}</p>
                                 <p class="text-gray-500 mt-2"> {{ $item->created_at->format('d.m.Y') }}</p>
                                 <div class="flex justify-end mt-4">
-                                    <a href="{{-- {{ route('news.edit', $item->id) }} --}}"
-                                        class="text-blue-500 hover:underline mr-4">Edit</a>
-                                    <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                    <a href="{{ route('bracket_setup', $item->id) }}"
+                                        class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                    <!-- Delete Form with Confirmation Dialog -->
+                                    <form id="deleteNewsForm{{ $item->id }}"
+                                        action="{{ route('news_destroy', ['news' => $item->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                                        <button type="button"
+                                            onclick="showDeleteConfirmation('deleteNewsForm', {{ $item->id }})"
+                                            class="text-red-500 hover:underline">Izbriši</button>
                                     </form>
                                 </div>
                             </li>
@@ -409,9 +417,9 @@
                         <h2 class="p-4 text-gray-900">Nismo našli nobenega dogodka.</h2>
                     @else
                         @foreach ($events as $item)
-                            <li class="bg-white rounded-lg shadow-md p-6 mb-4">
+                            <li class="bg-white rounded-lg shadow-md p-6 mb-4 overflow-hidden">
                                 <h3 class="text-xl font-bold mb-2">{{ $item->e_title }}</h3>
-                                <p class="text-gray-700">{{ $item->e_description }}</p>
+                                <p class="text-gray-700 line-clamp-3">{{ $item->e_description }}</p>
                                 <p class="text-gray-500 mt-4">
                                     <span class="text-sm font-semibold">Od:</span>
                                     <span
@@ -426,12 +434,17 @@
                                     @endif
                                 </p>
                                 <div class="flex justify-end mt-4">
-                                    <a href="{{-- {{ route('news.edit', $item->id) }} --}}"
-                                        class="text-blue-500 hover:underline mr-4">Edit</a>
-                                    <form action="{{-- {{ route('news.destroy', $item->id) }} --}}" method="POST">
+                                    <a href="{{ route('bracket_setup', $item->id) }}"
+                                        class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                    <!-- Delete Form with Confirmation Dialog -->
+                                    <form id="deleteEventsForm{{ $item->id }}"
+                                        action="{{ route('events_destroy', ['event' => $item->id]) }}"
+                                        method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:underline">Delete</button>
+                                        <button type="button"
+                                            onclick="showDeleteConfirmation('deleteEventsForm', {{ $item->id }})"
+                                            class="text-red-500 hover:underline">Izbriši</button>
                                     </form>
                                 </div>
                             </li>

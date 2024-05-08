@@ -104,9 +104,9 @@
             }
         });
     @endif
-    function showDeleteConfirmation(itemId) {
+    function showDeleteConfirmation(formId,itemId) {
         // Set the action of the form dynamically based on the item ID
-        var deleteForm = document.getElementById('deleteForm' + itemId);
+        var deleteForm = document.getElementById(formId + itemId);
         var confirmationForm = document.getElementById('confirmDeleteForm');
         confirmationForm.action = deleteForm.action;
 
