@@ -7,7 +7,9 @@
             <h2 class="text-xl font-bold">Uredi skupino</h2>
         </div>
 
-        <form action="{{ route('leagues.bracket_store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6">
+        <form action="{{ route('leagues.bracket_edit', ['bracket' => $bracket->id]) }}" method="POST"
+            class="mb-5 bg-gray-100 rounded-lg p-6">
+            @method('PUT')
             @csrf
             <div class="mb-4">
                 <input type="hidden" name="league_id" value="{{ $bracket->league->id }}">
@@ -21,8 +23,8 @@
             </div>
             <div class="mb-6">
                 <label for="is_group_stage">Skupinski del</label>
-                <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2" value="1"
-                    @if ($bracket->is_group_stage == 1) checked @endif>
+                <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2"
+                    value="{{ $bracket->is_group_stage }}" @if ($bracket->is_group_stage == 1) checked @endif>
                 @error('is_group_stage')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -34,7 +36,7 @@
                 <input type="text" name="points_description" id="points_description"
                     placeholder="Vnesite opis števila točk pridobljenih glede na doseženo mesto"
                     class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                    value="{{ old('points_description') }}" @if ($bracket->is_group_stage == 1) disabled @endif>
+                    value="{{ $bracket->points_description }}" @if ($bracket->is_group_stage == 1) disabled @endif>
                 @error('points_description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -67,6 +69,8 @@
                                 {{ $nonFakeIndex + 1 }}</label>
                             <div class="mb-2 teamInput">
                                 <div class="border-b-2 border-gray-300 pb-4">
+                                    <input type="hidden" name="teams[{{ $nonFakeIndex }}][id]"
+                                        value="{{ $team->id }}">
                                     <label for="teamName" class="block text-gray-700 font-semibold">Ime ekipe:</label>
                                     <input type="text" name="teams[{{ $nonFakeIndex }}][name]"
                                         placeholder="Ime ekipe (neobvezno)"
@@ -191,7 +195,7 @@
                             class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-0 px-4 mt-3 rounded-b-none rounded-lg">Oznaka</label>
                         <input type="text" name="t1_tag"
                             class="form-input w-full focus:outline-none border-gray-300 py-2 px-4 mt-0 rounded-t-none rounded-lg"
-                            placeholder="Oznaka igralca / ekipe" />
+                            placeholder="Oznaka igralca / ekipe" value="{{ old('t1_tag') }}"/>
                         @error('t1_tag')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -223,7 +227,7 @@
                             class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-0 px-4 mt-3 rounded-b-none rounded-lg">Oznaka</label>
                         <input type="text" name="t2_tag"
                             class="form-input w-full focus:outline-none border-gray-300 py-2 px-4 mt-0 rounded-t-none rounded-lg"
-                            placeholder="Oznaka igralca / ekipe" />
+                            placeholder="Oznaka igralca / ekipe" value="{{ old('t2_tag') }}" />
                         @error('t2_tag')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -236,12 +240,12 @@
                     <div>
                         <input type="number" name="t1_first_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 prvi set" />
+                            placeholder="Ekipa/igralec 1 prvi set" value="{{ old('t1_first_set') }}"/>
                     </div>
                     <div>
                         <input type="number" name="t2_first_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 prvi set" />
+                            placeholder="Ekipa/igralec 2 prvi set" value="{{ old('t2_first_set') }}"/>
                     </div>
                 </div>
                 @error('t1_first_set')
@@ -252,17 +256,16 @@
                 @enderror
 
                 <label for="t1_first_set" class="block text-gray-700 font-semibold mb-2">2. Set:</label>
-                <!-- Repeat for other sets -->
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <input type="number" name="t1_second_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 drugi set" />
+                            placeholder="Ekipa/igralec 1 drugi set" value="{{ old('t1_second_set') }}"/>
                     </div>
                     <div>
                         <input type="number" name="t2_second_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 drugi set" />
+                            placeholder="Ekipa/igralec 2 drugi set" value="{{ old('t2_second_set') }}"/>
                     </div>
                 </div>
                 @error('t1_second_set')
@@ -273,17 +276,16 @@
                 @enderror
 
                 <label for="t1_first_set" class="block text-gray-700 font-semibold mb-2">3. Set:</label>
-                <!-- Repeat for other sets -->
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <input type="number" name="t1_third_set" min="0"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 tretji set" />
+                            placeholder="Ekipa/igralec 1 tretji set" value="{{ old('t1_third_set') }}"/>
                     </div>
                     <div>
                         <input type="number" name="t2_third_set" min="0"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 tretji set" />
+                            placeholder="Ekipa/igralec 2 tretji set" value="{{ old('t2_third_set') }}"/>
                     </div>
                 </div>
                 @error('t1_third_set')
@@ -296,7 +298,7 @@
                     <label for="exception" class="block text-gray-700 font-semibold mb-2">Besedilo po meri</label>
                     <input type="text" name="exception"
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                        placeholder="Vnesi besedilo (Prepiše skupni rezultat) Primer: Brez boja " />
+                        placeholder="Vnesi besedilo (Prepiše skupni rezultat) Primer: Brez boja " value="{{ old('exception') }}"/>
                 </div>
                 @error('exception')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -306,14 +308,12 @@
                         <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
                         <input type="number" name="round" min="0" max="9"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Vnesi rundo (v katerem krogu bo igra potekala)" />
+                            placeholder="Vnesi rundo (v katerem krogu bo igra potekala)" value="{{ old('round') }}"/>
                     </div>
                 </div>
                 @error('round')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-
-                <!-- End of Additional Inputs -->
 
                 <!-- Submit Button -->
                 <button type="submit"
@@ -335,10 +335,8 @@
                             $t2p1 = $team2->player1;
                             $t2p2 = $team2->player2;
 
-                            $t1_name =
-                                isset($t1p2) ? ($t1p1->p_name . ' | ' . $t1p2->p_name) : $t1p1->p_name;
-                            $t2_name =
-                                isset($t2p2) ? ($t2p1->p_name . ' | ' . $t2p2->p_name) : $t2p1->p_name;
+                            $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
+                            $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
 
                             $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                             $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -379,20 +377,22 @@
                                     class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($match->created_at)->format('d.m.Y') }}</span>
                             </p>
                             <div class="flex items-center">
-                                <a href="{{-- {{ route('matchup_setup', $match->id) }} --}}" class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                <a href="{{ route('matchup_edit', ['bracket' => $bracket->id, 'customMatchup' => $match->id]) }}"
+                                    class="text-blue-500 hover:underline mr-4">Uredi</a>
                                 <form id="deleteForm{{ $match->id }}"
                                     action="{{ route('league.matchup_destroy', ['matchup' => $match->id]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="button" onclick="showDeleteConfirmation('deleteForm', {{ $item->id }})"
+                                    <button type="button"
+                                        onclick="showDeleteConfirmation('deleteForm', {{ $match->id }})"
                                         class="text-red-500 hover:underline">Izbriši</button>
                                 </form>
                             </div>
                         </li>
                     @endforeach
                 @endif
-                <x-delete-confirmation/>
+                <x-delete-confirmation />
             </ul>
             <div class="p-4">{{ $matchups->links() }}</div>
         </div>
@@ -428,16 +428,11 @@
 </style>
 
 <script>
+    let teamIndex = {{ $numOfTeams }};
     // Add team input field
     function addTeamInput() {
         const teamsContainer = document.getElementById('teamsInputs');
         // Count the number of valid team inputs
-        let teamIndex = 0;
-        for (const child of teamsContainer.children) {
-            if (child.classList.contains('teamInput')) {
-                teamIndex++;
-            }
-        }
         const newInput = document.createElement('div');
         newInput.classList.add('mb-2', 'team');
         newInput.innerHTML = `
@@ -473,6 +468,9 @@
                 </div>
             </div>`;
         teamsContainer.appendChild(newInput);
+
+        teamIndex++;
+
         // Add event listener to remove button
         newInput.querySelector('.removeTeamBtn').addEventListener('click', function() {
             teamsContainer.removeChild(newInput);

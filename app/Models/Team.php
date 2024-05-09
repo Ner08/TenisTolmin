@@ -79,7 +79,7 @@ class Team extends Model
      */
     public function playerNames()
     {
-        $name = isset($this->player2) ? $this->player1->p_name . ' | ' . $this->player2->p_name : $this->player1->p_name;
+        $name = isset($this->name) ? ($this->name) : (isset($this->player2) ? $this->player1->p_name . ' | ' . $this->player2->p_name : $this->player1->p_name);
         return $name;
     }
 

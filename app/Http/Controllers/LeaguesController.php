@@ -7,13 +7,15 @@ use App\Models\League;
 use App\Models\Player;
 use App\Models\Bracket;
 use Illuminate\Http\Request;
+use App\Models\CustomMatchUp;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
-use App\Http\Requests\StoreLeagueRequest;
-use App\Models\CustomMatchUp;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Route;
+use App\Http\Requests\EditLeagueRequest;
+use App\Http\Requests\StoreLeagueRequest;
+use App\Http\Requests\StoreMatchupRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class LeaguesController extends Controller
 {
@@ -72,6 +74,26 @@ class LeaguesController extends Controller
         ]);
     }
 
+    public function store(StoreLeagueRequest $request)
+    {
+        /* $league =  */
+        League::create($request->validated());
+
+        return back()->with(['message' => 'Liga ali turnir uspešno ustvarjen(a)']);
+    }
+
+    public function edit(League $league, EditLeagueRequest $request)
+    {
+        // Validate the request data
+        $validatedData = $request->validated();
+
+        // Update the league with the validated data
+        $league->update($validatedData);
+
+        // Redirect back with a success message
+        return back()->with(['message' => 'Liga uspešno posodobljena']);
+    }
+
     public function destroy(League $league)
     {
         $league->delete();
@@ -87,14 +109,6 @@ class LeaguesController extends Controller
             'admin' => true,
             'maxPoints' => Player::where('is_fake', false)->max('points')
         ]);
-    }
-
-    public function store(StoreLeagueRequest $request)
-    {
-        /* $league =  */
-        League::create($request->validated());
-
-        return back()->with(['message' => 'Liga ali turnir uspešno ustvarjen(a)']);
     }
 
     public function bracket_store(Request $request)
@@ -151,29 +165,101 @@ class LeaguesController extends Controller
         // Set flash message and redirect
         return back()->with(['message' => 'Skupina uspešno ustvarjena']);
     }
-    public function matchup_store(Request $request)
+    public function bracket_edit(Request $request, Bracket $bracket)
     {
-       /*  dd($request); */
-        $validated_data = $request->validate([
-            'team1_id' => 'integer|required',
-            't1_tag' => 'nullable',
-            'team2_id' => 'integer|required',
-            't2_tag' => 'nullable',
-            't1_first_set' => 'nullable|integer',
-            't2_first_set' => 'nullable|integer',
-            't1_second_set' => 'nullable|integer',
-            't2_second_set' => 'nullable|integer',
-            't1_third_set' => 'nullable|integer',
-            't2_third_set' => 'nullable|integer',
-            'round' => 'required|integer',
-            'exception' => 'nullable|string|max:30',
-            'bracket_id' => ['required', 'integer']
+        // Validate the request data for bracket
+        $validated_data_bracket = $request->validate([
+            'name' => [
+                'required',
+                'max:40'
+            ],
+            'b_description' => 'max:500',
+            'tag' => 'max:5',
+            'is_group_stage' => ['boolean'],
+            'league_id' => ['required', 'integer'],
         ]);
+
+        // If 'is_group_stage' is true, make 'tag' required
+        if ($request->input('is_group_stage')) {
+            $validated_data_bracket = $request->validate([
+                'tag' => ['required', 'max:5'],
+            ]);
+        }
+
+        $bracket->update($validated_data_bracket);
+
+        // Check if teams array exists in the request
+        if ($request->has('teams')) {
+            // Validate the request data for teams
+            $validated_data_teams = $request->validate([
+                'teams' => ['array'],
+                'teams.*.id' => ['sometimes', 'integer'],
+                'teams.*.name' => ['max:50'],
+                'teams.*.player_ids' => ['required', 'array'],
+                'teams.*.player_ids.0' => ['required', 'integer'],
+                'teams.*.player_ids.1' => ['sometimes'],
+            ]);
+
+            // Retrieve the teams data from the request
+            $teamsData = $validated_data_teams['teams'];
+
+            // Loop through the teams data
+            foreach ($teamsData as $teamData) {
+                // Check if the team has an 'id', indicating it existed before
+                if (isset($teamData['id'])) {
+                    // Update the existing team
+                    $team = Team::find($teamData['id']);
+                    $team->update([
+                        'name' => $teamData['name'],
+                        'p1_id' => $teamData['player_ids'][0],
+                        'p2_id' => $teamData['player_ids'][1] ?? null,
+                    ]);
+                } else {
+                    // Create a new team
+                    Team::create([
+                        'name' => $teamData['name'],
+                        'bracket_id' => $bracket->id,
+                        'p1_id' => $teamData['player_ids'][0],
+                        'p2_id' => $teamData['player_ids'][1] ?? null,
+                    ]);
+                }
+            }
+
+            // Remove existing matchups involving deleted teams
+            $deletedTeamIds = collect($bracket->teams()->pluck('id'))->diff(collect($teamsData)->pluck('id'));
+            CustomMatchUp::whereIn('team1_id', $deletedTeamIds)->orWhereIn('team2_id', $deletedTeamIds)->delete();
+
+            // Delete the teams
+            Team::whereIn('id', $deletedTeamIds)->delete();
+        } else {
+            // If teams array doesn't exist, delete all teams associated with the bracket
+            $bracket->teams()->where('is_fake', false)->delete();
+        }
+
+        // Set flash message and redirect
+        return back()->with(['message' => 'Skupina uspešno posodobljena']);
+    }
+
+
+    public function matchup_store(StoreMatchupRequest $request)
+    {
+        $validated_data = $request->validated();
 
         CustomMatchUp::create($validated_data);
 
         // Set flash message and redirect
         return back()->with(['message' => 'Igra uspešno ustvarjena']);
+    }
+    public function matchup_edit(CustomMatchUp $customMatchup, StoreMatchupRequest $request)
+    {
+        $validated_data = $request->validated();
+        $customMatchup->update($validated_data);
+
+        $bracket_id = $request->input('bracket_id');
+        $bracket = Bracket::findOrFail($bracket_id);
+
+        // Set flash message and redirect
+        return redirect()->route('matchup_setup', ['bracket' => $bracket])->with(['message' => 'Igra uspešno posodobljena']);
     }
 
     public function bracket_destroy(Bracket $bracket)

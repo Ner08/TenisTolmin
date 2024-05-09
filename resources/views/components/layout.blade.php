@@ -79,11 +79,23 @@
 
 <script>
     window.onload = function() {
+        // Check if the page was reloaded (type === 1 indicates reload)
         if (performance.navigation.type === 1) {
             // Remove query parameters from the URL
             window.history.replaceState({}, document.title, window.location.pathname);
+        } else {
+            // If it's not a reload, keep the scroll position
+            const scrollPosition = sessionStorage.getItem('scrollPosition');
+            if (scrollPosition !== null) {
+                window.scrollTo(0, scrollPosition);
+            }
         }
     };
+
+    window.addEventListener('beforeunload', function() {
+        // Store the scroll position before leaving the page
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+    });
     document.addEventListener('DOMContentLoaded', function() {
         const navbarToggle = document.getElementById('navbar-toggle');
         const navbarDefault = document.getElementById('navbar-default');
@@ -104,7 +116,7 @@
             }
         });
     @endif
-    function showDeleteConfirmation(formId,itemId) {
+    function showDeleteConfirmation(formId, itemId) {
         // Set the action of the form dynamically based on the item ID
         var deleteForm = document.getElementById(formId + itemId);
         var confirmationForm = document.getElementById('confirmDeleteForm');

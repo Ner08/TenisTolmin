@@ -5,7 +5,9 @@
         <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
             <h2 class="text-xl font-bold">Uredi</h2>
         </div>
-        <form action="{{ route('leagues.store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6">
+        <form action="{{ route('leagues.edit', ['league' => $league->id]) }}" method="POST"
+            class="mb-5 bg-gray-100 rounded-lg p-6">
+            @method('PUT')
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-semibold">Ime lige ali turnirja:</label>
@@ -184,7 +186,7 @@
                                     <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
                                     <p class="text-gray-700">{{ $item->b_description }}</p>
                                 </div>
-                                <p class="text-sm font-semibold text-gray-500">{{ $item->teams->count() }}
+                                <p class="text-sm font-semibold text-gray-500">{{ $item->teams->where('is_fake', false)->count() }}
                                     igralcev/ekip</p>
                             </div>
                             <div class="text-sm underline text-gray-500">
@@ -211,7 +213,7 @@
                             </div>
                         </li>
                     @endforeach
-                    <x-delete-confirmation/>
+                    <x-delete-confirmation />
                 @endif
             </ul>
             <div class="p-4">{{ $brackets->links() }}</div>
@@ -308,5 +310,14 @@
         var tagInput = document.getElementById('tag');
         pointsDescriptionInput.disabled = this.checked;
         tagInput.disabled = !this.checked;
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const skupineNameInput = document.getElementById('name'); // Skupine name input
+
+        skupineNameInput.addEventListener('click', function(event) {
+            // Stop the propagation of the click event to prevent focusing on the league name input
+            event.stopPropagation();
+        });
     });
 </script>

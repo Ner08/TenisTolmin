@@ -9,7 +9,6 @@ use App\Models\League;
 use App\Models\News;
 use App\Models\Player;
 use App\Models\Team;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -61,8 +60,21 @@ class AdminController extends Controller
             'bracket' => $bracket,
             'matchups' => CustomMatchUp::where('bracket_id', $bracket->id)->orderBy('round')->paginate(21),
             'teams' => Team::where('bracket_id', $bracket->id)->get(),
+            'numOfTeams' => Team::where('bracket_id', $bracket->id)->where('is_fake', false)->count(),
             'playersSelect' => Player::where('is_fake', false)->orderBy('p_name')->get(),
             'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
+            'login' => true,
+            'admin' => false, // So the admin icon does not show up
+        ]);
+    }
+
+    public function matchup_edit(Bracket $bracket, $customMatchUp)
+    {
+        $matchUp = CustomMatchUp::findOrFail($customMatchUp);
+        return view('admin.matchup_edit', [
+            'bracket' => $bracket,
+            'matchup' => $matchUp,
+            'teams' => Team::where('bracket_id', $bracket->id)->get(),
             'login' => true,
             'admin' => false, // So the admin icon does not show up
         ]);
