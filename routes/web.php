@@ -17,6 +17,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // News
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::post('/news', [NewsController::class, 'store'])->name('news_store');
+Route::put('/news{news}', [NewsController::class, 'edit'])->name('news_edit');
 Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news_destroy');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
@@ -48,6 +49,9 @@ Route::get('/admin_board', [AdminController::class, 'index'])->name('admin');
 Route::get('/admin/league/bracket/{league}', [AdminController::class, 'bracket_setup'])->name('bracket_setup');
 Route::get('/admin/league/matchup/{bracket}', [AdminController::class, 'matchup_setup'])->name('matchup_setup');
 Route::get('/admin/league/matchup/{bracket}/{customMatchup}', [AdminController::class, 'matchup_edit'])->name('matchup_edit');
+Route::get('/admin/player/{player}', [AdminController::class, 'player_edit'])->name('player_edit');
+Route::get('/admin/news/{news}', [AdminController::class, 'news_edit'])->name('news_edit_view');
+Route::get('/admin/event/{event}', [AdminController::class, 'event_edit'])->name('event_edit');
 
 //Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -58,6 +62,7 @@ Route::get('/membership',[MembershipController::class, 'index'])->name('membersh
 // Events
 Route::get('/events',[EventController::class, 'index'])->name('events');
 Route::post('/events',[EventController::class, 'store'])->name('events_store');
+Route::put('/events/{event}',[EventController::class, 'edit'])->name('events_edit');
 Route::delete('/events{event}',[EventController::class, 'destroy'])->name('events_destroy');
 Route::get('/events/{event}',[EventController::class, 'show'])->name('events_detail');
 

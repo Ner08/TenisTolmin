@@ -22,6 +22,7 @@ class Player extends Model
     protected $fillable = [
         'p_name', // Corrected the column name to 'p_name'
         'points',
+        'is_fake'
     ];
 
     public function scopeFilter($query, array $filter) {

@@ -36,7 +36,15 @@ class EventController extends Controller
         // Create event
         Event::create($request->validated());
 
-        return back()->with(['message' => 'Dogodek uspešno ustvarjen(a).']);
+        return back()->with(['message' => 'Dogodek uspešno ustvarjen.']);
+    }
+
+    public function edit(Event $event, EventRequest $request)
+    {
+        // Create event
+        $event->update($request->validated());
+
+        return redirect()->route('admin')->with(['message' => 'Dogodek uspešno ustvarjen.']);
     }
 
     public function destroy(Event $event)

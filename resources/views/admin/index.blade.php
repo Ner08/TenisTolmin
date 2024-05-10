@@ -230,7 +230,7 @@
                                                 class="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Dodaj</button>
                                         </form>
                                         <!-- Edit and Delete buttons -->
-                                        <a href="{{-- {{ route('players.edit', $player->id) }} --}}"
+                                        <a href="{{ route('player_edit', $player->id) }}"
                                             class="text-blue-500 hover:underline mr-4">Uredi</a>
                                             <form id="deletePlayersForm{{ $player->id }}"
                                                 action="{{ route('players_destroy', ['player' => $player->id]) }}"
@@ -317,7 +317,7 @@
                                 <p class="text-gray-700 line-clamp-3">{{ $item->content }}</p>
                                 <p class="text-gray-500 mt-2"> {{ $item->created_at->format('d.m.Y') }}</p>
                                 <div class="flex justify-end mt-4">
-                                    <a href="{{ route('bracket_setup', $item->id) }}"
+                                    <a href="{{ route('news_edit_view', $item->id) }}"
                                         class="text-blue-500 hover:underline mr-4">Uredi</a>
                                     <!-- Delete Form with Confirmation Dialog -->
                                     <form id="deleteNewsForm{{ $item->id }}"
@@ -434,7 +434,7 @@
                                     @endif
                                 </p>
                                 <div class="flex justify-end mt-4">
-                                    <a href="{{ route('bracket_setup', $item->id) }}"
+                                    <a href="{{ route('event_edit', $item->id) }}"
                                         class="text-blue-500 hover:underline mr-4">Uredi</a>
                                     <!-- Delete Form with Confirmation Dialog -->
                                     <form id="deleteEventsForm{{ $item->id }}"

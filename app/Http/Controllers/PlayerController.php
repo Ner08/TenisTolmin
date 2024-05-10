@@ -13,7 +13,7 @@ class PlayerController extends Controller
         // Create player
         Player::create($request->validated());
 
-        return back()->with(['message' => 'Igralec uspešno ustvarjen(a)']);
+        return back()->with(['message' => 'Igralec uspešno ustvarjen']);
     }
 
     public function add_points(Request $request, $player_id)
@@ -35,7 +35,7 @@ class PlayerController extends Controller
     {
         $player->update($request->validated());
 
-        return back()->with(['message' => 'Točke uspešno dodane.'], 200);
+        return redirect()->route('admin')->with(['message' => 'Igralec uspešno posodobljen.'], 200);
     }
 
     public function destroy(Player $player)

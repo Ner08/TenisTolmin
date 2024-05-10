@@ -79,4 +79,31 @@ class AdminController extends Controller
             'admin' => false, // So the admin icon does not show up
         ]);
     }
+
+    public function player_edit(Player $player)
+    {
+        return view('admin.player_edit', [
+            'player' => $player,
+            'login' => true,
+            'admin' => false, // So the admin icon does not show up
+        ]);
+    }
+
+    public function news_edit(News $news)
+    {
+        return view('admin.news_edit', [
+            'news' => $news,
+            'login' => true,
+            'admin' => false, // So the admin icon does not show up
+        ]);
+    }
+
+    public function event_edit(Event $event)
+    {
+        return view('admin.event_edit', [
+            'event' => $event,
+            'login' => true,
+            'admin' => false, // So the admin icon does not show up
+        ]);
+    }
 }

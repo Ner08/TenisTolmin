@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewsRequest;
 use App\Models\News;
 use App\Models\NewsComment;
 use Illuminate\Http\Request;
+use App\Http\Requests\NewsRequest;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -42,12 +43,33 @@ class NewsController extends Controller
 
         News::create($formFields);
 
-        return back()->with(['message' => 'Novica uspešno ustvarjen(a)']);
+        return back()->with(['message' => 'Novica uspešno posodobljiva']);
+    }
+
+    //Edit news
+    public function edit(News $news, NewsRequest $request)
+    {
+        $formFields = $request->validated();
+
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            Storage::disk('public')->delete($news->image);
+            // Store the new image
+            $formFields['image'] = $request->file('image')->store('images', 'public');
+        }
+
+        $news->update($formFields);
+
+        return redirect()->route('admin')->with(['message' => 'Novica uspešno posodobljena']);
     }
 
     public function destroy(News $news)
     {
+        // Delete the image from the server
+        Storage::disk('public')->delete($news->image);
+        // Delete the news item from the database
         $news->delete();
+
         return back()->with(['message' => 'Novica uspešno zbirsana(a)']);
     }
 

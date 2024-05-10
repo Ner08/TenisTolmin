@@ -35,7 +35,7 @@
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Email</h3>
                     <p class="text-gray-700">Pošljite nam e-sporočilo na <a
-                            href="mailto:info@example.com" class="text-blue-600">info@example.com</a>.</p>
+                            href="mailto:info@example.com" class="text-blue-600">info@example.com</a>.</p> {{-- TODO: Change email and phone number --}}
                 </div>
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Telefon</h3>
