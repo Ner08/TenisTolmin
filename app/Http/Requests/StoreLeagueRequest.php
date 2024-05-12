@@ -19,7 +19,6 @@ class StoreLeagueRequest extends FormRequest
         return [
             'name' => ['required', 'unique:leagues,name', 'max:40'], // Use 'name' as the column name
             'description' => ['required', 'max:500'],
-            'short_description' => ['nullable', 'max:200'],
             'start_date' => ['required']
         ];
     }
@@ -32,7 +31,6 @@ class StoreLeagueRequest extends FormRequest
             'name.max' => 'Ime lige ne sme biti daljše od 40 znakov.',
             'description.required' => 'Opis lige je obvezen.',
             'description.max' => 'Opis lige ne sme biti daljši od 500 znakov.',
-            'short_description.max' => 'Kratek opis ne sme biti daljši od 200 znakov.',
             'start_date.required' => 'Datum začetka je obvezen.'
         ];
     }

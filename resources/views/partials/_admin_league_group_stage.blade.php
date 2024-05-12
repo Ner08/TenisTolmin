@@ -13,10 +13,6 @@
     ];
 @endphp
 
-<div class="p-4 pl-12 bg-gray-300">
-    <h2 class="text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h2>
-</div>
-
 {{-- Table of points in group --}}
 
 <div class="overflow-x-auto border-gray-300 border-2">
@@ -52,7 +48,7 @@
         <tbody class="divide-y divide-gray-200">
             @php
                 // Sort the teams by multiple criteria
-                $sortedTeams = $bracket->teams->sortByDesc(function ($team) {
+                $sortedTeams = $bracket->teams->where('is_fake', false)->sortByDesc(function ($team) {
                     // Sort by group points first
                     $points = $team->group_points();
                     // Then by group set delta

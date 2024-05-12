@@ -20,6 +20,8 @@ class Bracket extends Model
         'name',
         'league_id',
         'description',
+        'tag',
+        'points_description',
         'is_group_stage',
     ];
 

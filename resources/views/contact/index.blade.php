@@ -9,8 +9,8 @@
                     <h2 class="text-2xl font-bold mb-4">Informacije</h2>
                     <p class="text-gray-700"> <b>Naslov:</b>  Dijaška ulica 12</p>
                     <p class="text-gray-700"><b>Mesto:</b> Tolmin, Slovenija, 5220</p>
-                    <p class="text-gray-700"><b>Email:</b> <a href="mailto:info@example.com" class="text-blue-600">info@example.com</a></p>
-                    <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p>
+                    <p class="text-gray-700"><b>Email:</b> <a href="mailto:damijan.zarli@gmail.com" class="text-blue-600">damijan.zarli@gmail.com</a></p>
+                    {{-- <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p> --}}
                     <p class="text-gray-700"><b>TRR:</b> SI56 0475 3000 0388 292 NOVA KBM d.d.</p>
                     <p class="text-gray-700"><b>Matična številka:</b> 5214955000</p>
                     <p class="text-gray-700"><b>Predsednik:</b> Damijan Zarli</p>
@@ -35,12 +35,12 @@
                 <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Email</h3>
                     <p class="text-gray-700">Pošljite nam e-sporočilo na <a
-                            href="mailto:info@example.com" class="text-blue-600">info@example.com</a>.</p> {{-- TODO: Change email and phone number --}}
+                            href="mailto:info@example.com" class="text-blue-600">damijan.zarli@gmail.com</a>.</p> {{-- TODO: Change email and phone number --}}
                 </div>
-                <div class="bg-white p-6 rounded-lg shadow-md">
+                {{-- <div class="bg-white p-6 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Telefon</h3>
                     <p class="text-gray-700">Pokličite nas na <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a>.</p>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

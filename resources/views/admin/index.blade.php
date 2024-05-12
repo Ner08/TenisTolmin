@@ -42,16 +42,6 @@
                         @enderror
                     </div>
                     <div class="mb-4">
-                        <label for="short_description" class="block text-gray-700 font-semibold">Kratek opis:</label>
-                        <input type="text" name="short_description" id="short_description"
-                            placeholder="Enter short description"
-                            class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
-                            value="{{ old('short_description') }}" required>
-                        @error('short_description')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="mb-4">
                         <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
                         <input type="date" name="start_date" id="start_date"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"

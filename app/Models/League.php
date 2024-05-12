@@ -10,7 +10,7 @@ class League extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'short_description', 'start_date', 'end_date'];
+    protected $fillable = ['name', 'description', 'start_date', 'end_date'];
 
     /**
      * Get the brackets in the league.
@@ -22,8 +22,7 @@ class League extends Model
     public function scopeFilter($query, array $filter) {
         if ($filter['search_leagues'] ?? false) {
             $query->where('name', 'like', '%' . request('search_leagues') . '%')
-            ->orWhere('description', 'like', '%' . request('search_leagues') . '%')
-            ->orWhere('short_description', 'like', '%' . request('search_leagues') . '%');
+            ->orWhere('description', 'like', '%' . request('search_leagues') . '%');
         }
     }
 }

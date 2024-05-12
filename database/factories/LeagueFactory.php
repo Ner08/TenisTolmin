@@ -21,7 +21,6 @@ class LeagueFactory extends Factory
         return [
             'name' => fake()->sentence(2),
             'description' => fake()->text(),
-            'short_description' => fake()->sentence(8),
             'start_date' => $dateFrom,
             'end_date' =>  $dateTo,
         ];

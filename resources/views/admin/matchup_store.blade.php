@@ -24,7 +24,7 @@
             <div class="mb-6">
                 <label for="is_group_stage">Skupinski del</label>
                 <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2"
-                    value="{{ $bracket->is_group_stage }}" @if ($bracket->is_group_stage == 1) checked @endif>
+                    value="1" @if ($bracket->is_group_stage == 1) checked @endif>
                 @error('is_group_stage')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -46,7 +46,7 @@
                 <label for="tag" class="block text-gray-700 font-semibold">Oznaka skupine:</label>
                 <input type="text" name="tag" id="tag" placeholder="Vpišite oznako skupine (Primer: A)"
                     class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                    value="{{ old('tag') }}" @if ($bracket->is_group_stage == 0) disabled @endif>
+                    value="{{ $bracket->tag }}" @if ($bracket->is_group_stage == 0) disabled @endif>
                 @error('tag')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -306,7 +306,7 @@
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
-                        <input type="number" name="round" min="0" max="9"
+                        <input type="number" name="round" min="1" max="9"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
                             placeholder="Vnesi rundo (v katerem krogu bo igra potekala)" value="{{ old('round') }}"/>
                     </div>

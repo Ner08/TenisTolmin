@@ -53,7 +53,7 @@
             <tbody class="divide-y divide-gray-200">
                 @php
                     // Sort the teams by multiple criteria
-                    $sortedTeams = $bracket->teams->sortByDesc(function ($team) {
+                    $sortedTeams = $bracket->teams->where('is_fake', false)->sortByDesc(function ($team) {
                         // Sort by group points first
                         $points = $team->group_points();
                         // Then by group set delta

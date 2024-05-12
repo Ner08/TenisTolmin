@@ -72,7 +72,7 @@
                 <p>Skladno s Pravilnikom ima vsak član 3 bonuse, ko lahko igra tudi z zunanjim soigralcem (vpisuje se
                     kot »Zunanji Gost Bonus«).</p>
                 <p>Preko tega mora nečlan plačati polovico igralnega termina po tarifi za zunanje goste.</p>
-                <p class="mb-6">Teniški klub Tolmin bo v sezoni 2022 spremljal uporabljene bonuse za igranje z nečlani
+                <p class="mb-6">Teniški klub Tolmin bo spremljal uporabljene bonuse za igranje z nečlani
                     in jih skladno s Pravilnikom po zaključeni sezoni tudi obračunal.</p>
                 <a href=""
                     class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold py-2 px-5 rounded text-center"><b>Vsa

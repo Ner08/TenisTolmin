@@ -18,9 +18,9 @@ class AdminController extends Controller
         $scroll = key($searchMode) == 'search_players' ? '#players' : (key($searchMode) == 'search_news' ? '#news' : (key($searchMode) == 'search_events' ? '#events' : NULL));
 
         return view('admin.index', [
-            'leagues' => League::latest()->paginate(21),
-            'events' => Event::latest()->filter(request(['search_events']))->paginate(12),
-            'news' => News::latest()->filter(request(['search_news']))->paginate(12),
+            'leagues' => League::latest()->paginate(6),
+            'events' => Event::latest()->filter(request(['search_events']))->paginate(6),
+            'news' => News::latest()->filter(request(['search_news']))->paginate(6),
             'players' => Player::orderBy('p_name')->filter(request(['search_players']))->paginate(21),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),

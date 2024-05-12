@@ -23,7 +23,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description');
-            $table->text('short_description');
             $table->date('start_date');
             $table->date('end_date')->nullable();
             $table->timestamps();

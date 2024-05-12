@@ -113,23 +113,30 @@ class LeaguesController extends Controller
 
     public function bracket_store(Request $request)
     {
-        $validated_data_bracket = $request->validate([
-            'name' => [
-                'required',
-                'max:40'
-            ],
-            'b_description' => 'max:500',
-            'tag' => 'max:5',
-            'is_group_stage' => ['boolean'],
-            'league_id' => ['required', 'integer'],
-        ]);
-
-        // If 'is_group_stage' is true, make 'tag' required
         if ($request->input('is_group_stage')) {
             $validated_data_bracket = $request->validate([
+                'name' => [
+                    'required',
+                    'max:40'
+                ],
                 'tag' => ['required', 'max:5'],
+                'b_description' => 'max:500',
+                'is_group_stage' => ['boolean'],
+                'league_id' => ['required', 'integer'],
+            ]);
+        } else {
+            $validated_data_bracket = $request->validate([
+                'name' => [
+                    'required',
+                    'max:40'
+                ],
+                'points_description' => ['required', 'string'],
+                'b_description' => 'max:500',
+                'is_group_stage' => ['boolean'],
+                'league_id' => ['required', 'integer'],
             ]);
         }
+
 
         $validated_data_teams = $request->validate([
             'teams' => ['required', 'array'],
@@ -167,22 +174,27 @@ class LeaguesController extends Controller
     }
     public function bracket_edit(Request $request, Bracket $bracket)
     {
-        // Validate the request data for bracket
-        $validated_data_bracket = $request->validate([
-            'name' => [
-                'required',
-                'max:40'
-            ],
-            'b_description' => 'max:500',
-            'tag' => 'max:5',
-            'is_group_stage' => ['boolean'],
-            'league_id' => ['required', 'integer'],
-        ]);
-
-        // If 'is_group_stage' is true, make 'tag' required
         if ($request->input('is_group_stage')) {
             $validated_data_bracket = $request->validate([
+                'name' => [
+                    'required',
+                    'max:40'
+                ],
                 'tag' => ['required', 'max:5'],
+                'b_description' => 'max:500',
+                'is_group_stage' => ['boolean'],
+                'league_id' => ['required', 'integer'],
+            ]);
+        } else {
+            $validated_data_bracket = $request->validate([
+                'name' => [
+                    'required',
+                    'max:40'
+                ],
+                'points_description' => ['required', 'string'],
+                'b_description' => 'max:500',
+                'is_group_stage' => ['boolean'],
+                'league_id' => ['required', 'integer'],
             ]);
         }
 
@@ -194,7 +206,7 @@ class LeaguesController extends Controller
             $validated_data_teams = $request->validate([
                 'teams' => ['array'],
                 'teams.*.id' => ['sometimes', 'integer'],
-                'teams.*.name' => ['max:50'],
+                'teams.*.name' => ['nullable', 'max:50'], // Allow null values for name field
                 'teams.*.player_ids' => ['required', 'array'],
                 'teams.*.player_ids.0' => ['required', 'integer'],
                 'teams.*.player_ids.1' => ['sometimes'],
@@ -202,6 +214,30 @@ class LeaguesController extends Controller
 
             // Retrieve the teams data from the request
             $teamsData = $validated_data_teams['teams'];
+
+            // Remove existing matchups involving deleted teams
+            $deletedTeamIds = collect($bracket->teams()->pluck('id'))->diff(collect($teamsData)->pluck('id'))->toArray();
+            // Find the ID of the "Nedoločen igralec / ekipa" team associated with the same bracket
+            $placeholderTeamId = Team::where('name', 'Nedoločen igralec / ekipa')
+                ->where('bracket_id', $bracket->id)
+                ->value('id');
+
+            // Update custom matchups with team1_id or team2_id in $deletedTeamIds
+            CustomMatchUp::whereIn('team1_id', $deletedTeamIds)->orWhereIn('team2_id', $deletedTeamIds)
+                ->each(function ($matchUp) use ($deletedTeamIds, $placeholderTeamId) {
+                    if (in_array($matchUp->team1_id, $deletedTeamIds) && $placeholderTeamId) {
+                        $matchUp->team1_id = $placeholderTeamId;
+                    }
+                    if (in_array($matchUp->team2_id, $deletedTeamIds) && $placeholderTeamId) {
+                        $matchUp->team2_id = $placeholderTeamId;
+                    }
+                    $matchUp->save();
+                });
+
+            // Delete the custom matchups where both team1_id and team2_id are null (no placeholder team found)
+            CustomMatchUp::whereNull('team1_id')->whereNull('team2_id')->delete();
+            // Delete the teams
+            Team::where('is_fake', false)->whereIn('id', $deletedTeamIds)->delete();
 
             // Loop through the teams data
             foreach ($teamsData as $teamData) {
@@ -224,13 +260,6 @@ class LeaguesController extends Controller
                     ]);
                 }
             }
-
-            // Remove existing matchups involving deleted teams
-            $deletedTeamIds = collect($bracket->teams()->pluck('id'))->diff(collect($teamsData)->pluck('id'));
-            CustomMatchUp::whereIn('team1_id', $deletedTeamIds)->orWhereIn('team2_id', $deletedTeamIds)->delete();
-
-            // Delete the teams
-            Team::whereIn('id', $deletedTeamIds)->delete();
         } else {
             // If teams array doesn't exist, delete all teams associated with the bracket
             $bracket->teams()->where('is_fake', false)->delete();
