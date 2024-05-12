@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     {{-- {{dd($event)}} --}}
     <div class="container mx-auto mt-3 px-4">
         <!-- Add new events form -->

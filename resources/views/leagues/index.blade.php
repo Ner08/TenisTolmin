@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin">
+<x-layout>
 
     <x-title title="Vse lige in turnirji"/>
 

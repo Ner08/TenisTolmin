@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <div class="container mx-auto mt-3 mb-8 px-4">
         <!-- Add new news form -->
         <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">

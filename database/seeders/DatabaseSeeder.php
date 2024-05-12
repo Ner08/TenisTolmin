@@ -81,7 +81,11 @@ class DatabaseSeeder extends Seeder
         Team::factory(90)->create();
         CustomMatchUp::factory(50)->create();
 
-
-
+        User::create([
+            'name' => 'admin',
+            'email' => 'robic.nejc1122@gmail.com',
+            'password' => bcrypt('tktolmin2024'),
+            'is_admin' => true
+        ]);
     }
 }

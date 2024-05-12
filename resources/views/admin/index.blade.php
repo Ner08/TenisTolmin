@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :scroll="$scroll" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :scroll="$scroll" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
 
     <x-admin-title title="Adminstracijska plošča" />
 

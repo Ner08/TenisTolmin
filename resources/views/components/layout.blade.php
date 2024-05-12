@@ -51,6 +51,17 @@
                         <a href="{{ route('contact') }}"
                             class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Kontakt</a>
                     </li>
+                    @auth
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit"
+                                    class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+                                    Odjava
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
                 </ul>
         </div>
         </span>
@@ -61,14 +72,16 @@
     </div>
 
     {{-- Edit button (Admin only) --}}
-    @if ($admin)
-        <div class="fixed bottom-4 right-4">
-            <a href="{{ route('admin') }}"
-                class="flex items-center justify-center border-2 border-white w-16 h-16 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-full shadow-2xls">
-                Admin
-            </a>
-        </div>
-    @endif
+    @auth
+        @if (auth()->user()->is_admin)
+            <div class="fixed bottom-4 right-4">
+                <a href="{{ route('admin') }}"
+                    class="flex items-center justify-center border-2 border-white w-16 h-16 bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-full shadow-2xls">
+                    Admin
+                </a>
+            </div>
+        @endif
+    @endauth
 
     @if (session()->has('flash') && session()->has('message'))
         <x-flash-message :route="$route ?? null" :flash="$flash ?? null" :message="$message ?? null" :model="$model ?? null" />

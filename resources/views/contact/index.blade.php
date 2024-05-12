@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin">
+<x-layout>
     <x-title title="Kontaktne informacije"/>
 
     {{-- Informacije za stik --}}

@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin">
+<x-layout>
 
     <style>
         /* Custom CSS to add margin on the x-axis */

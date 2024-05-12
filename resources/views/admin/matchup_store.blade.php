@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <x-admin-title-simple :title="'Liga / Turnir • ' . $bracket->league->name" />
     <x-title :title="'Skupina • ' . $bracket->name" />
 

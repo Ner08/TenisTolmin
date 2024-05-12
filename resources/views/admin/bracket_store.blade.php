@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <x-admin-title-simple :title="'Liga / Turnir • ' . $league->name" />
     <div class="container mx-auto mt-4">
         <!-- Add new legue form -->

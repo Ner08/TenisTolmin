@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin">
+<x-layout>
     {{-- News --}}
     <x-title title="Vse novice" />
     <section class="py-8 px-4">

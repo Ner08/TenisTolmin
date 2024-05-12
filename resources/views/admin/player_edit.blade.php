@@ -1,4 +1,4 @@
-<x-layout :login="$login" :admin="$admin" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <div class="container mx-auto pt-4 px-4 mb-8">
         <div class="mb-4">
             <form action="{{ route('players_edit', $player->id) }}" method="POST"
