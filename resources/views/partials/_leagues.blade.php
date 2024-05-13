@@ -1,9 +1,16 @@
 <div class="container mx-auto py-8 px-4">
     <h1 class="text-3xl font-bold mb-3">Lige in turnirji</h1>
-    <h4 class="text-lg text-gray-600 mb-8">V naši teniški ligi se igralci spodadamo v razburljivih tekmah, bodisi v dvojicah ali posamično. Ne glede na to, ali tekmuješ v paru ali sam, vsak turnir je priložnost za strastno tekmovanje in gradnjo športnih vezi.</h4>
+    <h4 class="text-lg text-gray-600 mb-8">V naši teniški ligi se igralci spodadamo v razburljivih tekmah, bodisi v
+        dvojicah ali posamično. Ne glede na to, ali tekmuješ v paru ali sam, vsak turnir je priložnost za strastno
+        tekmovanje in gradnjo športnih vezi.</h4>
+    {{-- If no leagues show empty component --}}
+    @if ($leagues->isEmpty())
+        <x-empty model1="Lige in turnirji" />
+    @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach ($leagues as $league)
-            <a href="{{ route('league', $league->id) }}" class="bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1">
+            <a href="{{ route('league', $league->id) }}"
+                class="bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1">
                 <div class="flex flex-col h-full">
                     <div class="p-6 pb-3 flex-grow">
                         <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ $league->name }}</h3>

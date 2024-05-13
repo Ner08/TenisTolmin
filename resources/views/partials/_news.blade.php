@@ -2,6 +2,10 @@
     <h1 class="text-3xl font-bold mb-3">Novice</h1>
     <h4 class="text-lg text-gray-600 mb-8"> V našem razdelku novic redno objavljamo najnovejše informacije o dogodkih,
         dosežkih in novostih v naši teniški skupnosti. Bodite vedno na tekočem z našimi novicami!</h4>
+    {{-- If no news show empty component --}}
+    @if ($news->isEmpty())
+        <x-empty model1="Novice" />
+    @endif
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- News items -->
         @foreach ($news as $item)

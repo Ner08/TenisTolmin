@@ -23,17 +23,22 @@
 
             <!-- Left side content -->
             <div class="mb-8 bg-yellow-200 rounded-2xl p-3">
-                <h2 class="text-xl font-semibold mb-2">Članarina 2022</h2>
+                <h2 class="text-xl font-semibold mb-2">Članarina 2024</h2>
                 <ul class="list-disc list-inside mb-4">
-                    <li>Za odrasle <b>70,00 EUR</b></li>
-                    <li>Za starejše od 65 let <b>50,00 EUR</b></li>
-                    <li>Za otroke, dijake in študente (ob preložitvi potrdila o vpisu) <b>35,00 EUR</b></li>
-                    <li>Za družine <b>160,00 EUR</b></li>
+                    <li>Za odrasle <b>100,00 EUR</b></li>
+                    <li>Za starejše od 65 let <b>80,00 EUR</b></li>
+                    <li>Za dijake in študente (ob preložitvi potrdila o vpisu) <b>65,00 EUR</b></li>
+                    <li>Za otroke <b>35,00 EUR</b></li>
+                    <li>Za družine <b>220,00 EUR</b></li>
+                </ul>
+                <ul class="list-decimal list-inside mb-4">
+                    <li>Vpisnina se zaračuna samo ob prvem vpisu v klub.</li>
+                    <li>Družina obsega članstvo za dve odrasli osebi in otroke do dopolnjenega 26 leta starosti, če se redno ali izredno šolajo in niso v rednem delovnem razmerju.</li>
                 </ul>
                 <p class="mb-4">Podatki za plačilo:</p>
                 <p>Transakcijski računi št.: <b>SI56 0475 3000 0388 292</b> (Nova KBM d.d.)</p>
-                <p>Sklic: <b>SI00 2022</b></p>
-                <p>Namen plačila: <b>Članarina 2022</b></p>
+                <p>Sklic: <b>SI00 2024</b></p>
+                <p>Namen plačila: <b>Članarina 2024</b></p>
                 <p>Prejemnik: <b>TENIŠKI KLUB TOLMIN, Dijaška ulica 12 c, 5220 Tolmin</b></p>
             </div>
 

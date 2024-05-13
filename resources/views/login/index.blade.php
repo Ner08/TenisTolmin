@@ -1,6 +1,12 @@
 <x-layout-login>
 
     <style>
+        /* Style for autocomplete background color */
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px #4b5563 inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+
         /* Custom CSS for adjusting login container height */
         .login-container {
             min-height: calc(100vh - 4rem);
@@ -67,12 +73,12 @@
                     <div>
                         <label for="email" class="sr-only">Uporabniško ime / E-mail</label>
                         <input id="email" name="email" type="text" autocomplete="email" required
-                            class="form-input" placeholder="Uporabniško ime / E-mail">
+                            class="form-input" placeholder="Uporabniško ime / E-mail" >
                     </div>
                     <div>
                         <label for="password" class="sr-only">Geslo</label>
                         <input id="password" name="password" type="password" autocomplete="current-password" required
-                            class="form-input" placeholder="Geslo">
+                            class="form-input" placeholder="Geslo" >
                     </div>
                     @error('email')
                         <p class="text-red-500">{{ $message }}</p>
@@ -81,7 +87,8 @@
 
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <input id="remember" name="remember" type="checkbox" class="form-checkbox" {{ old('remember') ? 'checked' : '' }}>
+                        <input id="remember" name="remember" type="checkbox" class="form-checkbox"
+                            {{ old('remember') ? 'checked' : '' }}>
                         <label for="remember" class="ml-2 block text-sm text-gray-300">
                             Zapomni se me
                         </label>

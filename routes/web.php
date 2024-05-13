@@ -1,16 +1,23 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LeaguesController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MembershipController;
-use App\Http\Controllers\NewsController;
-use App\Http\Controllers\PlayerController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PlayerController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LeaguesController;
+use App\Http\Controllers\MembershipController;
+
+
+//symlink
+Route::get('/symlink', function () {
+    Artisan::call('storage:link');
+});
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
