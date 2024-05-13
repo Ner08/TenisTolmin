@@ -11,13 +11,12 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LeaguesController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MembershipController;
 
 
-//symlink
-Route::get('/symlink', function () {
-    Artisan::call('storage:link');
-});
+//Storage
+Route::get('/storage/{filename}', [StorageController::class, 'show'])->name('storage.show');
 
 // Home
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -51,7 +50,6 @@ Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('s
 
 // Login/Logout
 Route::get('/admin', [LoginController::class, 'index'])->name('login_view');
-;
 
 //Admin
 Route::get('/admin_board', [AdminController::class, 'index'])->name('admin')->middleware('admin_view');

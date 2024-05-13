@@ -1,4 +1,6 @@
 <x-layout :scroll="$scroll" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    <!-- Include Delete Confirmation Component -->
+    <x-delete-confirmation />
 
     <x-admin-title title="Adminstracijska plošča" />
 
@@ -122,8 +124,6 @@
                                 </div>
                             </li>
                         @endforeach
-                        <!-- Include Delete Confirmation Component -->
-                        <x-delete-confirmation/>
                     @endif
                 </ul>
                 <div class="p-4">{{ $leagues->links() }}</div>
@@ -222,15 +222,15 @@
                                         <!-- Edit and Delete buttons -->
                                         <a href="{{ route('player_edit', $player->id) }}"
                                             class="text-blue-500 hover:underline mr-4">Uredi</a>
-                                            <form id="deletePlayersForm{{ $player->id }}"
-                                                action="{{ route('players_destroy', ['player' => $player->id]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button"
-                                                    onclick="showDeleteConfirmation('deletePlayersForm', {{ $player->id }})"
-                                                    class="text-red-500 hover:underline">Izbriši</button>
-                                            </form>
+                                        <form id="deletePlayersForm{{ $player->id }}"
+                                            action="{{ route('players_destroy', ['player' => $player->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button"
+                                                onclick="showDeleteConfirmation('deletePlayersForm', {{ $player->id }})"
+                                                class="text-red-500 hover:underline">Izbriši</button>
+                                        </form>
                                     </div>
                                 </div>
                             </li>
@@ -311,8 +311,7 @@
                                         class="text-blue-500 hover:underline mr-4">Uredi</a>
                                     <!-- Delete Form with Confirmation Dialog -->
                                     <form id="deleteNewsForm{{ $item->id }}"
-                                        action="{{ route('news_destroy', ['news' => $item->id]) }}"
-                                        method="POST">
+                                        action="{{ route('news_destroy', ['news' => $item->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button"

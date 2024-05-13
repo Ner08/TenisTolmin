@@ -4,7 +4,7 @@
             class="block bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1">
             @if (isset($item['image']))
                 <div class="relative overflow-hidden rounded-t-lg">
-                    <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['title'] }}"
+                    <img src="{{ route('storage.show', ['filename' => $item['image']]) }}" alt="{{ $item['title'] }}"
                         class="w-full h-64 object-cover">
                     <div class="absolute inset-0 bg-gray-900 opacity-25"></div>
                 </div>

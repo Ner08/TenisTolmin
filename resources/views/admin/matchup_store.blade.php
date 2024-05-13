@@ -1,4 +1,6 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    <!-- Include Delete Confirmation Component -->
+    <x-delete-confirmation />
     <x-admin-title-simple :title="'Liga / Turnir • ' . $bracket->league->name" />
     <x-title :title="'Skupina • ' . $bracket->name" />
 
@@ -392,7 +394,6 @@
                         </li>
                     @endforeach
                 @endif
-                <x-delete-confirmation />
             </ul>
             <div class="p-4">{{ $matchups->links() }}</div>
         </div>

@@ -28,12 +28,13 @@
             <div class="mb-4">
                 <label for="image" class="block text-gray-700 font-semibold">Datoteka:</label>
                 <!-- Display the image -->
-                @if($news->image)
-                    <img src="{{ asset('storage/' .$news->image) }}" alt="Image" class="max-w-xs max-h-40 h-auto mb-2">
-
+                @if ($news->image)
+                    <img src=" {{ route('storage.show', ['filename' => $news->image]) }}" alt="Image"
+                        class="max-w-xs max-h-40 h-auto mb-2">
                 @endif
                 <!-- Input field to update the image -->
-                <input type="file" name="image" id="image" class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3">
+                <input type="file" name="image" id="image"
+                    class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3">
                 @error('image')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

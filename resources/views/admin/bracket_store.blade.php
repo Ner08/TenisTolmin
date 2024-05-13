@@ -1,4 +1,6 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    <!-- Include Delete Confirmation Component -->
+    <x-delete-confirmation />
     <x-admin-title-simple :title="'Liga / Turnir • ' . $league->name" />
     <div class="container mx-auto mt-4">
         <!-- Add new legue form -->
@@ -92,8 +94,7 @@
 
                 <div class="mb-4" id="pointsDescriptionContainer">
                     <label for="tag" class="block text-gray-700 font-semibold">Oznaka skupine:</label>
-                    <input type="text" name="tag" id="tag"
-                        placeholder="Vpišite oznako skupine (Primer: A)"
+                    <input type="text" name="tag" id="tag" placeholder="Vpišite oznako skupine (Primer: A)"
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
                         value="{{ old('tag') }}" disabled>
                     @error('tag')
@@ -176,7 +177,8 @@
                                     <h3 class="text-xl font-bold mb-2">{{ $item->name }}</h3>
                                     <p class="text-gray-700">{{ $item->b_description }}</p>
                                 </div>
-                                <p class="text-sm font-semibold text-gray-500">{{ $item->teams->where('is_fake', false)->count() }}
+                                <p class="text-sm font-semibold text-gray-500">
+                                    {{ $item->teams->where('is_fake', false)->count() }}
                                     igralcev/ekip</p>
                             </div>
                             <div class="text-sm underline text-gray-500">
@@ -203,7 +205,6 @@
                             </div>
                         </li>
                     @endforeach
-                    <x-delete-confirmation />
                 @endif
             </ul>
             <div class="p-4">{{ $brackets->links() }}</div>

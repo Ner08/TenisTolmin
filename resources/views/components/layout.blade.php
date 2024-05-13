@@ -131,9 +131,14 @@
     @endif
     function showDeleteConfirmation(formId, itemId) {
         // Set the action of the form dynamically based on the item ID
+        console.log('Form ID:', formId);
+        console.log('Item ID:', itemId);
+
         var deleteForm = document.getElementById(formId + itemId);
+        console.log('Delete Form:', deleteForm);
+
         var confirmationForm = document.getElementById('confirmDeleteForm');
-        confirmationForm.action = deleteForm.action;
+        console.log('Confirmation Form:', confirmationForm);
 
         // Show the confirmation dialog
         var deleteConfirmationDialog = document.getElementById('deleteConfirmationDialog');
