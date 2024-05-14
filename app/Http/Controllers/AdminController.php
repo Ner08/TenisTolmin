@@ -21,7 +21,7 @@ class AdminController extends Controller
             'leagues' => League::latest()->paginate(6),
             'events' => Event::latest()->filter(request(['search_events']))->paginate(6),
             'news' => News::latest()->filter(request(['search_news']))->paginate(6),
-            'players' => Player::orderBy('p_name')->filter(request(['search_players']))->paginate(21),
+            'players' => Player::orderBy('p_name')->where('is_fake', false)->filter(request(['search_players']))->paginate(21),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),
             'search_events' => request('search_events'),

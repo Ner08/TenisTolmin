@@ -15,7 +15,7 @@
                 </div>
                 @if (isset($newsItem['image']))
                     <div class="w-full lg:w-1/2 overflow-hidden relative"> <!-- Updated image container with relative positioning -->
-                        <img src="{{ route('storage.show', ['filename' => $newsItem['image']]) }}" alt="{{ $newsItem['title'] }}" class="w-full h-auto md:h-full object-cover cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $newsItem['image']) }}')"> <!-- Updated image with cursor pointer and onclick event -->
+                        <img src="{{ asset('storage/' . $newsItem['image']) }}" alt="{{ $newsItem['title'] }}" class="w-full h-auto md:h-full object-cover cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $newsItem['image']) }}')"> <!-- Updated image with cursor pointer and onclick event -->
                     </div>
                 @endif
             </div>

@@ -312,8 +312,8 @@
                                     <!-- Delete Form with Confirmation Dialog -->
                                     <form id="deleteNewsForm{{ $item->id }}"
                                         action="{{ route('news_destroy', ['news' => $item->id]) }}" method="POST">
-                                        @csrf
                                         @method('DELETE')
+                                        @csrf
                                         <button type="button"
                                             onclick="showDeleteConfirmation('deleteNewsForm', {{ $item->id }})"
                                             class="text-red-500 hover:underline">Izbriši</button>
