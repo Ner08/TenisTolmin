@@ -44,10 +44,6 @@
 
             <!-- Left side content -->
             <div class="mb-8">
-                <h2 class="text-xl font-semibold mb-2">Statut</h2>
-                <p class="mb-4">Statut je temeljni pravni akt društva, s katerim se mora seznaniti vsak član, saj
-                    ureja razmerja med člani, upravljanje kluba, premoženjske zadeve, pa tudi spremembe ter prenehanje
-                    društva oziroma kluba.</p>
                 <a href=""
                     class="bg-gray-900 hover:bg-gray-700 text-white text-l font-bold py-2 px-5 rounded text-center"><b>Statut</b></a>
                 {{-- TODO link ne deluje --}}
