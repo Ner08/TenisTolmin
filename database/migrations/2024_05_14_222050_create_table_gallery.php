@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('g_title');
             $table->string('g_image');
+            $table->boolean('home_page')->default(false);
         });
     }
 

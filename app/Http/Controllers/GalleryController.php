@@ -19,6 +19,7 @@ class GalleryController extends Controller
     {
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
+            'home_page' => ['sometimes', 'boolean'],
         ]);
 
         if ($request->hasFile('g_image')) {
@@ -35,6 +36,7 @@ class GalleryController extends Controller
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
             'g_image' => ['required', 'string'],
+            'home_page' => ['sometimes', 'boolean'],
         ]);
 
         $gallery->update($formFields);

@@ -85,6 +85,7 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate'])->nam
 Route::post('/users/logout', [UserController::class, 'logout'])->name('logout')->middleware('user_api');
 
 //Gallery
+Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery_store')->middleware('admin_api');
 Route::put('/gallery/{gallery}', [GalleryController::class, 'edit'])->name('gallery_edit')->middleware('admin_api');
 Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery_destroy')->middleware('admin_api');

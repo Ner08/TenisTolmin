@@ -16,7 +16,7 @@ class HomeController extends Controller
             'news' => News::latest()->paginate(3),
             'events' => Event::latest()->paginate(6),
             'leagues' => League::latest()->paginate(3),
-            'gallery' => Gallery::latest()->get(),
+            'gallery' => Gallery::latest()->where('home_page', true)->paginate(3),
         ]);
     }
 }

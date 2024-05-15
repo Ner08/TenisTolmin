@@ -24,6 +24,7 @@ class Gallery extends Model
     protected $fillable = [
         'g_title',
         'g_image',
+        'home_page',
     ];
     public function scopeFilter($query, array $filter) {
         if ($filter['search_gallery'] ?? false) {

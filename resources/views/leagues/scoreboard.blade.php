@@ -1,9 +1,12 @@
 <x-layout>
     <x-title title="Tminska ATP lestvica" />
+    @php
+         $maxPoints = $maxPoints > 0 ? $maxPoints : 100;
+    @endphp
     @if ($players->isEmpty())
         <x-empty model1="Rezultati" />
     @else
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <div class="bg-gray-100 p-6 rounded-lg ">
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($players as $key => $player)

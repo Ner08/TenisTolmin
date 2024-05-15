@@ -16,19 +16,21 @@ class AdminController extends Controller
     public function index()
     {
         $searchMode = request(['search_players', 'search_news', 'search_events', 'search_gallery']);
-        $scroll = key($searchMode) == 'search_players' ? '#players' : (key($searchMode) == 'search_news' ? '#news' : (key($searchMode) == 'search_events' ? '#events' : (key($searchMode) == 'search_gallery' ? '#gallery' : NULL)));
 
         return view('admin.index', [
             'leagues' => League::latest()->paginate(6),
             'events' => Event::latest()->filter(request(['search_events']))->paginate(6),
             'news' => News::latest()->filter(request(['search_news']))->paginate(6),
             'players' => Player::orderBy('p_name')->where('is_fake', false)->filter(request(['search_players']))->paginate(21),
-            'gallery' => Gallery::latest()->filter(request(['search_gallery']))->paginate(12),
+            'gallery' => Gallery::orderBy('home_page', 'desc') // Items with home_page first
+                ->orderBy('created_at', 'desc') // Then order by creation date
+                ->filter(request(['search_gallery']))
+                ->paginate(12),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),
             'search_events' => request('search_events'),
             'search_leagues' => request('search_leagues'),
-            'scroll' => $scroll
+            'search_gallery' => request('search_gallery'),
         ]);
     }
 

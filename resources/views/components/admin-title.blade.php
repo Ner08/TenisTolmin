@@ -6,7 +6,8 @@
             <a href="#lige" class="text-lg text-gray-100 hover:text-gray-300 mr-4">Lige in turnirji</a>
             <a href="#igralci" class="text-lg text-gray-100 hover:text-gray-300 mr-4">Igralci</a>
             <a href="#novice" class="text-lg text-gray-100 hover:text-gray-300 mr-4">Novice</a>
-            <a href="#dogodki" class="text-lg text-gray-100 hover:text-gray-300">Dogodki</a>
+            <a href="#dogodki" class="text-lg text-gray-100 hover:text-gray-300 mr-4">Dogodki</a>
+            <a href="#galerija" class="text-lg text-gray-100 hover:text-gray-300">Galerija</a>
         </div>
     </div>
 </div>

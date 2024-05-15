@@ -104,7 +104,8 @@ class LeaguesController extends Controller
 
     public function bracket_store(Request $request)
     {
-        if ($request->input('is_group_stage')) {
+
+        if ($request->input('is_group_stage') !== NULL && $request->input('is_group_stage')) {
             $validated_data_bracket = $request->validate([
                 'name' => [
                     'required',

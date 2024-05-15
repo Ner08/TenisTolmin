@@ -1,24 +1,27 @@
-<div class="container px-4 mx-auto py-8">
-    <h1 class="text-3xl font-bold mb-3">Galerija</h1>
-    <h4 class="text-lg text-gray-600 mb-8">Naša teniška galerija ponuja vpogled v dogodke našega teniškega kluba. Slike zajemajo igralne trenutke in sproščena druženja, ki odražajo strast in povezanost naših članov,</h4>
-    {{-- If no news show empty component --}}
-    @if ($gallery->isEmpty())
-        <x-empty model1="Galerija" />
-    @endif
-    <div class="grid grid-cols-3 gap-1">
-        @foreach ($gallery as $item)
-            <div class="p-2">
-                <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-auto rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
+<x-layout>
+    {{-- Gallery --}}
+    <x-title title="Galerija" />
+    <section class="py-8 px-4">
+        <div class="container mx-auto">
+            {{-- If no images show empty component --}}
+            @if ($gallery->isEmpty())
+                <x-empty model1="Galerija" />
+            @endif
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-8">
+                <!-- Gallery items -->
+                @foreach ($gallery as $item)
+                    <div class="flex flex-col items-center justify-center rounded-lg p-4">
+                        <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}"
+                            class="w-full h-auto rounded-lg cursor-pointer"
+                            onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
+                        <!-- You can add additional information or styling here if needed -->
+                    </div>
+                @endforeach
             </div>
-        @endforeach
-    </div>
-    <div class="flex justify-center mt-8">
-        <a href="{{ route('gallery') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-            Več slik
-        </a>
-    </div>
-</div>
+            <div class="mt-8">{{ $gallery->links() }}</div>
+        </div>
+    </section>
+</x-layout>
 
 <!-- JavaScript function to show full image -->
 <script>

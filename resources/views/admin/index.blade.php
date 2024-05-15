@@ -1,17 +1,8 @@
-<x-layout :scroll="$scroll" :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+<x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
     <!-- Include Delete Confirmation Component -->
     <x-delete-confirmation />
 
     <x-admin-title title="Adminstracijska plošča" />
-
-    {{--  <div class="bg-gray-200 shadow-inner">
-        <div class="pb-4 pt-5 md:pt-3 text-gray-100 text-2xl font-bold items-center justify-between max-w-screen-2xl flex flex-wrap mx-auto p-3">
-            <div class="flex items-center">
-                <a href="{{ route('league_managment') }}" class="bg-zinc-500 hover:bg-zinc-600 text-white font-bold py-2 px-4 rounded-md mr-4">Urednik lig in turnirjev</a>
-                <a href="{{ route('user_menegment') }}" class="bg-zinc-500 hover:bg-zinc-600 text-white font-bold py-2 px-4 rounded-md">Urednik uporabnikov</a>
-            </div>
-        </div>
-   </div> --}}
 
     <div id="lige">
         <x-title title="Lige in turnirji" />
@@ -446,7 +437,7 @@
             </div>
 
             <!-- Gallery Section -->
-            <div id="gallery">
+            <div id="galerija">
                 <x-title title="Galerija" />
             </div>
 
@@ -466,6 +457,16 @@
                         @error('g_title')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
+                    </div>
+                    <div class="mb-4">
+                        <input type="checkbox" name="home_page" id="home_page"
+                            class="mr-2 bg-gray-300 rounded-sm h-5 w-5" value="1">
+                        <label for="is_standin" class="text-gray-700 font-semibold mr-4">Na domači strani</label>
+                        @error('home_page')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-4 text-gray-600"><b>Informacija:</b> Na domači strani se pokažejo 3 najnovejše
+                            slike označene z "Na domači strani"</p>
                     </div>
                     <div class="mb-4">
                         <label for="file" class="block text-gray-700 font-semibold">Datoteka:</label>
@@ -505,6 +506,12 @@
                                 <div class="flex justify-between items-center my-2 mx-5">
                                     <h2 class="text-lg font-bold mt-1 mb-2">{{ $item->g_title }}</h2>
                                     <div class="flex">
+                                        @if ($item->home_page)
+                                            <div class="mr-4">
+                                                <img src="{{ asset('images/home.png') }}" alt="Home"
+                                                    class="w-5 h-5">
+                                            </div>
+                                        @endif
                                         <a href="{{ route('gallery_edit', $item->id) }}"
                                             class="text-blue-500 hover:underline mr-4">Uredi</a>
                                         <!-- Delete Form with Confirmation Dialog -->
