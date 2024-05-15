@@ -7,7 +7,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="bg-gray-100 mx-2 p-6 rounded-lg shadow-md">
                     <h2 class="text-2xl font-bold mb-4">Informacije</h2>
-                    <p class="text-gray-700"> <b>Naslov:</b>  Dijaška ulica 12</p>
+                    <p class="text-gray-700"> <b>Naslov:</b>  Dijaška ulica 12c</p>
                     <p class="text-gray-700"><b>Mesto:</b> Tolmin, Slovenija, 5220</p>
                     <p class="text-gray-700"><b>Email:</b> <a href="mailto:damijan.zarli@gmail.com" class="text-blue-600">damijan.zarli@gmail.com</a></p>
                     {{-- <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p> --}}

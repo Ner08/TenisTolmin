@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\News;
 use App\Models\Event;
 use App\Models\League;
+use App\Models\Gallery;
 
 class HomeController extends Controller
 {
@@ -15,8 +16,7 @@ class HomeController extends Controller
             'news' => News::latest()->paginate(3),
             'events' => Event::latest()->paginate(6),
             'leagues' => League::latest()->paginate(3),
-            'login' => false,
-            'admin' => true
+            'gallery' => Gallery::latest()->get(),
         ]);
     }
 }

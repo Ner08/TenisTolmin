@@ -23,7 +23,7 @@
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
                 <textarea name="description" id="description" placeholder="Enter league description"
-                    class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ $league->description }}</textarea>
+                          class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('description', $league->description) }}</textarea>
                 @error('description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror

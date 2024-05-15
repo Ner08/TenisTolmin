@@ -8,9 +8,6 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return view('contact.index', [
-            'login' => false,
-            'admin' => true
-        ]);
+        return view('contact.index');
     }
 }

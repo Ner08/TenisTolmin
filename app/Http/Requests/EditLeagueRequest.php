@@ -19,7 +19,8 @@ class EditLeagueRequest extends FormRequest
         return [
             'name' => ['required', 'max:40'], // Use 'name' as the column name
             'description' => ['required', 'max:500'],
-            'start_date' => ['required']
+            'start_date' => ['required'],
+            'end_date' => ['sometimes'],
         ];
     }
 

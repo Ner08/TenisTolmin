@@ -10,6 +10,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LeaguesController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MembershipController;
@@ -82,6 +83,11 @@ Route::post('/players/{player_id}/points_add', [PlayerController::class, 'add_po
 //Users
 Route::post('/users/authenticate', [UserController::class, 'authenticate'])->name('authenticate');
 Route::post('/users/logout', [UserController::class, 'logout'])->name('logout')->middleware('user_api');
+
+//Gallery
+Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery_store')->middleware('admin_api');
+Route::put('/gallery/{gallery}', [GalleryController::class, 'edit'])->name('gallery_edit')->middleware('admin_api');
+Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery_destroy')->middleware('admin_api');
 
 //Exceptions
 Route::fallback(function () {

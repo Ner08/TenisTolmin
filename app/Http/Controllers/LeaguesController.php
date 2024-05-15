@@ -8,9 +8,6 @@ use App\Models\Player;
 use App\Models\Bracket;
 use Illuminate\Http\Request;
 use App\Models\CustomMatchUp;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\EditLeagueRequest;
 use App\Http\Requests\StoreLeagueRequest;
@@ -50,8 +47,6 @@ class LeaguesController extends Controller
 
         return view('leagues.index', [
             'leagues' => $paginatedLeagues,
-            'login' => false,
-            'admin' => true
         ]);
     }
 
@@ -68,9 +63,7 @@ class LeaguesController extends Controller
             'league' => $league,
             'brackets' => $brackets,
             'brackets_group' => $brackets_groupstage,
-            'login' => false,
             'isMobile' => $isMobile,
-            'admin' => true
         ]);
     }
 
@@ -105,8 +98,6 @@ class LeaguesController extends Controller
     {
         return view('leagues.scoreboard', [
             'players' => Player::where('is_fake', false)->orderByDesc('points')->get(),
-            'login' => false,
-            'admin' => true,
             'maxPoints' => Player::where('is_fake', false)->max('points')
         ]);
     }

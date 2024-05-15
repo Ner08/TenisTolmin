@@ -3,6 +3,9 @@
 {{-- Welcome --}}
 @include('partials._welcome')
 
+{{-- Gallery --}}
+<x-carousel-gallery :gallery="$gallery"/>
+
 {{-- News --}}
 @include('partials._news')
 

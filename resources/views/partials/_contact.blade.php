@@ -4,7 +4,7 @@
             <div>
                 <h2 class="text-2xl font-bold mb-4">Kontaktne informacije</h2>
                 <p class="text-gray-700 mb-4">
-                    Naslov: Dijaška ulica 12, 5220 Tolmin<br>
+                    Naslov: Dijaška ulica 12c, 5220 Tolmin<br>
                     Matična številka: 5214955000:<br>
                     Davčna številka: 44248598<br>
                     TRR: SI56 0475 3000 0388 292 NOVA KBM d.d.<br>

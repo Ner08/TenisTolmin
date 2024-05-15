@@ -7,15 +7,22 @@
     {{-- News Details --}}
     <section class="m-3 mt-6">
         <div class="container mx-auto">
-            <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden text-white flex flex-col-reverse lg:flex-row"> <!-- Updated flexbox classes -->
+            <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden text-white flex flex-col-reverse lg:flex-row">
+                <!-- Updated flexbox classes -->
                 <div class="w-full lg:w-4/5 p-6"> <!-- Updated width classes -->
                     <h2 class="text-3xl font-semibold mb-2">{{ $newsItem['title'] }}</h2>
-                    <p class="text-gray-200">{{ $newsItem['content'] }}</p>
+                    <p class="text-gray-200">
+                        {!! nl2br(e($newsItem['content'])) !!}
+                    </p>
                     <p class="text-gray-500 mt-4">Objavljeno: {{ $newsItem['created_at']->format('d.m.Y') }}</p>
                 </div>
                 @if (isset($newsItem['image']))
-                    <div class="w-full lg:w-1/2 overflow-hidden relative"> <!-- Updated image container with relative positioning -->
-                        <img src="{{ asset('storage/' . $newsItem['image']) }}" alt="{{ $newsItem['title'] }}" class="w-full h-auto md:h-full object-cover cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $newsItem['image']) }}')"> <!-- Updated image with cursor pointer and onclick event -->
+                    <div class="w-full lg:w-1/2 overflow-hidden relative">
+                        <!-- Updated image container with relative positioning -->
+                        <img src="{{ asset('storage/' . $newsItem['image']) }}" alt="{{ $newsItem['title'] }}"
+                            class="w-full h-auto md:h-full object-cover cursor-pointer"
+                            onclick="showFullImage('{{ asset('storage/' . $newsItem['image']) }}')">
+                        <!-- Updated image with cursor pointer and onclick event -->
                     </div>
                 @endif
             </div>
@@ -29,7 +36,8 @@
     function showFullImage(imageUrl) {
         // Create a modal overlay
         const overlay = document.createElement('div');
-        overlay.classList.add('fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'bg-black', 'bg-opacity-75', 'flex', 'justify-center', 'items-center', 'z-50');
+        overlay.classList.add('fixed', 'top-0', 'left-0', 'w-screen', 'h-screen', 'bg-black', 'bg-opacity-75', 'flex',
+            'justify-center', 'items-center', 'z-50');
 
         // Create a container for the image and close button
         const container = document.createElement('div');
@@ -38,7 +46,8 @@
         // Create a close button
         const closeButton = document.createElement('button');
         closeButton.innerHTML = 'Zapri';
-        closeButton.classList.add('absolute', 'top-2', 'right-2', 'bg-white', 'text-black', 'px-2', 'py-1', 'rounded-md', 'cursor-pointer');
+        closeButton.classList.add('absolute', 'top-2', 'right-2', 'bg-white', 'text-black', 'px-2', 'py-1',
+            'rounded-md', 'cursor-pointer');
         closeButton.addEventListener('click', function() {
             overlay.remove();
         });

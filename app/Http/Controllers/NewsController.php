@@ -15,8 +15,6 @@ class NewsController extends Controller
     {
         return view('news.index', [
             'newsItems' => News::latest()->paginate(12),
-            'login' => false,
-            'admin' => true
         ]);
     }
 
@@ -26,9 +24,7 @@ class NewsController extends Controller
         $comments = NewsComment::where('news_id', $news->id)->latest()->paginate(10);
         return view('news.show', [
             'newsItem' => $news,
-            'login' => false,
             'comments' => $comments,
-            'admin' => true
         ]);
     }
 
