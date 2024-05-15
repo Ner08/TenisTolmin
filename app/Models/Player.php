@@ -25,6 +25,10 @@ class Player extends Model
         'is_fake'
     ];
 
+    protected $attributes = [
+        'points' => 0,
+    ];
+
     public function scopeFilter($query, array $filter) {
         if ($filter['search_players'] ?? false) {
             $query->where('p_name', 'like', '%' . request('search_players') . '%');

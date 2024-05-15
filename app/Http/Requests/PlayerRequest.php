@@ -20,9 +20,9 @@ class PlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'p_name' => ['required', 'unique:players,p_name', 'max:40'], // Use 'name' as the column name
-            'points' => ['integer', 'nullable'],
-            'is_fake' => ['boolean', 'nullable'],
+            'p_name' => ['required', 'max:40'], // Use 'name' as the column name
+            'points' => ['nullable','integer'], // Set default value to 0
+            'is_fake' => ['nullable'],
         ];
     }
 
@@ -33,8 +33,8 @@ class PlayerRequest extends FormRequest
     {
         return [
             'p_name.required' => 'Ime igralca je obvezno.',
-            'p_name.unique' => 'Ime že obstaja.',
             'p_name.max' => 'Ime igralca ne sme biti daljše od 40 znakov.',
+            'is_fake.nullable' => 'bla',
         ];
     }
 }
