@@ -32,8 +32,7 @@
                             <input type="checkbox" name="is_fake" id="is_fake"
                                 class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()"
                                 value="1" @if ($player->is_fake) checked @endif>
-                            <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni pravi
-                                igralec</label>
+                            <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni na ATP lestvici</label>
                             @error('is_fake')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror

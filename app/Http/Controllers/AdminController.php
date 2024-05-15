@@ -15,8 +15,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $searchMode = request(['search_players', 'search_news', 'search_events', 'search_gallery']);
-
         return view('admin.index', [
             'leagues' => League::latest()->paginate(6),
             'events' => Event::latest()->filter(request(['search_events']))->paginate(6),
@@ -34,21 +32,13 @@ class AdminController extends Controller
         ]);
     }
 
-    public function leagues_index()
-    {
-        return view('admin.leagues.index', [
-            'leagues' => League::orderBy('start_date')->paginate(12),
-            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
-        ]);
-    }
-
     public function bracket_setup(League $league)
     {
         $brackets = Bracket::where('league_id', $league->id)->latest()->paginate(12);
         return view('admin.bracket_store', [
             'league' => $league,
             'brackets' => $brackets,
-            'playersSelect' => Player::where('is_fake', false)->orderBy('p_name')->get(),
+            'playersSelect' =>  Player::where('id', '!=', 1)->orderBy('p_name')->get(),
             'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
         ]);
     }
@@ -59,7 +49,7 @@ class AdminController extends Controller
             'matchups' => CustomMatchUp::where('bracket_id', $bracket->id)->orderBy('round')->paginate(21),
             'teams' => Team::where('bracket_id', $bracket->id)->get(),
             'numOfTeams' => Team::where('bracket_id', $bracket->id)->where('is_fake', false)->count(),
-            'playersSelect' => Player::where('is_fake', false)->orderBy('p_name')->get(),
+            'playersSelect' => Player::where('id', '!=', 1)->orderBy('p_name')->get(),
             'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
         ]);
     }

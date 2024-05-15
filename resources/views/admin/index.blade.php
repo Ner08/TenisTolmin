@@ -163,8 +163,8 @@
                                     <input type="checkbox" name="is_fake" id="is_fake"
                                         class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()"
                                         value="1">
-                                    <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni pravi
-                                        igralec</label>
+                                    <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni na ATP
+                                        lestvici</label>
                                     @error('is_fake')
                                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
@@ -195,10 +195,12 @@
                         <h2 class="p-4 text-gray-900">Nismo našli nobenega igralca.</h2>
                     @else
                         @foreach ($players as $player)
-                        <li class="rounded-lg shadow-md p-3 bg-white">
+                            <li class="rounded-lg shadow-md p-3 bg-white">
                                 <div class="flex flex-col md:flex-row justify-between items-center">
                                     <div class="mb-2 md:mb-0">
-                                        <p class="text-xl font-semibold {{ $player->is_fake ? 'text-green-600' :  'text-gray-900' }}">{{ $player->p_name }}</p>
+                                        <p
+                                            class="text-xl font-semibold {{ $player->is_fake ? 'text-green-600' : 'text-gray-900' }}">
+                                            {{ $player->p_name }}</p>
                                         <p class="text-gray-600">Točke: {{ $player->points }}</p>
                                     </div>
                                     <div class="flex items-center">

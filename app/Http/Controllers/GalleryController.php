@@ -20,6 +20,7 @@ class GalleryController extends Controller
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
             'home_page' => ['sometimes', 'boolean'],
+            'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'] // Add validation rules for image
         ]);
 
         if ($request->hasFile('g_image')) {
@@ -31,15 +32,22 @@ class GalleryController extends Controller
         return back()->with(['message' => 'Slika dodana v galerijo']);
     }
 
+
     public function edit(Request $request, Gallery $gallery)
     {
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
-            'g_image' => ['required', 'string'],
+            'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'], // Add validation rules for image
             'home_page' => ['sometimes', 'boolean'],
         ]);
 
+        if ($request->hasFile('g_image')) {
+            $formFields['g_image'] = $request->file('g_image')->store('images', 'public');
+        }
+
         $gallery->update($formFields);
+
+        //TODO: delete files that are no longer used
 
         return back()->with(['message' => 'Slika posodobljena']);
     }
