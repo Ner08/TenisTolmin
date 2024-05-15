@@ -21,20 +21,20 @@
                         </div>
                         <div class="flex flex-col mr-4 mb-2 ">
                             <label for="points" class="mb-2">Točke:</label>
-                            <input type="number" name="points" id="points" value="0" min="0"
-                                class="form-input rounded-lg py-3 px-4 w-full  mb-2  focus:outline-none "
-                                value="{{ $player->points }}" required>
+                            <input type="number" name="points" id="points" min="0"
+                                class="form-input rounded-lg py-3 px-4 w-full mb-2 focus:outline-none "
+                                value="{{ $player->points }}" @if ($player->is_fake) disabled @endif required>
                             @error('points')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="flex items-end pb-4 ">
-                            <input type="checkbox" name="is_standin" id="is_standin"
+                            <input type="checkbox" name="is_fake" id="is_fake"
                                 class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()"
-                                value="{{ $player->is_fake ? 1 : 0 }}">
-                            <label for="is_standin" class="text-gray-700 font-semibold mr-4">Ni pravi
+                                value="1" @if ($player->is_fake) checked @endif>
+                            <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni pravi
                                 igralec</label>
-                            @error('is_standin')
+                            @error('is_fake')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -48,3 +48,15 @@
         </div>
 
 </x-layout>
+
+<script>
+    function togglePointsInput() {
+        var pointsInput = document.getElementById('points');
+        var isGroupStageCheckbox = document.getElementById('is_fake');
+
+        pointsInput.disabled = isGroupStageCheckbox.checked;
+        if (isGroupStageCheckbox.checked) {
+            pointsInput.value = '0';
+        }
+    }
+</script>

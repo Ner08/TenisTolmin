@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('p_name');
-            $table->integer('points');
+            $table->integer('points')->default(0);
             $table->boolean('is_fake')->default(false);
         });
 
