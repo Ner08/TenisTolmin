@@ -7,8 +7,9 @@
     @endif
     <div class="grid grid-cols-3 gap-1">
         @foreach ($gallery as $item)
-            <div class="p-2">
+            <div class="p-2 bg-gray-100 rounded-lg text-gray-900 shadow-md">
                 <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-auto rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
+                <p class="text-center pt-1 font-semibold text-gray-800">{{$item->g_title}}</p>
             </div>
         @endforeach
     </div>
