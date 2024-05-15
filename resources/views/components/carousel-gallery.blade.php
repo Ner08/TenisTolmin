@@ -5,9 +5,9 @@
     @if ($gallery->isEmpty())
         <x-empty model1="Galerija" />
     @endif
-    <div class="grid grid-cols-3 gap-1">
+    <div class="grid grid-cols-3 gap-4">
         @foreach ($gallery as $item)
-            <div class="p-2 bg-gray-100 rounded-lg text-gray-900 shadow-md">
+            <div class="p-2 text-gray-900">
                 <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-auto rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
                 <p class="text-center pt-1 font-semibold text-gray-800">{{$item->g_title}}</p>
             </div>

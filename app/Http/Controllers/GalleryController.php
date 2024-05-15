@@ -16,20 +16,22 @@ class GalleryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $formFields = $request->validate([
-            'g_title' => ['required', 'string', 'max:64'],
-            'home_page' => ['sometimes', 'boolean'],
-        ]);
+{
+    $formFields = $request->validate([
+        'g_title' => ['required', 'string', 'max:64'],
+        'home_page' => ['sometimes', 'boolean'],
+        'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'] // Add validation rules for image
+    ]);
 
-        if ($request->hasFile('g_image')) {
-            $formFields['g_image'] = $request->file('g_image')->store('images', 'public');
-        }
-
-        Gallery::create($formFields);
-
-        return back()->with(['message' => 'Slika dodana v galerijo']);
+    if ($request->hasFile('g_image')) {
+        $formFields['g_image'] = $request->file('g_image')->store('images', 'public');
     }
+
+    Gallery::create($formFields);
+
+    return back()->with(['message' => 'Slika dodana v galerijo']);
+}
+
 
     public function edit(Request $request, Gallery $gallery)
     {
