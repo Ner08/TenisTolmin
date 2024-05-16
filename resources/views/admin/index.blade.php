@@ -35,6 +35,16 @@
                         @enderror
                     </div>
                     <div class="mb-4">
+                        <input type="checkbox" name="l_home_page" id="l_home_page"
+                            class="mr-2 bg-gray-300 rounded-sm h-5 w-5" value="1">
+                        <label for="l_home_page" class="text-gray-700 font-semibold mr-4">Na domači strani</label>
+                        @error('l_home_page')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-4 text-gray-600"><b>Informacija:</b> Na domači strani se pokažejo 3 najnovejše
+                            lige označene z "Na domači strani"</p>
+                    </div>
+                    <div class="mb-4">
                         <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
                         <input type="date" name="start_date" id="start_date"
                             class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
@@ -82,17 +92,24 @@
                                         <p class="text-gray-700 line-clamp-3">{{ $item->description }}</p>
                                     </div>
                                 </div>
-                                <div>
-                                    <p class="text-gray-500 mt-4">
-                                        <span class="text-sm font-semibold">Od:</span>
-                                        <span
-                                            class="text-sm">{{ \Carbon\Carbon::parse($item->start_date)->format('d.m.Y') }}</span>
-                                        @if ($item->end_date)
-                                            <span class="text-sm font-semibold ml-4">Do:</span>
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-500 mt-4">
+                                            <span class="text-sm font-semibold">Od:</span>
                                             <span
-                                                class="text-sm">{{ \Carbon\Carbon::parse($item->end_date)->format('d.m.Y') }}</span>
-                                        @endif
-                                    </p>
+                                                class="text-sm">{{ \Carbon\Carbon::parse($item->start_date)->format('d.m.Y') }}</span>
+                                            @if ($item->end_date)
+                                                <span class="text-sm font-semibold ml-4">Do:</span>
+                                                <span
+                                                    class="text-sm">{{ \Carbon\Carbon::parse($item->end_date)->format('d.m.Y') }}</span>
+                                            @endif
+                                        </p>
+                                    </div>
+                                    @if ($item->l_home_page)
+                                        <div class="mr-4">
+                                            <img src="{{ asset('images/home.png') }}" alt="Home" class="w-5 h-5">
+                                        </div>
+                                    @endif
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <p>
@@ -199,7 +216,7 @@
                                 <div class="flex flex-col md:flex-row justify-between items-center">
                                     <div class="mb-2 md:mb-0">
                                         <p
-                                            class="text-xl font-semibold {{ $player->is_fake ? 'text-green-600' : 'text-gray-900' }}">
+                                            class="text-xl font-semibold {{ $player->is_fake ? 'text-gray-400' : 'text-gray-900' }}">
                                             {{ $player->p_name }}</p>
                                         <p class="text-gray-600">Točke: {{ $player->points }}</p>
                                     </div>

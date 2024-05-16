@@ -23,10 +23,20 @@
             <div class="mb-4">
                 <label for="description" class="block text-gray-700 font-semibold">Opis:</label>
                 <textarea name="description" id="description" placeholder="Enter league description"
-                          class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('description', $league->description) }}</textarea>
+                    class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4" required>{{ old('description', $league->description) }}</textarea>
                 @error('description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
+            </div>
+            <div class="mb-4">
+                <input type="checkbox" name="l_home_page" id="l_home_page" class="mr-2 bg-gray-300 rounded-sm h-5 w-5"
+                    value="1" @if ($league->l_home_page) checked @endif>
+                <label for="l_home_page" class="text-gray-700 font-semibold mr-4">Na domači strani</label>
+                @error('l_home_page')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+                <p class="mt-4 text-gray-600"><b>Informacija:</b> Na domači strani se pokažejo 3 najnovejše
+                    lige označene z "Na domači strani"</p>
             </div>
             <div class="mb-4">
                 <label for="start_date" class="block text-gray-700 font-semibold">Start Date:</label>
@@ -94,7 +104,8 @@
 
                 <div class="mb-4" id="pointsDescriptionContainer">
                     <label for="tag" class="block text-gray-700 font-semibold">Oznaka skupine:</label>
-                    <input type="text" name="tag" id="tag" placeholder="Vpišite oznako skupine (Primer: A)"
+                    <input type="text" name="tag" id="tag"
+                        placeholder="Vpišite oznako skupine (Primer: A)"
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
                         value="{{ old('tag') }}" disabled>
                     @error('tag')
@@ -178,7 +189,7 @@
                                     <p class="text-gray-700">{{ $item->b_description }}</p>
                                 </div>
                                 <p class="text-sm font-semibold text-gray-500">
-                                    {{ $item->teams->count() - 1 }}
+                                    {{ $item->teams->count() }}
                                     igralcev/ekip</p>
                             </div>
                             <div class="text-sm underline text-gray-500">

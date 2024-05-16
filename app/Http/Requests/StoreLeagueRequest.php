@@ -19,6 +19,7 @@ class StoreLeagueRequest extends FormRequest
         return [
             'name' => ['required', 'unique:leagues,name', 'max:40'], // Use 'name' as the column name
             'description' => ['required', 'max:500'],
+            'l_home_page' => ['nullable', 'boolean'],
             'start_date' => ['required'],
             'end_date' => ['sometimes'],
         ];

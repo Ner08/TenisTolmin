@@ -69,7 +69,6 @@ class LeaguesController extends Controller
 
     public function store(StoreLeagueRequest $request)
     {
-        /* $league =  */
         League::create($request->validated());
 
         return back()->with(['message' => 'Liga ali turnir uspešno ustvarjen(a)']);

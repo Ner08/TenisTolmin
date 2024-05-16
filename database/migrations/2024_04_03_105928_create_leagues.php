@@ -25,7 +25,11 @@ return new class extends Migration
             $table->longText('description');
             $table->date('start_date');
             $table->date('end_date')->nullable();
+            $table->boolean('l_home_page')->default(false);
             $table->timestamps();
+            $table->string('bg_color')->default('#f3f4f6');
+            $table->string('main_text_color')->default('#1f2937');
+            $table->string('secondary_text_color')->default('#4b5563');
         });
 
         Schema::create('score_boards', function (Blueprint $table) {

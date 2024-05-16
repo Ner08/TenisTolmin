@@ -19,10 +19,9 @@ class EventController extends Controller
     // Show a single event
     public function show(Event $event)
     {
-        $created_at = new DateTime('now');
-
         return view('events.show', [
             'event' => $event,
+            'comments' => []
         ]);
     }
 

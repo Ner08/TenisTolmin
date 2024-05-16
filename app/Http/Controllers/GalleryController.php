@@ -20,7 +20,7 @@ class GalleryController extends Controller
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
             'home_page' => ['sometimes', 'boolean'],
-            'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'] // Add validation rules for image
+            'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5000']
         ]);
 
         if ($request->hasFile('g_image')) {

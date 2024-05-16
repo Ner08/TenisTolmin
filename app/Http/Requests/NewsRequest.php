@@ -21,7 +21,8 @@ class NewsRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'content' => ['required', 'string']
+            'content' => ['required', 'string'],
+            'image' => ['sometimes', 'nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:5000']
         ];
     }
 
@@ -36,7 +37,7 @@ class NewsRequest extends FormRequest
             'title.max' => 'Naslov ne sme biti daljši od :max znakov.',
             'content.required' => 'Vsebina je obvezna.',
             'content.string' => 'Vsebina mora biti besedilo.',
-            'image.string' => 'Napaka pri formatu.'
+            'image' => 'Pri uvozu slike je prišlo do napake.'
         ];
     }
 }

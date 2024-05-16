@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->string('e_title');
             $table->longText('e_description');
+            $table->boolean('e_home_page')->default(false);
         });
     }
 

@@ -3,12 +3,14 @@
     <h4 class="text-lg text-gray-600 mb-8">Naša teniška galerija ponuja vpogled v dogodke našega teniškega kluba. Slike zajemajo igralne trenutke in sproščena druženja, ki odražajo strast in povezanost naših članov,</h4>
     {{-- If no news show empty component --}}
     @if ($gallery->isEmpty())
-        <x-empty model1="Galerija" />
+        <x-empty model1="Slike" />
     @endif
-    <div class="grid grid-cols-3 gap-1">
+    <div class="grid grid-cols-3 gap-4">
         @foreach ($gallery as $item)
-            <div class="p-2">
-                <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-auto rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
+            <div class="p-1 rounded-md shadow-2xl">
+                <div class="image-container" style="height: 250px;"> <!-- Adjust height as needed -->
+                    <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-full rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')" style="object-fit: cover;">
+                </div>
             </div>
         @endforeach
     </div>
