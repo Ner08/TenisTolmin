@@ -189,7 +189,7 @@
                                     <p class="text-gray-700">{{ $item->b_description }}</p>
                                 </div>
                                 <p class="text-sm font-semibold text-gray-500">
-                                    {{ $item->teams->count() }}
+                                    {{ $item->teams->count() - 1 }}
                                     igralcev/ekip</p>
                             </div>
                             <div class="text-sm underline text-gray-500">

@@ -63,4 +63,9 @@ class CustomMatchUp extends Model
     {
         return ($this->t1SetsWon() > $this->t2SetsWon());
     }
+
+    public function game_played() //if score is not 0:0
+    {
+        return ($this->t1SetsWon() != 0 || $this->t2SetsWon() != 0);
+    }
 }

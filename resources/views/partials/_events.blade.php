@@ -1,4 +1,4 @@
-<div class="container px-2 mx-auto py-8">
+<div class="container px-4 mx-auto py-8">
     @if ($home)
         <h1 class="text-3xl font-bold mb-3">Dogodki</h1>
         <h4 class="text-lg text-gray-600 mb-8"> V našem koledarju teniških dogodkov se združujemo ne samo zaradi

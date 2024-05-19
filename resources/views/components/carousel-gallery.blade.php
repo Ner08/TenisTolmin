@@ -8,7 +8,7 @@
     <div class="grid grid-cols-3 gap-4">
         @foreach ($gallery as $item)
             <div class="p-1 rounded-md shadow-2xl">
-                <div class="image-container" style="height: 250px;"> <!-- Adjust height as needed -->
+                <div class="image-container h-64 w-full flex-shrink-0">
                     <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}" class="w-full h-full rounded-md shadow cursor-pointer" onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')" style="object-fit: cover;">
                 </div>
             </div>

@@ -121,7 +121,7 @@ class LeaguesController extends Controller
                     'required',
                     'max:40'
                 ],
-                'points_description' => ['required', 'string'],
+                'points_description' => ['nullable', 'string'],
                 'b_description' => 'max:500',
                 'is_group_stage' => ['boolean'],
                 'league_id' => ['required', 'integer'],
@@ -182,7 +182,7 @@ class LeaguesController extends Controller
                     'required',
                     'max:40'
                 ],
-                'points_description' => ['required', 'string'],
+                'points_description' => ['nullable', 'string'],
                 'b_description' => 'max:500',
                 'is_group_stage' => ['boolean'],
                 'league_id' => ['required', 'integer'],

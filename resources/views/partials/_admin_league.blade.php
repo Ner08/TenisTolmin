@@ -40,6 +40,8 @@
 
                     $t1_sets_won = $match->t1SetsWon();
                     $t2_sets_won = $match->t2SetsWon();
+
+                    $game_played = $match->game_played();
                 @endphp
                 <div class="mb-4 rounded-md bg-gray-200 pt-2 text-gray-900">
                     <div class="flex justify-between items-center px-4">
@@ -54,12 +56,14 @@
                                 </div>
                             @elseif (!$team1->is_fake)
                                 <div>
-                                    <p class="font-semibold text-sm">{{ $t1_name }} <span
-                                            class="text-blue-500">({{ $t1_ranking }})</span></p>
+                                    <p class="font-semibold text-sm">{{ $t1_name }} @if (!isset($t1p2))
+                                            <span class="text-blue-500">({{ $t1_ranking }})</span>
+                                        @endif
+                                    </p>
                                 </div>
                             @endif
                         @endif
-                        @if (isset($t1_sets_won))
+                        @if (isset($t1_sets_won) && $game_played)
                             <div @class([
                                 'text-white' => isset($winner),
                                 'px-3',
@@ -87,12 +91,14 @@
 
                             @elseif (!$team2->is_fake)
                                 <div>
-                                    <p class="font-semibold text-sm">{{ $t2_name }} <span
-                                            class="text-blue-500">({{ $t2_ranking }})</span></p>
+                                    <p class="font-semibold text-sm">{{ $t2_name }} @if (!isset($t2p2))
+                                            <span class="text-blue-500">({{ $t2_ranking }})</span>
+                                        @endif
+                                    </p>
                                 </div>
                             @endif
                         @endif
-                        @if (isset($t2_sets_won))
+                        @if (isset($t2_sets_won) && $game_played)
                             <div @class([
                                 'text-white' => isset($winner),
                                 'px-3',

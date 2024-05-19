@@ -145,6 +145,19 @@
         var deleteConfirmationDialog = document.getElementById('deleteConfirmationDialog');
         deleteConfirmationDialog.classList.add('hidden');
     }
+
+    function toggleComponent(componentId) {
+        var component = document.getElementById(componentId);
+        if (component.style.display === 'none') {
+            component.style.display = 'block';
+            // Save the state to localStorage
+            localStorage.setItem(componentId, 'block');
+        } else {
+            component.style.display = 'none';
+            // Save the state to localStorage
+            localStorage.setItem(componentId, 'none');
+        }
+    }
 </script>
 
 </html>

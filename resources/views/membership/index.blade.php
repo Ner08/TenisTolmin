@@ -3,7 +3,7 @@
     <style>
         /* Custom CSS to add margin on the x-axis */
         .container-padding {
-            padding: 30px 0 10px 10px;
+            padding: 30px 20px 10px 20px;
             /* Add padding to the left and right sides */
         }
     </style>

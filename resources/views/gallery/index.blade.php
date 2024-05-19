@@ -7,14 +7,16 @@
             @if ($gallery->isEmpty())
                 <x-empty model1="Galerija" />
             @endif
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 <!-- Gallery items -->
                 @foreach ($gallery as $item)
-                    <div class="flex flex-col items-center justify-center rounded-lg p-4">
-                        <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}"
-                            class="w-full h-auto rounded-lg cursor-pointer"
-                            onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">
-                        <!-- You can add additional information or styling here if needed -->
+                    <div class="flex flex-col items-center justify-center p-1 rounded-md md:shadow-lg lg:shadow-2xl h-full">
+                        <div class="image-container h-64 w-full flex-shrink-0">
+                            <img src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}"
+                                class="w-full h-full rounded-md cursor-pointer"
+                                onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')"
+                                style="object-fit: cover;">
+                        </div>
                     </div>
                 @endforeach
             </div>
