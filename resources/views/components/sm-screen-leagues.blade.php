@@ -25,7 +25,7 @@
         ];
     @endphp
 
-    <div class="p-3 pl-12 bg-gray-200" onclick="toggleComponent('bracketMobile{{$key}}')">
+    <div class="p-3 pl-12 bg-gray-200 shadow-inner" onclick="toggleComponent('bracketMobile{{$key}}')">
         <h2 class="text-gray-900 font-bold text-xl">{{ $bracket->name }}</h2>
     </div>
     <div id="bracketMobile{{$key}}" style="display: none">
