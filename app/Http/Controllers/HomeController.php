@@ -14,7 +14,7 @@ class HomeController extends Controller
     {
         return view('home.index', [
             'news' => News::latest()->paginate(3),
-            'events' => Event::latest()->paginate(6),
+            'events' => Event::latest()->paginate(3),
             'leagues' => League::latest()->where('l_home_page', true)->paginate(3),
             'gallery' => Gallery::latest()->where('home_page', true)->paginate(3),
         ]);

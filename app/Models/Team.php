@@ -74,7 +74,7 @@ class Team extends Model
             ->orWhere('id', $this->p2_id);
     }
 
-     /**
+    /**
      * Get the players names
      */
     public function playerNames()
@@ -104,6 +104,9 @@ class Team extends Model
                 if ($matchup->t1SetsWon() == 2 && $matchup->t2SetsWon() == 0) {
                     // Team won 2:0
                     $points += 3;
+                } elseif ($matchup->t1SetsWon() == 2 && $matchup->t2SetsWon() == 1) {
+                    // Team won 2:1
+                    $points += 2;
                 } elseif ($matchup->t1SetsWon() == 1 && $matchup->t2SetsWon() == 2) {
                     // Team lost 1:2
                     $points += 1;
@@ -115,11 +118,13 @@ class Team extends Model
                 if ($matchup->t2SetsWon() == 2 && $matchup->t1SetsWon() == 0) {
                     // Team won 2:0
                     $points += 3;
+                } elseif ($matchup->t2SetsWon() == 2 && $matchup->t1SetsWon() == 1) {
+                    // Team won 2:1
+                    $points += 2;
                 } elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 2) {
                     // Team lost 1:2
                     $points += 1;
-                }
-                elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 0) {
+                } elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 0) {
                     // Team lost 1:2
                     $points += 3;
                 }
@@ -152,11 +157,19 @@ class Team extends Model
             if ($this->id == $matchup->team1_id) {
                 $delta += intval($matchup->t1_first_set) - intval($matchup->t2_first_set);
                 $delta += intval($matchup->t1_second_set) - intval($matchup->t2_second_set);
-                $delta += intval($matchup->t1_third_set) - intval($matchup->t2_third_set);
+                if (intval($matchup->t1_third_set) > intval($matchup->t2_third_set)) {
+                    $delta += 1;
+                } else if (intval($matchup->t1_third_set) < intval($matchup->t2_third_set)) {
+                    $delta += -1;
+                }
             } elseif ($this->id == $matchup->team2_id) {
                 $delta += intval($matchup->t2_first_set) - intval($matchup->t1_first_set);
                 $delta += intval($matchup->t2_second_set) - intval($matchup->t1_second_set);
-                $delta += intval($matchup->t2_third_set) - intval($matchup->t1_third_set);
+                if (intval($matchup->t2_third_set) > intval($matchup->t1_third_set)) {
+                    $delta += 1;
+                } else if (intval($matchup->t2_third_set) < intval($matchup->t1_third_set)) {
+                    $delta += -1;
+                }
             }
         }
         return $delta;
