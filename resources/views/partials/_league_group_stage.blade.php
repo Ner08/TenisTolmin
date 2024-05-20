@@ -19,7 +19,7 @@
         <h2 class="text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h2>
     </div>
 
-    <div id="group{{ $key }}" style="display: none">
+    <div id="group{{ $key }}" style="display: block">
         {{-- Table of points in group --}}
         <div class="overflow-x-auto border-gray-300 border-2">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden divide-y divide-gray-200">
@@ -75,7 +75,7 @@
                                     ? $p1->p_name .
                                         '<span class="text-blue-500"> (' .
                                         $p1->ranking() .
-                                        ')</span> | ' .
+                                        ')</span>, ' .
                                         $p2->p_name .
                                         '<span class="text-blue-500"> (' .
                                         $p2->ranking() .
@@ -88,7 +88,9 @@
                                 })
                                 ->count();
 
-                            $t1_ranking = ($p1->ranking() ?? '') . (isset($p2) ? '-' . $p2->ranking() : '');
+                            $teamSetDelta = $team->group_set_delta();
+                            $teamGameDelta = $team->group_game_delta();
+                            $teamPoints = $team->group_points();
                             // Calculate total points for the team
                         @endphp
                         <tr class="hover:bg-gray-100">
@@ -102,13 +104,13 @@
                                 {{ $playedMatchupsCount }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $team->group_set_delta() }}
+                                {{ $teamSetDelta }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $team->group_game_delta() }}
+                                {{ $teamGameDelta }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $team->group_points() }}
+                                {{ $teamPoints }}
                             </td>
                         </tr>
                     @endforeach
@@ -132,8 +134,8 @@
                                 $t2p1 = $team2->player1;
                                 $t2p2 = $team2->player2;
 
-                                $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
-                                $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
+                                $t1_name = isset($t1p2) ? $t1p1->p_name . ', ' . $t1p2->p_name : $t1p1->p_name;
+                                $t2_name = isset($t2p2) ? $t2p1->p_name . ', ' . $t2p2->p_name : $t2p1->p_name;
 
                                 $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                                 $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
@@ -193,14 +195,14 @@
                         </div>
                         <!-- Move the endResult div to the bottom -->
                         <div
-                            class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center p-1 pb-2 mt-auto">
+                            class="flex justify-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center p-1 mt-auto">
                             @if (isset($match->exception))
                                 <div
-                                    class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                                    class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center">
                                     {{ $match->exception }}</div>
                             @elseif (isset($match->endResult))
                                 <div
-                                    class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
+                                    class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center">
                                     {{ $match->endResult }}</div>
                             @endif
                         </div>

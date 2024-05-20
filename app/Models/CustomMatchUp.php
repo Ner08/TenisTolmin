@@ -43,18 +43,18 @@ class CustomMatchUp extends Model
 
     public function t1SetsWon()
     {
-        $firstSet = ($this->t1_first_set > $this->t2_first_set) ? 1 : 0;
-        $secondSet = ($this->t1_second_set > $this->t2_second_set) ? 1 : 0;
-        $thirdSet = ($this->t1_third_set > $this->t2_third_set) ? 1 : 0;
+        $firstSet = (intval($this->t1_first_set) > intval($this->t2_first_set)) ? 1 : 0;
+        $secondSet = (intval($this->t1_second_set) > intval($this->t2_second_set)) ? 1 : 0;
+        $thirdSet = (intval($this->t1_third_set) > intval($this->t2_third_set)) ? 1 : 0;
 
         return $firstSet + $secondSet + $thirdSet;
     }
 
     public function t2SetsWon()
     {
-        $firstSet = ($this->t1_first_set < $this->t2_first_set) ? 1 : 0;
-        $secondSet = ($this->t1_second_set < $this->t2_second_set) ? 1 : 0;
-        $thirdSet = ($this->t1_third_set < $this->t2_third_set) ? 1 : 0;
+        $firstSet = (intval($this->t2_first_set) > intval($this->t1_first_set)) ? 1 : 0;
+        $secondSet = (intval($this->t2_second_set) > intval($this->t1_second_set)) ? 1 : 0;
+        $thirdSet = (intval($this->t2_third_set) > intval($this->t1_third_set)) ? 1 : 0;
 
         return $firstSet + $secondSet + $thirdSet;
     }

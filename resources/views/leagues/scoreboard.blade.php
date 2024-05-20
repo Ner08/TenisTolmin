@@ -15,9 +15,9 @@
                     @endphp
                     <div class="bg-white rounded-md shadow-md overflow-hidden flex">
                         <div @class([
-                            'bg-yellow-300' => $ranking === 1,
-                            'bg-slate-400' => $ranking === 2,
-                            'bg-amber-800' => $ranking === 3,
+                            'bg-[#ffc60a]' => $ranking === 1,
+                            'bg-[#C0C0C0]' => $ranking === 2,
+                            'bg-[#CD7F32]' => $ranking === 3,
                             'bg-gray-200' => $ranking !== 1 && $ranking !== 2 && $ranking !== 3,
                             'text-center',
                             'w-16',

@@ -75,7 +75,7 @@
                                     ? $p1->p_name .
                                         '<span class="text-blue-500"> (' .
                                         $p1->ranking() .
-                                        ')</span> | ' .
+                                        ')</span>, ' .
                                         $p2->p_name .
                                         '<span class="text-blue-500"> (' .
                                         $p2->ranking() .

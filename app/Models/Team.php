@@ -79,7 +79,7 @@ class Team extends Model
      */
     public function playerNames()
     {
-        $name = isset($this->name) ? ($this->name) : (isset($this->player2) ? $this->player1->p_name . ' | ' . $this->player2->p_name : $this->player1->p_name);
+        $name = isset($this->name) ? ($this->name) : (isset($this->player2) ? $this->player1->p_name . ', ' . $this->player2->p_name : $this->player1->p_name);
         return $name;
     }
 
@@ -100,21 +100,28 @@ class Team extends Model
         // Iterate over each matchup
         foreach ($this->matchups as $matchup) {
             // Check if the team won
-            if ($this->id === $matchup->team1_id) {
-                if ($matchup->t1SetsWon() === 2 && $matchup->t2SetsWon() === 0) {
+            if ($this->id == $matchup->team1_id) {
+                if ($matchup->t1SetsWon() == 2 && $matchup->t2SetsWon() == 0) {
                     // Team won 2:0
                     $points += 3;
-                } elseif ($matchup->t1SetsWon() === 1 && $matchup->t2SetsWon() === 2) {
+                } elseif ($matchup->t1SetsWon() == 1 && $matchup->t2SetsWon() == 2) {
+                    // Team lost 1:2
+                    $points += 1;
+                } elseif ($matchup->t1SetsWon() == 1 && $matchup->t2SetsWon() == 0) {
+                    // Team won 1:0
+                    $points += 3;
+                }
+            } elseif ($this->id == $matchup->team2_id) {
+                if ($matchup->t2SetsWon() == 2 && $matchup->t1SetsWon() == 0) {
+                    // Team won 2:0
+                    $points += 3;
+                } elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 2) {
                     // Team lost 1:2
                     $points += 1;
                 }
-            } elseif ($this->id === $matchup->team2_id) {
-                if ($matchup->t2SetsWon() === 2 && $matchup->t1SetsWon() === 0) {
-                    // Team won 2:0
-                    $points += 3;
-                } elseif ($matchup->t2SetsWon() === 1 && $matchup->t1SetsWon() === 2) {
+                elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 0) {
                     // Team lost 1:2
-                    $points += 1;
+                    $points += 3;
                 }
             }
         }
@@ -127,9 +134,9 @@ class Team extends Model
         // Iterate over each matchup
         foreach ($this->matchups as $matchup) {
             // Check if the team won
-            if ($this->id === $matchup->team1_id) {
+            if ($this->id == $matchup->team1_id) {
                 $delta += $matchup->t1SetsWon() - $matchup->t2SetsWon();
-            } elseif ($this->id === $matchup->team2_id) {
+            } elseif ($this->id == $matchup->team2_id) {
                 $delta += $matchup->t2SetsWon() - $matchup->t1SetsWon();
             }
         }
@@ -142,14 +149,14 @@ class Team extends Model
         // Iterate over each matchup
         foreach ($this->matchups as $matchup) {
             // Check if the team won
-            if ($this->id === $matchup->team1_id) {
-                $delta += $matchup->t1_first_set - $matchup->t2_first_set;
-                $delta += $matchup->t1_second_set - $matchup->t2_second_set;
-                $delta += $matchup->t1_third_set - $matchup->t2_third_set;
-            } elseif ($this->id === $matchup->team2_id) {
-                $delta += $matchup->t2_first_set - $matchup->t1_first_set;
-                $delta += $matchup->t2_second_set - $matchup->t1_second_set;
-                $delta += $matchup->t2_third_set - $matchup->t1_third_set;
+            if ($this->id == $matchup->team1_id) {
+                $delta += intval($matchup->t1_first_set) - intval($matchup->t2_first_set);
+                $delta += intval($matchup->t1_second_set) - intval($matchup->t2_second_set);
+                $delta += intval($matchup->t1_third_set) - intval($matchup->t2_third_set);
+            } elseif ($this->id == $matchup->team2_id) {
+                $delta += intval($matchup->t2_first_set) - intval($matchup->t1_first_set);
+                $delta += intval($matchup->t2_second_set) - intval($matchup->t1_second_set);
+                $delta += intval($matchup->t2_third_set) - intval($matchup->t1_third_set);
             }
         }
         return $delta;
