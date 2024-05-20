@@ -7,7 +7,7 @@
     {{-- News Details --}}
     <section class="m-3 mt-6">
         <div class="container mx-auto">
-            <div class="bg-gray-900 rounded-lg shadow-md overflow-hidden text-white flex flex-col-reverse lg:flex-row">
+            <div class="bg-gray-900 rounded-lg shadow-xl overflow-hidden text-white flex flex-col-reverse lg:flex-row">
                 <!-- Updated flexbox classes -->
                 <div class="w-full lg:w-4/5 p-6"> <!-- Updated width classes -->
                     <h2 class="text-3xl font-semibold mb-2">{{ $newsItem['title'] }}</h2>
