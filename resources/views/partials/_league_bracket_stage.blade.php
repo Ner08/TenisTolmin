@@ -1,5 +1,5 @@
 @foreach ($brackets as $key => $bracket)
-    <div class="p-2 pl-12 bg-gray-200 cursor-pointer hover:bg-gray-300 hover:shadow-lg hover:text-gray-800 transition-all duration-300"
+    <div class="p-2 pl-12 bg-gray-200 cursor-pointer shadow-inner hover:bg-gray-300 hover:shadow-lg hover:text-gray-800 transition-all duration-300"
         onclick="toggleComponent('league{{ $key }}')">
         <h1 class="p-2 inline-block text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h1>
     </div>

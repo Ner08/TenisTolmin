@@ -1,4 +1,5 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    @title('Urejanje igralca - ' . $player->p_name . ' - Tenis Tolmin')
     <div class="container mx-auto pt-4 px-4 mb-8">
         <div class="mb-4">
             <form action="{{ route('players_edit', $player->id) }}" method="POST"

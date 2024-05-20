@@ -1,4 +1,5 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    @title('Urejanje igre - Tenis Tolmin')
     <div class="bg-gray-200 pb-5">
         <div class="container mx-auto pt-4 px-4">
             <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">

@@ -1,4 +1,5 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    @title('Urejanje Skupine - ' . $bracket->name . ' - Tenis Tolmin')
     <!-- Include Delete Confirmation Component -->
     <x-delete-confirmation />
     <x-admin-title-simple :title="'Liga / Turnir • ' . $bracket->league->name" />

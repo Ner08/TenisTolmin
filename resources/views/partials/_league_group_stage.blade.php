@@ -14,7 +14,7 @@
         ];
     @endphp
 
-    <div class="p-4 pl-12 bg-gray-200 cursor-pointer hover:bg-gray-300 hover:shadow-lg hover:text-gray-800 transition-all duration-300"
+    <div class="p-4 pl-12 bg-gray-200 cursor-pointer shadow-inner hover:bg-gray-300 hover:shadow-lg hover:text-gray-800 transition-all duration-300"
         onclick="toggleComponent('group{{ $key }}')">
         <h2 class="text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h2>
     </div>

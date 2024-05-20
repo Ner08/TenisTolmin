@@ -18,15 +18,15 @@
                 <x-league-group-title title="Skupinski del" divId="groupMobileComponent" />
             @endif
             <div id="groupMobileComponent">
-                @if ($brackets->isEmpty() && $brackets_group->isEmpty())
-                    <div class="m-6">
-                        <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
-                            Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
-                        </div>
-                    </div>
-                @endif
                 @include('partials._sm_league_group_stage', ['brackets' => $brackets_group])
             </div>
+            @if ($brackets->isEmpty() && $brackets_group->isEmpty())
+                <div class="m-6">
+                    <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
+                        Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
+                    </div>
+                </div>
+            @endif
         @else
             <x-league-title :data="['name' => $league->name, 'start_date' => $league->start_date, 'end_date' => $league->end_date]" />
             @if ($brackets->isNotEmpty())

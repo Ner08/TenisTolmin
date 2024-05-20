@@ -1,4 +1,5 @@
 <x-layout>
+    @title('Napaka 403 - Tenis Tolmin')
     <div class="flex flex-col items-center justify-center mt-12">
         <img src="/images/403.png" alt="Napaka 403" class="mb-8" style="max-width: 300px;">
         <h1 class="text-3xl font-semibold text-gray-800 mb-4">Opa! Dostop prepovedan</h1>
