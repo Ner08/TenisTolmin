@@ -1,5 +1,5 @@
 <x-layout>
-
+    @title('Lige in turnirji - Tenis Tolmin')
     <x-title title="Vse lige in turnirji" />
 
     {{-- Leagues --}}

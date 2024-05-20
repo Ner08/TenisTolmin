@@ -1,4 +1,5 @@
 <x-layout>
+    @title('Novice - Tenis Tolmin')
     {{-- News --}}
     <x-title title="Vse novice" />
     <section class="py-8 px-4">

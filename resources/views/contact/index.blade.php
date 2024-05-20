@@ -1,4 +1,5 @@
 <x-layout>
+    @title('Kontaktne informacije - Tenis Tolmin')
     <x-title title="Kontaktne informacije"/>
 
     {{-- Informacije za stik --}}

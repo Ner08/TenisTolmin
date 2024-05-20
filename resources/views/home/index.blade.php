@@ -1,5 +1,7 @@
 <x-layout :message="$message ?? null">
 
+@title('Tenis Tolmin')
+
 {{-- Welcome --}}
 @include('partials._welcome')
 

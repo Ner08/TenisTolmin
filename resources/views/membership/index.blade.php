@@ -1,5 +1,5 @@
 <x-layout>
-
+    @title('Članstvo - Tenis Tolmin')
     <style>
         /* Custom CSS to add margin on the x-axis */
         .container-padding {

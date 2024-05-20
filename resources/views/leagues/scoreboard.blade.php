@@ -1,4 +1,5 @@
 <x-layout>
+    @title('Tminska ATP lestvica - Tenis Tolmin')
     <x-title title="Tminska ATP lestvica" />
     @php
          $maxPoints = $maxPoints > 0 ? $maxPoints : 100;
@@ -17,7 +18,7 @@
                         <div @class([
                             'bg-[#ffc60a]' => $ranking === 1,
                             'bg-[#C0C0C0]' => $ranking === 2,
-                            'bg-[#CD7F32]' => $ranking === 3,
+                            'bg-[#7F9FFB]' => $ranking === 3,
                             'bg-gray-200' => $ranking !== 1 && $ranking !== 2 && $ranking !== 3,
                             'text-center',
                             'w-16',

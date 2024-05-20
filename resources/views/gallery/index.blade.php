@@ -1,4 +1,5 @@
 <x-layout>
+    @title('Galerija - Tenis Tolmin')
     {{-- Gallery --}}
     <x-title title="Galerija" />
     <section class="py-8 px-4">

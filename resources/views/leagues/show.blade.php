@@ -1,4 +1,10 @@
 <x-layout>
+    @php
+        $title = 'Liga ali turnir - ' . $league->name;
+        $titleTab = $title . ' - Tenis Tolmin';
+    @endphp
+
+    @title($titleTab)
     <div>
         @if ($isMobile)
             <x-sm-league-title :data="['name' => $league->name, 'start_date' => $league->start_date, 'end_date' => $league->end_date]" />

@@ -1,4 +1,6 @@
 <x-layout :message="$message ?? null" :flash="$flash ?? null" :model="$model ?? null">
+    @title('Admin plošča - Tenis Tolmin')
+
     <!-- Include Delete Confirmation Component -->
     <x-delete-confirmation />
 

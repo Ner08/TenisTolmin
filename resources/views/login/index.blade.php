@@ -1,5 +1,5 @@
 <x-layout-login>
-
+    @title('Prijava - Tenis Tolmin')
     <style>
         /* Style for autocomplete background color */
         input:-webkit-autofill {

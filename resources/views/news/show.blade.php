@@ -1,7 +1,11 @@
 <x-layout>
     @php
-        $title = 'Novice • ' . $newsItem->title;
+        $title = 'Novice - ' . $newsItem->title;
+        $titleTab = $title . ' - Tenis Tolmin';
     @endphp
+
+    @title($titleTab)
+
     <x-title :title="$title" />
 
     {{-- News Details --}}
