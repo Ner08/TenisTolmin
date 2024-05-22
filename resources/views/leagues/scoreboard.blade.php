@@ -18,7 +18,7 @@
                         <div @class([
                             'bg-[#ffc60a]' => $ranking === 1,
                             'bg-[#C0C0C0]' => $ranking === 2,
-                            'bg-[#7F9FFB]' => $ranking === 3,
+                            'bg-[#B9732D]' => $ranking === 3,
                             'bg-gray-200' => $ranking !== 1 && $ranking !== 2 && $ranking !== 3,
                             'text-center',
                             'w-16',

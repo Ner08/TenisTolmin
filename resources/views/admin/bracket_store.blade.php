@@ -94,10 +94,8 @@
                 <div class="mb-4" id="pointsDescriptionContainer">
                     <label for="points_description" class="block text-gray-700 font-semibold">Opis števila
                         točk:</label>
-                    <input type="text" name="points_description" id="points_description"
-                        placeholder="Vnesite opis števila točk pridobljenih glede na doseženo mesto"
-                        class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                        value="{{ old('points_description') }}">
+                        <textarea name="points_description" id="points_description" placeholder="Vnesite opis števila točk pridobljenih glede na doseženo mesto"
+                        class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4">{{ old('points_description') }}</textarea>
                     @error('points_description')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror

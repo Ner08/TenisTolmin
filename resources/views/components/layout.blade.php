@@ -2,7 +2,12 @@
 <html>
 
 <head>
+    <title>Teniški klub Tolmin</title>
     <meta charset="utf-8">
+    <meta name="author" content="Nejc Robič">
+    <meta name="description"
+        content="
+    Teniški klub Tolmin je priljubljena destinacija za ljubitelje tenisa v Tolminu in okolici. Naša ponudba vključuje številna peščena igrišča, ki omogočajo igro tenisa v naravnem okolju. Poleg rednih teniških aktivnosti organiziramo tudi teniško ligo, kjer se lahko pomerite s tekmovalci različnih nivojev. Ne zamudite naših dogodkov, ki vključujejo druženja ob igri in razburljive turnirje, kjer lahko pokažete svoje spretnosti. Pridružite se nam v Teniškem klubu Tolmin in ustvarite nepozabne teniške trenutke.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
     <script src="//unpkg.com/alpinejs" defer></script>

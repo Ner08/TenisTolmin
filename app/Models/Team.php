@@ -106,7 +106,7 @@ class Team extends Model
                     $points += 3;
                 } elseif ($matchup->t1SetsWon() == 2 && $matchup->t2SetsWon() == 1) {
                     // Team won 2:1
-                    $points += 2;
+                    $points += 3;
                 } elseif ($matchup->t1SetsWon() == 1 && $matchup->t2SetsWon() == 2) {
                     // Team lost 1:2
                     $points += 1;
@@ -120,7 +120,7 @@ class Team extends Model
                     $points += 3;
                 } elseif ($matchup->t2SetsWon() == 2 && $matchup->t1SetsWon() == 1) {
                     // Team won 2:1
-                    $points += 2;
+                    $points += 3;
                 } elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 2) {
                     // Team lost 1:2
                     $points += 1;

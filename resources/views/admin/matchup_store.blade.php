@@ -26,20 +26,19 @@
             </div>
             <div class="mb-6">
                 <label for="is_group_stage">Skupinski del</label>
-                <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2"
-                    value="1" @if ($bracket->is_group_stage == 1) checked @endif>
+                <input type="checkbox" name="is_group_stage" id="is_group_stage" class="ml-2" value="1"
+                    @if ($bracket->is_group_stage == 1) checked @endif>
                 @error('is_group_stage')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="mb-4" id="pointsDescriptionContainer">
-                <label for="points_description" class="block text-gray-700 font-semibold">Opis števila
-                    točk:</label>
-                <input type="text" name="points_description" id="points_description"
+                <label for="points_description" class="block text-gray-700 font-semibold">Opis števila točk:</label>
+                <textarea name="points_description" id="points_description"
                     placeholder="Vnesite opis števila točk pridobljenih glede na doseženo mesto"
-                    class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4"
-                    value="{{ $bracket->points_description }}" @if ($bracket->is_group_stage == 1) disabled @endif>
+                    class="form-textarea rounded-lg w-full h-48 focus:outline-none  border-gray-300 py-3 px-4"
+                    @if ($bracket->is_group_stage == 1) disabled @endif>{{ old('points_description', $bracket->points_description) }}</textarea>
                 @error('points_description')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -198,7 +197,7 @@
                             class="block bg-gray-400 text-white font-semibold text-sm py-1 mb-0 px-4 mt-3 rounded-b-none rounded-lg">Oznaka</label>
                         <input type="text" name="t1_tag"
                             class="form-input w-full focus:outline-none border-gray-300 py-2 px-4 mt-0 rounded-t-none rounded-lg"
-                            placeholder="Oznaka igralca / ekipe" value="{{ old('t1_tag') }}"/>
+                            placeholder="Oznaka igralca / ekipe" value="{{ old('t1_tag') }}" />
                         @error('t1_tag')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -243,12 +242,12 @@
                     <div>
                         <input type="number" name="t1_first_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 prvi set" value="{{ old('t1_first_set') }}"/>
+                            placeholder="Ekipa/igralec 1 prvi set" value="{{ old('t1_first_set') }}" />
                     </div>
                     <div>
                         <input type="number" name="t2_first_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 prvi set" value="{{ old('t2_first_set') }}"/>
+                            placeholder="Ekipa/igralec 2 prvi set" value="{{ old('t2_first_set') }}" />
                     </div>
                 </div>
                 @error('t1_first_set')
@@ -263,12 +262,12 @@
                     <div>
                         <input type="number" name="t1_second_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 drugi set" value="{{ old('t1_second_set') }}"/>
+                            placeholder="Ekipa/igralec 1 drugi set" value="{{ old('t1_second_set') }}" />
                     </div>
                     <div>
                         <input type="number" name="t2_second_set"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 drugi set" value="{{ old('t2_second_set') }}"/>
+                            placeholder="Ekipa/igralec 2 drugi set" value="{{ old('t2_second_set') }}" />
                     </div>
                 </div>
                 @error('t1_second_set')
@@ -283,12 +282,12 @@
                     <div>
                         <input type="number" name="t1_third_set" min="0"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 1 tretji set" value="{{ old('t1_third_set') }}"/>
+                            placeholder="Ekipa/igralec 1 tretji set" value="{{ old('t1_third_set') }}" />
                     </div>
                     <div>
                         <input type="number" name="t2_third_set" min="0"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Ekipa/igralec 2 tretji set" value="{{ old('t2_third_set') }}"/>
+                            placeholder="Ekipa/igralec 2 tretji set" value="{{ old('t2_third_set') }}" />
                     </div>
                 </div>
                 @error('t1_third_set')
@@ -301,7 +300,8 @@
                     <label for="exception" class="block text-gray-700 font-semibold mb-2">Besedilo po meri</label>
                     <input type="text" name="exception"
                         class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                        placeholder="Vnesi besedilo (Prepiše skupni rezultat) Primer: Brez boja " value="{{ old('exception') }}"/>
+                        placeholder="Vnesi besedilo (Prepiše skupni rezultat) Primer: Brez boja "
+                        value="{{ old('exception') }}" />
                 </div>
                 @error('exception')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -311,7 +311,8 @@
                         <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
                         <input type="number" name="round" min="1" max="9"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
-                            placeholder="Vnesi rundo (v katerem krogu bo igra potekala)" value="{{ old('round') }}"/>
+                            placeholder="Vnesi rundo (v katerem krogu bo igra potekala)"
+                            value="{{ old('round') }}" />
                     </div>
                 </div>
                 @error('round')
