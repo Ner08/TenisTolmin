@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\MembershipMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
@@ -14,7 +16,6 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LeaguesController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MembershipController;
-
 
 //Storage
 Route::get('/storage/{filename}', [StorageController::class, 'show'])->name('storage.show');
@@ -66,6 +67,7 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // Membership
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership');
+Route::post('/membership/mail', [MembershipController::class, 'sendEmail'])->name('send_email');
 
 // Events
 Route::get('/events', [EventController::class, 'index'])->name('events');
@@ -100,3 +102,8 @@ Route::get('/error/403', function () {
     // Handle 403 errors here
     return view('errors.error-403');
 })->name('error403');
+
+Route::get('/1', function () {
+    // Handle 403 errors here
+    return view('mail.membership');
+})->name('bla');
