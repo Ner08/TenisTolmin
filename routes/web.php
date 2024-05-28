@@ -67,13 +67,14 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // Membership
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership');
+Route::put('/membership/{membership}', [MembershipController::class, 'edit'])->name('membership_edit')->middleware('admin_api');
 Route::post('/membership/mail', [MembershipController::class, 'sendEmail'])->name('send_email');
 
 // Events
 Route::get('/events', [EventController::class, 'index'])->name('events');
 Route::post('/events', [EventController::class, 'store'])->name('events_store')->middleware('admin_api');
 Route::put('/events/{event}', [EventController::class, 'edit'])->name('events_edit')->middleware('admin_api');
-Route::delete('/events{event}', [EventController::class, 'destroy'])->name('events_destroy')->middleware('admin_api');
+Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('events_destroy')->middleware('admin_api');
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events_detail');
 
 //Players
@@ -102,8 +103,3 @@ Route::get('/error/403', function () {
     // Handle 403 errors here
     return view('errors.error-403');
 })->name('error403');
-
-Route::get('/1', function () {
-    // Handle 403 errors here
-    return view('mail.membership');
-})->name('bla');

@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('membership', function (Blueprint $table) {
+        Schema::create('memberships', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('year');
             $table->string('price_adults');
             $table->string('price_seniors');
-            $table->string('price_teens');
+            $table->string('price_students');
+            $table->string('price_kids');
             $table->string('price_family');
             $table->string('trr');
             $table->string('sklic');
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('membership');
+        Schema::dropIfExists('memberships');
     }
 };

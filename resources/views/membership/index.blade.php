@@ -1,4 +1,4 @@
-<x-layout :message="$message ?? null" >
+<x-layout :message="$message ?? null">
     @title('Članstvo - Tenis Tolmin')
     <style>
         /* Custom CSS to add margin on the x-axis */
@@ -6,6 +6,7 @@
             padding: 20px 20px 0px 20px;
             /* Add padding to the left and right sides */
         }
+
         .container-padding2 {
             padding: 0px 20px 10px 20px;
             /* Add padding to the left and right sides */
@@ -29,28 +30,25 @@
 
             <!-- Left side content -->
             <div class="bg-yellow-700 rounded-t-xl p-3 text-gray-100 shadow-md">
-                <h2 class="text-xl font-bold text-center">Članarina 2024</h2>
+                <h2 class="text-xl font-bold text-center">Članarina {{ $membership->year }}</h2>
             </div>
             <div class="mb-6 bg-yellow-200 rounded-b-xl shadow-md p-4">
-
                 <ul class="list-disc list-inside mb-4">
-                    <li>Za odrasle <b class="text-yellow-900">100,00 EUR</b></li>
-                    <li>Za starejše od 65 let <b class="text-yellow-900">80,00 EUR</b></li>
-                    <li>Za dijake in študente (ob preložitvi potrdila o vpisu) <b class="text-yellow-900">65,00 EUR</b>
-                    </li>
-                    <li>Za otroke <b class="text-yellow-900">35,00 EUR</b></li>
-                    <li>Za družine <b class="text-yellow-900">220,00 EUR</b></li>
+                    <li>Za odrasle <b class="text-yellow-900">{{ number_format($membership->price_adults, 2) }} EUR</b></li>
+                    <li>Za starejše od 65 let <b class="text-yellow-900">{{ number_format($membership->price_seniors, 2) }} EUR</b></li>
+                    <li>Za dijake in študente (ob preložitvi potrdila o vpisu) <b class="text-yellow-900">{{ number_format($membership->price_students, 2) }} EUR</b></li>
+                    <li>Za otroke <b class="text-yellow-900">{{ number_format($membership->price_kids, 2) }} EUR</b></li>
+                    <li>Za družine <b class="text-yellow-900">{{ number_format($membership->price_family, 2) }} EUR</b></li>
                 </ul>
                 <ul class="list-decimal list-inside mb-4">
                     <li>Vpisnina se zaračuna samo ob prvem vpisu v klub.</li>
-                    <li>Družina obsega članstvo za dve odrasli osebi in otroke do dopolnjenega 26 leta starosti, če se
-                        redno ali izredno šolajo in niso v rednem delovnem razmerju.</li>
+                    <li>Družina obsega članstvo za dve odrasli osebi in otroke do dopolnjenega 26 leta starosti, če se redno ali izredno šolajo in niso v rednem delovnem razmerju.</li>
                 </ul>
                 <p class="mb-1">Podatki za plačilo:</p>
-                <p>Transakcijski računi št.: <b class="text-yellow-900">SI56 0475 3000 0388 292</b> (Nova KBM d.d.)</p>
-                <p>Sklic: <b class="text-yellow-900">SI00 2024</b></p>
-                <p>Namen plačila: <b class="text-yellow-900">Članarina 2024</b></p>
-                <p>Prejemnik: <b class="text-yellow-900">TENIŠKI KLUB TOLMIN, Dijaška ulica 12 c, 5220 Tolmin</b></p>
+                <p>Transakcijski računi št.: <b class="text-yellow-900">{{ $membership->trr }}</b></p>
+                <p>Sklic: <b class="text-yellow-900">{{ $membership->sklic }}</b></p>
+                <p>Namen plačila: <b class="text-yellow-900">{{ $membership->namen }}</b></p>
+                <p>Prejemnik: <b class="text-yellow-900">{{ $membership->prejemnik }}</b></p>
             </div>
 
             {{-- <!-- Left side content -->
@@ -95,11 +93,13 @@
                             <label for="adult" class="ml-2">Odrasel</label>
                         </div>
                         <div>
-                            <input type="radio" id="senior" name="type" value="Starejši od 65 let" class="form-radio">
+                            <input type="radio" id="senior" name="type" value="Starejši od 65 let"
+                                class="form-radio">
                             <label for="senior" class="ml-2">Starejši od 65 let</label>
                         </div>
                         <div>
-                            <input type="radio" id="student" name="type" value="Dijak ali študent" class="form-radio">
+                            <input type="radio" id="student" name="type" value="Dijak ali študent"
+                                class="form-radio">
                             <label for="student" class="ml-2">Dijak ali študent</label>
                         </div>
                         <div>

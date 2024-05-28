@@ -1,6 +1,6 @@
 <div class="container px-4 mx-auto py-8">
     <h1 class="text-3xl font-bold mb-3">Galerija</h1>
-    <h4 class="text-lg text-gray-600 mb-8">Naša teniška galerija ponuja vpogled v dogodke našega teniškega kluba. Slike zajemajo igralne trenutke in sproščena druženja, ki odražajo strast in povezanost naših članov,</h4>
+    <h4 class="text-lg text-gray-600 mb-8">Naša teniška galerija ponuja vpogled v dogodke našega teniškega kluba. Slike zajemajo igralne trenutke in sproščena druženja, ki odražajo strast in povezanost naših članov.</h4>
     {{-- If no news show empty component --}}
     @if ($gallery->isEmpty())
         <x-empty model1="Slike" />

@@ -3,15 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MembershipMailRequest;
+use App\Http\Requests\MembershipRequest;
 use App\Mail\MembershipMail;
-use Illuminate\Http\Request;
+use App\Models\Membership;
 use Illuminate\Support\Facades\Mail;
 
 class MembershipController extends Controller
 {
     public function index()
     {
-        return view('membership.index');
+        return view('membership.index', [
+            'membership' => Membership::first()
+        ]);
+    }
+
+    public function edit(MembershipRequest $request, Membership $membership)
+    {
+        $membership->update($request->validated());
+
+        return back()->with(['message' => 'Članarina uspešno posodobljena']);
     }
 
     public function sendEmail(MembershipMailRequest $request)

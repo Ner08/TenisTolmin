@@ -7,6 +7,7 @@ use App\Models\CustomMatchUp;
 use App\Models\Event;
 use App\Models\Gallery;
 use App\Models\League;
+use App\Models\Membership;
 use App\Models\News;
 use App\Models\Player;
 use App\Models\Team;
@@ -24,6 +25,7 @@ class AdminController extends Controller
                 ->orderBy('created_at', 'desc') // Then order by creation date
                 ->filter(request(['search_gallery']))
                 ->paginate(12),
+            'membership' => Membership::first(),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),
             'search_events' => request('search_events'),
