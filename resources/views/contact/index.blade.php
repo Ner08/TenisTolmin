@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :message="$message ?? null">
     @title('Kontaktne informacije - Tenis Tolmin')
     <x-title title="Kontaktne informacije" />
 
@@ -7,18 +7,19 @@
         <div class="container mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mx-4">
                 <div>
-                    <h2 class="text-2xl text-center font-bold bg-sky-700 p-2 rounded-t-xl text-gray-100">Informacije
+                    <h2 class="text-2xl text-center font-bold bg-gray-700 p-2 rounded-t-xl text-gray-100">Informacije
                     </h2>
                     <div class="bg-gray-100  p-6 pb-1 shadow-md md:order-2">
 
-                        <p class="text-gray-700"> <b>Naslov:</b> Dijaška ulica 12c</p>
-                        <p class="text-gray-700"><b>Mesto:</b> Tolmin, Slovenija, 5220</p>
-                        <p class="text-gray-700"><b>Email:</b> <a href="mailto:damijan.zarli@gmail.com"
-                                class="text-blue-600">info@tenis-tolmin.si</a></p>
+                        <p class="text-gray-800"> <b class="text-gray-900">Naslov:</b> Dijaška ulica 12c</p>
+                        <p class="text-gray-800"><b class="text-gray-900">Mesto:</b> Tolmin, Slovenija, 5220</p>
+                        <p class="text-gray-800"><b class="text-gray-900">Email:</b> <a
+                                href="mailto:damijan.zarli@gmail.com" class="text-blue-600">info@tenis-tolmin.si</a></p>
                         {{-- <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p> --}}
-                        <p class="text-gray-700"><b>TRR:</b> SI56 0475 3000 0388 292 NOVA KBM d.d.</p>
-                        <p class="text-gray-700"><b>Matična številka:</b> 5214955000</p>
-                        <p class="text-gray-700"><b>Predsednik:</b> Damijan Zarli</p>
+                        <p class="text-gray-800"><b class="text-gray-900">TRR:</b> SI56 0475 3000 0388 292 NOVA KBM d.d.
+                        </p>
+                        <p class="text-gray-800"><b class="text-gray-900">Matična številka:</b> 5214955000</p>
+                        <p class="text-gray-800"><b class="text-gray-900">Predsednik:</b> Damijan Zarli</p>
                     </div>
                     <div class="bg-gray-100 p-6 pb-2 rounded-b-lg shadow-md">
                         <div class="aspect-w-1 aspect-h-1 mb-4">
@@ -29,29 +30,39 @@
                     </div>
                 </div>
                 <div>
-                    <h2 class="text-2xl text-center font-bold bg-gray-700 p-2 rounded-t-xl text-gray-100">Kontaktirajte nas
+                    <h2 class="text-2xl text-center font-bold bg-amber-600 p-2 rounded-t-xl text-gray-100">Kontaktirajte
+                        nas
                     </h2>
-                    <form action="{{ route('send_email') }}" method="POST" class="bg-gray-200 p-6 rounded-b-xl shadow-md mb-6">
+                    <form action="{{ route('contact_send_email') }}" method="POST"
+                        class="bg-amber-100 p-6 rounded-b-xl shadow-md mb-6">
                         @csrf
                         <div class="mb-4">
-                            <label for="email" class="block text-sm font-medium text-gray-700">Elektronski naslov*</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Elektronski
+                                naslov*</label>
                             <input type="email" id="email" name="email"
                                 class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
                                 required>
+                            @error('email')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div class="mb-4">
                             <label for="content" class="block text-sm font-medium text-gray-700">Sporočilo*</label>
                             <textarea name="content" id="content"
-                            class="form-textarea mt-1 p-2 rounded-lg w-full h-28 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
+                                class="form-textarea mt-1 p-2 rounded-lg w-full h-28 focus:outline-none  border-gray-300 py-3 px-4" required></textarea>
+                            @error('content')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mb-5">
-                            <p> <b class="text-gray-700">Pošljite nam sporočilo </b> in odgovorili vam bomo v najkrajšem možnem času.</p>
+                            <p> <b class="text-amber-600">Pošljite nam sporočilo </b> in odgovorili vam bomo v
+                                najkrajšem možnem času.</p>
                         </div>
 
                         <div class="">
                             <button type="submit"
-                                class="w-full px-4 py-2 bg-gray-700 text-white font-semibold rounded-md shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Pošlji</button>
+                                class="w-full px-4 py-2 bg-amber-600 text-white font-semibold rounded-md shadow-sm hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">Pošlji</button>
                         </div>
                     </form>
                 </div>

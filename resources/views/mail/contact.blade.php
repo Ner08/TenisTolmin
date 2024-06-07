@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Novi član - Teniški klub Tolmin</title>
+    <title>Kontakt - Teniški klub Tolmin</title>
     <style>
         body {
             font-family: Trebuchet, sans-serif;
@@ -76,13 +76,11 @@
 <body>
     <div class="email-container">
         <div class="email-header">
-            <h1>Prošnja včlanitve - TK Tolmin</h1>
+            <h1>Uporabnik nas je kontaktiral - TK Tolmin</h1>
         </div>
         <div class="email-body">
-            <p><strong>Ime:</strong> {{ $name ?? '' }}</p>
             <p><strong>Email:</strong> {{ $email  ?? ''}}</p>
-            <p><strong>Telefonska številka:</strong> {{ $telephone ?? 'Ni bila podana' }}</p>
-            <p><strong>Vrsta članarine:</strong> {{ $membershipType ?? '' }}</p>
+            <p><strong>Sporočilo:</strong> {{ $content ?? '' }}</p>
         </div>
         <div class="email-footer">
             <p>Ta e-pošta je bila poslana samodejno s spletne strani Teniškega kluba Tolmin.</p>

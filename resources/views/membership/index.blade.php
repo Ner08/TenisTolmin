@@ -34,15 +34,21 @@
             </div>
             <div class="mb-6 bg-yellow-200 rounded-b-xl shadow-md p-4">
                 <ul class="list-disc list-inside mb-4">
-                    <li>Za odrasle <b class="text-yellow-900">{{ number_format($membership->price_adults, 2) }} EUR</b></li>
-                    <li>Za starejše od 65 let <b class="text-yellow-900">{{ number_format($membership->price_seniors, 2) }} EUR</b></li>
-                    <li>Za dijake in študente (ob preložitvi potrdila o vpisu) <b class="text-yellow-900">{{ number_format($membership->price_students, 2) }} EUR</b></li>
-                    <li>Za otroke <b class="text-yellow-900">{{ number_format($membership->price_kids, 2) }} EUR</b></li>
-                    <li>Za družine <b class="text-yellow-900">{{ number_format($membership->price_family, 2) }} EUR</b></li>
+                    <li>Za odrasle <b class="text-yellow-900">{{ number_format($membership->price_adults, 2) }} EUR</b>
+                    </li>
+                    <li>Za starejše od 65 let <b
+                            class="text-yellow-900">{{ number_format($membership->price_seniors, 2) }} EUR</b></li>
+                    <li>Za dijake in študente (ob preložitvi potrdila o vpisu) <b
+                            class="text-yellow-900">{{ number_format($membership->price_students, 2) }} EUR</b></li>
+                    <li>Za otroke <b class="text-yellow-900">{{ number_format($membership->price_kids, 2) }} EUR</b>
+                    </li>
+                    <li>Za družine <b class="text-yellow-900">{{ number_format($membership->price_family, 2) }} EUR</b>
+                    </li>
                 </ul>
                 <ul class="list-decimal list-inside mb-4">
                     <li>Vpisnina se zaračuna samo ob prvem vpisu v klub.</li>
-                    <li>Družina obsega članstvo za dve odrasli osebi in otroke do dopolnjenega 26 leta starosti, če se redno ali izredno šolajo in niso v rednem delovnem razmerju.</li>
+                    <li>Družina obsega članstvo za dve odrasli osebi in otroke do dopolnjenega 26 leta starosti, če se
+                        redno ali izredno šolajo in niso v rednem delovnem razmerju.</li>
                 </ul>
                 <p class="mb-1">Podatki za plačilo:</p>
                 <p>Transakcijski računi št.: <b class="text-yellow-900">{{ $membership->trr }}</b></p>
@@ -65,24 +71,34 @@
                 <h2 class="text-xl font-bold text-center">Včlanite se v teniški klub</h2>
             </div>
 
-            <form action="{{ route('send_email') }}" method="POST" class="bg-gray-200 p-6 rounded-b-xl shadow-md mb-6">
+            <form action="{{ route('membership_send_email') }}" method="POST"
+                class="bg-gray-200 p-6 rounded-b-xl shadow-md mb-6">
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-medium text-gray-700">Ime in preimek*</label>
                     <input type="text" id="name" name="name"
                         class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
                         required>
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-700">Elektronski naslov*</label>
                     <input type="email" id="email" name="email"
                         class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50"
                         required>
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <label for="telephone" class="block text-sm font-medium text-gray-700">Telefonska številka</label>
                     <input type="tel" id="telephone" name="telephone"
                         class="mt-1 p-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                    @error('telephone')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -111,6 +127,9 @@
                             <label for="family" class="ml-2">Družina</label>
                         </div>
                     </div>
+                    @error('type')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-4">
                     <p> <b>Informacija:</b> Po poslani prošnji vas bomo kontaktirali z nadaljnimi napotki.</p>

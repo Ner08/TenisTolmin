@@ -64,11 +64,12 @@ Route::get('/admin/event/{event}', [AdminController::class, 'event_edit'])->name
 
 //Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact/mail', [ContactController::class, 'sendEmail'])->name('contact_send_email');
 
 // Membership
 Route::get('/membership', [MembershipController::class, 'index'])->name('membership');
 Route::put('/membership/{membership}', [MembershipController::class, 'edit'])->name('membership_edit')->middleware('admin_api');
-Route::post('/membership/mail', [MembershipController::class, 'sendEmail'])->name('send_email');
+Route::post('/membership/mail', [MembershipController::class, 'sendEmail'])->name('membership_send_email');
 
 // Events
 Route::get('/events', [EventController::class, 'index'])->name('events');
