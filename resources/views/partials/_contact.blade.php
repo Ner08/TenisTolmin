@@ -8,7 +8,7 @@
                     Matična številka: 5214955000:<br>
                     Davčna številka: 44248598<br>
                     TRR: SI56 0475 3000 0388 292 NOVA KBM d.d.<br>
-                    Predsednik: Damijan Zarli
+                    Predsednik: Aleš Hvala
                 </p>
             </div>
             <div>

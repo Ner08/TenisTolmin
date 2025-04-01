@@ -14,12 +14,12 @@
                         <p class="text-gray-800"> <b class="text-gray-900">Naslov:</b> Dijaška ulica 12c</p>
                         <p class="text-gray-800"><b class="text-gray-900">Mesto:</b> Tolmin, Slovenija, 5220</p>
                         <p class="text-gray-800"><b class="text-gray-900">Email:</b> <a
-                                href="mailto:damijan.zarli@gmail.com" class="text-blue-600">info@tenis-tolmin.si</a></p>
+                                href="mailto:info@tenis-tolmin.si" class="text-blue-600">info@tenis-tolmin.si</a></p>
                         {{-- <p class="text-gray-700"><b>Telefon:</b> <a href="tel:123-456-7890" class="text-blue-600">123-456-7890</a></p> --}}
                         <p class="text-gray-800"><b class="text-gray-900">TRR:</b> SI56 0475 3000 0388 292 NOVA KBM d.d.
                         </p>
                         <p class="text-gray-800"><b class="text-gray-900">Matična številka:</b> 5214955000</p>
-                        <p class="text-gray-800"><b class="text-gray-900">Predsednik:</b> Damijan Zarli</p>
+                        <p class="text-gray-800"><b class="text-gray-900">Predsednik:</b> Aleš Hvala</p>
                     </div>
                     <div class="bg-gray-100 p-6 pb-2 rounded-b-lg shadow-md">
                         <div class="aspect-w-1 aspect-h-1 mb-4">
