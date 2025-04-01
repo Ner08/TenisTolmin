@@ -20,12 +20,12 @@
             <div class="mb-6">
                 <h2 class="text-xl font-semibold mb-2">Članstvo v klubu</h2>
                 <p class="mb-4">Članstvo v klubu se pridobi s prijavo (prošnjo za včlanitev) in plačilom članarine.</p>
-                <p>Za članstvo, plačilo članarine ter pridobitev paketa za rezervacijo igrišč se obrnite na <b>go. Janjo
-                        Lesjak,</b> Ali pa izpolnite obrazec pod rubriko "včlanite se v teniški klub"
+                <p>Za članstvo, plačilo članarine ter pridobitev paketa za rezervacijo igrišč nas kontaktirajte na
+                    elektronskem naslovu ali pa izpolnite obrazec pod rubriko "včlanite se v teniški klub"
 
 
                     .</p>
-                <p class="mt-2">Kontakt: <b>j.lesjak555@gmail.com</b></p>
+                <p class="mt-2">Kontakt: <b>info@tenis-tolmin.si</b></p>
             </div>
 
             <!-- Left side content -->
