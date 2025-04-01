@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('memberships', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');  // This will ensure it auto-increments
             $table->timestamps();
             $table->integer('year');
             $table->string('price_adults');
