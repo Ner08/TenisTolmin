@@ -79,6 +79,11 @@ class LeaguesController extends Controller
         // Validate the request data
         $validatedData = $request->validated();
 
+        // If checkbox is missing, manually set it to 0
+        if (!isset($validatedData['l_home_page'])) {
+            $validatedData['l_home_page'] = 0;
+        }
+
         // Update the league with the validated data
         $league->update($validatedData);
 
@@ -96,7 +101,10 @@ class LeaguesController extends Controller
     public function showScoreboard()
     {
         return view('leagues.scoreboard', [
-            'players' => Player::where('is_fake', false)->orderByDesc('points')->get(),
+            'players' => Player::where('is_fake', false)
+                ->orderByDesc('points')
+                ->orderBy('p_name')
+                ->get(),
             'maxPoints' => Player::where('is_fake', false)->max('points')
         ]);
     }

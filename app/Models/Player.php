@@ -36,12 +36,16 @@ class Player extends Model
     }
 
     public function ranking() {
-        // Get the count of players who have more points than the current player
         $rank = $this->newQuery()
-            ->where('points', '>', $this->points)
+            ->where(function ($query) {
+                $query->where('points', '>', $this->points)
+                      ->orWhere(function ($query) {
+                          $query->where('points', $this->points)
+                                ->where('p_name', '<', $this->p_name);
+                      });
+            })
             ->count();
 
-        // Add 1 to the rank to account for 0-based indexing
         return $rank + 1;
     }
 }
