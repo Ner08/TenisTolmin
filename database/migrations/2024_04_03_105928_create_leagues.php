@@ -110,13 +110,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('players');
-        Schema::dropIfExists('leagues');
-        Schema::dropIfExists('score_boards');
-        Schema::dropIfExists('league_comments');
-        Schema::dropIfExists('brackets');
-        Schema::dropIfExists('teams');
-        Schema::dropIfExists('custom_matchups');
         Schema::dropIfExists('league_news');
+        Schema::dropIfExists('custom_match_ups'); // typo fixed too (was: custom_matchups)
+        Schema::dropIfExists('teams');
+        Schema::dropIfExists('brackets');
+        Schema::dropIfExists('league_comments');
+        Schema::dropIfExists('score_boards');
+        Schema::dropIfExists('leagues');
+        Schema::dropIfExists('players');
     }
 };
