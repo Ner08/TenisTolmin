@@ -4,16 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected static function booted(): void
+    {
+        static::forceDeleting(function (News $news) {
+            if ($news->image) {
+                Storage::disk('public')->delete($news->image);
+            }
+        });
+    }
+
     protected $fillable = [
         'title',
         'content',

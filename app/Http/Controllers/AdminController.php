@@ -37,22 +37,25 @@ class AdminController extends Controller
     public function bracket_setup(League $league)
     {
         $brackets = Bracket::where('league_id', $league->id)->latest()->paginate(12);
+        $players = Player::orderBy('is_fake')->orderBy('p_name')->get();
         return view('admin.bracket_store', [
             'league' => $league,
             'brackets' => $brackets,
-            'playersSelect' =>  Player::where('id', '!=', 1)->orderBy('p_name')->get(),
-            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
+            'playersSelect' => $players->where('id', '!=', 1)->values(),
+            'players' => $players,
         ]);
     }
     public function matchup_setup(Bracket $bracket)
     {
+        $teams = Team::where('bracket_id', $bracket->id)->get();
+        $players = Player::orderBy('is_fake')->orderBy('p_name')->get();
         return view('admin.matchup_store', [
             'bracket' => $bracket,
             'matchups' => CustomMatchUp::where('bracket_id', $bracket->id)->orderBy('round')->paginate(21),
-            'teams' => Team::where('bracket_id', $bracket->id)->get(),
-            'numOfTeams' => Team::where('bracket_id', $bracket->id)->where('is_fake', false)->count(),
-            'playersSelect' => Player::where('id', '!=', 1)->orderBy('p_name')->get(),
-            'players' => Player::orderBy('is_fake')->orderBy('p_name')->get(),
+            'teams' => $teams,
+            'numOfTeams' => $teams->where('is_fake', false)->count(),
+            'playersSelect' => $players->where('id', '!=', 1)->values(),
+            'players' => $players,
         ]);
     }
 

@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Team extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
 
     /**
@@ -125,7 +126,7 @@ class Team extends Model
                     // Team lost 1:2
                     $points += 1;
                 } elseif ($matchup->t2SetsWon() == 1 && $matchup->t1SetsWon() == 0) {
-                    // Team lost 1:2
+                    // Team won 1:0
                     $points += 3;
                 }
             }

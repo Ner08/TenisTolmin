@@ -42,23 +42,21 @@ class GalleryController extends Controller
         ]);
 
         if ($request->hasFile('g_image')) {
+            if ($gallery->g_image) {
+                Storage::disk('public')->delete($gallery->g_image);
+            }
             $formFields['g_image'] = $request->file('g_image')->store('images', 'public');
         }
 
         $gallery->update($formFields);
-
-        //TODO: delete files that are no longer used
 
         return back()->with(['message' => 'Slika posodobljena']);
     }
 
     public function destroy(Gallery $gallery)
     {
-        // Delete the image from the server
-        Storage::disk('public')->delete($gallery->g_image);
-        // Delete the gallery item from the database
         $gallery->delete();
 
-        return back()->with(['message' => 'Novica uspešno zbirsana(a)']);
+        return back()->with(['message' => 'Slika uspešno zbrisana']);
     }
 }

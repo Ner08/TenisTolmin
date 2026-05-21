@@ -1,68 +1,21 @@
 <div>
-    <a href="{{ route('news_detail', $item['id']) }}">
-        <div
-            class="block bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1">
+    <a href="{{ route('news_detail', $item['id']) }}" class="group block h-full">
+        <div class="h-full bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col">
             @if (isset($item['image']))
-                <div class="relative overflow-hidden rounded-t-lg">
-                    <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['title'] }}"
-                        class="w-full h-64 object-cover">
-                    <div class="absolute inset-0 bg-gray-900 opacity-25"></div>
-                </div>
-                <div class="p-6 flex flex-col justify-between">
-                    <div class="overflow-hidden">
-                        <h2 class="text-xl font-semibold mb-2">{{ $item['title'] }}</h2>
-                        <p class="text-gray-700 line-clamp-3">{!! $item['content'] !!}</p>
-                    </div>
-                    <p class="text-gray-600 mt-2 text-right">{{ $item['created_at']->format('d.m.Y') }}</p>
+                <div class="relative overflow-hidden bg-gray-100 aspect-[16/7] flex-shrink-0">
+                    <img src="{{ asset('storage/' . $item['image']) }}"
+                         alt="{{ $item['title'] }}"
+                         loading="lazy"
+                         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
             @else
-                <div class="p-6 flex flex-col justify-between">
-                    <div class="overflow-hidden">
-                        <h2 class="text-xl font-semibold mb-2">{{ $item['title'] }}</h2>
-                        <p class="text-gray-700">{{ Str::limit($item['content'], 650) }}</p>
-                    </div>
-                    <p class="text-gray-600 mt-2 text-right">{{ $item['created_at']->format('d.m.Y') }}</p>
-                </div>
+                <div class="h-2 bg-gradient-to-r from-amber-400 to-amber-600 flex-shrink-0"></div>
             @endif
+            <div class="p-5 flex flex-col flex-grow">
+                <h2 class="text-base font-semibold text-gray-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors duration-150">{{ $item['title'] }}</h2>
+                <p class="text-sm text-gray-500 line-clamp-3 flex-grow">{{ Str::limit(strip_tags($item['content']), 180) }}</p>
+                <p class="text-xs text-gray-400 mt-3 font-medium">{{ $item['created_at']->format('d. m. Y') }}</p>
+            </div>
         </div>
     </a>
 </div>
-
-{{-- WITH HIGHLIGHTED DATES --}}
-{{-- <div>
-    <a href="{{ route('news_detail', $item['id']) }}">
-        <div class="block bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1">
-            @if (isset($item['image']))
-                <div class="relative overflow-hidden rounded-t-lg">
-                    <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
-                        class="w-full h-64 object-cover">
-                    <div class="absolute inset-0 bg-gray-900 opacity-25"></div>
-                </div>
-                <div class="p-6 flex flex-col justify-between">
-                    <div class="overflow-hidden">
-                        <h2 class="text-xl font-semibold mb-2">{{ $item['title'] }}</h2>
-                        <p class="text-gray-700 line-clamp-3">{!! $item['content'] !!}</p>
-                    </div>
-                    <div class="flex justify-end items-center mt-2">
-                        <div class="bg-gray-900 rounded-full text-sm px-2 py-1 text-gray-200">
-                            <p>{{ $item['created_at']->format('d.m.Y') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @else
-                <div class="p-6 flex flex-col justify-between">
-                    <div class="overflow-hidden">
-                        <h2 class="text-xl font-semibold mb-2">{{ $item['title'] }}</h2>
-                        <p class="text-gray-700">{{ Str::limit($item['content'], 650) }}</p>
-                    </div>
-                    <div class="flex justify-end items-center mt-2">
-                        <div class="bg-gray-900 rounded-full text-sm px-2 py-1 text-gray-200">
-                            <p>{{ $item['created_at']->format('d.m.Y') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-        </div>
-    </a>
-</div>
- --}}

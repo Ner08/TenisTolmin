@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan *)",
+      "Bash(Get-Content app/Models/News.php, app/Models/League.php, app/Models/Event.php, app/Models/Gallery.php, app/Models/Player.php, app/Models/Bracket.php, app/Models/CustomMatchUp.php, app/Models/Team.php)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Nejc Robič\\\\Documents\\\\Projects\\\\Home\\\\TenisTolmin\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(npm run *)",
+      "Bash(grep -c '$this->match\\(' database/seeders/LeagueSeeder.php)"
+    ]
+  }
+}
