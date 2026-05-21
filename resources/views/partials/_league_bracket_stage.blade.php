@@ -1,10 +1,19 @@
 @foreach ($brackets as $key => $bracket)
-    <div class="p-2 pl-12 bg-gray-200 cursor-pointer shadow-inner hover:bg-gray-300 hover:shadow-lg hover:text-gray-800 transition-all duration-300"
-        onclick="toggleComponent('league{{ $key }}')">
-        <h1 class="p-2 inline-block text-gray-900 font-bold text-2xl">{{ $bracket->name }}</h1>
+    <div class="border-b border-gray-200 bg-white cursor-pointer hover:bg-gray-50 transition-colors duration-150 group"
+         onclick="toggleComponent('league{{ $key }}')">
+        <div class="px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-1 h-5 bg-amber-500 rounded-full"></div>
+                <h2 class="text-sm font-semibold text-gray-800">{{ $bracket->name }}</h2>
+            </div>
+            <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
     </div>
+
     <div id="league{{ $key }}" style="display: none">
-        <div class="m-2 p-4 pb-0 bg-white rounded-xl">
+        <div class="p-4 bg-gray-50">
             @php
                 $lastRound = $bracket->matchUps->max('round') ?? 10;
                 $roundTitles = [
@@ -16,41 +25,24 @@
                     6 => ['1.Krog', '2.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
                     7 => ['1.Krog', '2.Krog', '3.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
                     8 => ['1.Krog', '2.Krog', '3.Krog', '4.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-                    9 => [
-                        '1.Krog',
-                        '2.Krog',
-                        '3.Krog',
-                        '4.Krog',
-                        '5.Krog',
-                        'Osminafinala',
-                        'Četrtfinale',
-                        'Polfinale',
-                        'Finale',
-                    ],
+                    9 => ['1.Krog', '2.Krog', '3.Krog', '4.Krog', '5.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
                     10 => ['Tekme še niso določene.'],
                 ];
-
-                // Calculate the width of each column
-                $colWidth = 12 / $lastRound; // Divide 12 (the number of columns in Bootstrap grid system) by the total number of rounds
+                $colWidth = 12 / $lastRound;
             @endphp
 
-            <div
-                class="mb-4 grid-flow-col items-center border-0 border-b-2 border-gray-200 text-center text-lg font-bold uppercase hidden md:grid">
+            {{-- Round headers --}}
+            <div class="mb-3 grid-flow-col items-center text-center text-xs font-semibold uppercase tracking-wide text-gray-400 hidden md:grid">
                 @foreach ($roundTitles[$lastRound] as $title)
-                    <div class="w-full md:w-auto md:flex-grow-0 md:w-{{ $colWidth }}">{{ $title }}
-                    </div>
+                    <div class="w-full md:w-{{ $colWidth }}">{{ $title }}</div>
                 @endforeach
             </div>
 
-            <div @class([
-                'grid',
-                'grid-flow-col',
-                'grid-cols-' . $lastRound,
-                'items-center',
-            ])>
+            {{-- Bracket grid --}}
+            <div @class(['grid', 'grid-flow-col', 'grid-cols-' . $lastRound, 'items-center'])>
                 @foreach ($bracket->matchUps->sortBy('round')->groupBy('round') as $key => $match)
                     <div @class([
-                        'mx-2',
+                        'mx-1.5',
                         'h-1/' . 2 ** ($key + 1) => $key != 1,
                         'grid',
                         'grid-flow-row',
@@ -64,102 +56,67 @@
                                 $team2 = App\Models\Team::where('id', $match->team2_id)->first();
                                 $t2p1 = $team2->player1;
                                 $t2p2 = $team2->player2;
-
                                 $t1_name = isset($t1p2) ? $t1p1->p_name . ' | ' . $t1p2->p_name : $t1p1->p_name;
                                 $t2_name = isset($t2p2) ? $t2p1->p_name . ' | ' . $t2p2->p_name : $t2p1->p_name;
-
                                 $t1_ranking = ($t1p1->ranking() ?? '') . (isset($t1p2) ? '-' . $t1p2->ranking() : '');
                                 $t2_ranking = ($t2p1->ranking() ?? '') . (isset($t2p2) ? '-' . $t2p2->ranking() : '');
-
                                 $winner = $match->winner() ?? null;
-
                                 $t1_sets_won = $match->t1SetsWon();
                                 $t2_sets_won = $match->t2SetsWon();
-
                                 $game_played = $match->game_played();
                             @endphp
-                            <div class="mb-4 rounded-md bg-gray-200 pt-2 text-gray-900">
-                                <div class="flex justify-between items-center px-4">
+                            <div class="mb-3 rounded-xl bg-white border border-gray-200 overflow-hidden shadow-sm">
+                                {{-- Team 1 --}}
+                                <div class="flex items-center justify-between px-3 py-2.5 border-b border-gray-100">
                                     @if ($match->t1_tag)
-                                        <div
-                                            class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">
-                                            {{ $match->t1_tag }}</div>
+                                        <span class="text-sm font-semibold bg-gray-900 text-white px-2.5 py-0.5 rounded-md">{{ $match->t1_tag }}</span>
+                                    @elseif (!$team1->is_fake)
+                                        <p class="text-sm font-medium text-gray-900 flex-1 leading-snug">
+                                            {{ $t1_name }}
+                                            @if (!isset($t1p2))
+                                                <span class="text-amber-700 text-xs font-medium">&nbsp;({{ $t1_ranking }})</span>
+                                            @endif
+                                        </p>
+                                    @else
+                                        <p class="text-sm text-gray-400 italic">{{ $t1_name }}</p>
                                     @endif
-                                    @if (isset($t2_name))
-                                        @if (!isset($match->t1_tag) && $team1->is_fake)
-                                            <div>
-                                                <p class="font-semibold text-sm">{{ $t1_name }}</p>
-                                            </div>
-                                        @elseif (isset($match->t1_tag) && $team1->is_fake)
-
-                                        @elseif (!$team1->is_fake)
-                                            <div>
-                                                <p class="font-semibold text-sm">{{ $t1_name }} @if (!isset($t1p2))
-                                                        <span class="text-blue-500">({{ $t1_ranking }})</span>
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        @endif
-                                    @endif
-                                    @if (isset($t1_sets_won) && $game_played)
-                                        <div @class([
-                                            'text-white' => isset($winner),
-                                            'px-3',
-                                            'ml-2',
-                                            'py-1',
-                                            'rounded-full',
-                                            'bg-green-600' => isset($winner) && $winner,
-                                            'bg-red-600' => isset($winner) && !$winner,
-                                        ])>
-                                            <p class="text-right">{{ $t1_sets_won }}</p>
-                                        </div>
+                                    @if ($game_played)
+                                        <span @class([
+                                            'text-sm font-bold w-7 h-7 flex items-center justify-center rounded-full ml-2 flex-shrink-0',
+                                            'bg-green-500 text-white' => isset($winner) && $winner,
+                                            'bg-red-400 text-white' => isset($winner) && !$winner,
+                                            'bg-gray-100 text-gray-500' => !isset($winner),
+                                        ])>{{ $t1_sets_won }}</span>
                                     @endif
                                 </div>
-                                <div class="flex justify-between items-center my-2 px-4 ">
+                                {{-- Team 2 --}}
+                                <div class="flex items-center justify-between px-3 py-2.5">
                                     @if ($match->t2_tag)
-                                        <div
-                                            class="bg-gray-900 text-white px-2 py-1 font-semibold text-sm rounded-md mr-4">
-                                            {{ $match->t2_tag }}</div>
+                                        <span class="text-sm font-semibold bg-gray-900 text-white px-2.5 py-0.5 rounded-md">{{ $match->t2_tag }}</span>
+                                    @elseif (!$team2->is_fake)
+                                        <p class="text-sm font-medium text-gray-900 flex-1 leading-snug">
+                                            {{ $t2_name }}
+                                            @if (!isset($t2p2))
+                                                <span class="text-amber-700 text-xs font-medium">&nbsp;({{ $t2_ranking }})</span>
+                                            @endif
+                                        </p>
+                                    @else
+                                        <p class="text-sm text-gray-400 italic">{{ $t2_name }}</p>
                                     @endif
-                                    @if (isset($t2_name))
-                                        @if (!isset($match->t2_tag) && $team2->is_fake)
-                                            <div>
-                                                <p class="font-semibold text-sm">{{ $t2_name }}</p>
-                                            </div>
-                                        @elseif (isset($match->t2_tag) && $team2->is_fake)
-
-                                        @elseif (!$team2->is_fake)
-                                            <div>
-                                                <p class="font-semibold text-sm">{{ $t2_name }} @if (!isset($t2p2))
-                                                        <span class="text-blue-500">({{ $t2_ranking }})</span>
-                                                    @endif
-                                                </p>
-                                            </div>
-                                        @endif
+                                    @if ($game_played)
+                                        <span @class([
+                                            'text-sm font-bold w-7 h-7 flex items-center justify-center rounded-full ml-2 flex-shrink-0',
+                                            'bg-green-500 text-white' => isset($winner) && !$winner,
+                                            'bg-red-400 text-white' => isset($winner) && $winner,
+                                            'bg-gray-100 text-gray-500' => !isset($winner),
+                                        ])>{{ $t2_sets_won }}</span>
                                     @endif
-                                    @if (isset($t2_sets_won) && $game_played)
-                                        <div @class([
-                                            'text-white' => isset($winner),
-                                            'px-3',
-                                            'ml-2',
-                                            'py-1',
-                                            'rounded-full',
-                                            'bg-green-600' => isset($winner) && !$winner,
-                                            'bg-red-600' => isset($winner) && $winner,
-                                        ])>
-                                            <p class="text-right">{{ $t2_sets_won }}</p>
-                                        </div>
-                                    @endif
-
                                 </div>
-                                @if (isset($match->exception))
-                                    <div
-                                        class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
-                                        {{ $match->exception }}</div>
-                                @elseif (isset($match->endResult))
-                                    <div
-                                        class="text-center bg-gray-600 text-gray-200 rounded-b-md font-semibold items-center pb-1">
-                                        {{ $match->endResult }}</div>
+                                {{-- Result footer --}}
+                                @if ($match->exception || $match->endResult !== 'Prihajajoča igra')
+                                    <div class="px-3 py-1.5 bg-gray-50 border-t border-gray-100 text-xs text-gray-500 text-center font-medium">
+                                        {{ $match->exception ?? $match->endResult }}
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
@@ -168,9 +125,9 @@
             </div>
         </div>
         @if (isset($bracket->points_description))
-            <div class="m-3 mr-8 pb-4 flex justify-end">
-                <div class="bg-gray-100 rounded-lg p-4 shadow-md">
-                    <p class="text-gray-700 leading-relaxed">{!! nl2br($bracket->points_description) !!}</p>
+            <div class="px-4 pb-4 flex justify-end">
+                <div class="bg-amber-50 border border-amber-100 rounded-xl px-5 py-3 text-sm text-amber-800 max-w-md">
+                    {!! nl2br($bracket->points_description) !!}
                 </div>
             </div>
         @endif

@@ -1,89 +1,91 @@
 <div class="container mx-auto pt-4 px-4 mb-8" id="admin_igralci" style="display: none">
-    <div class="mb-4">
-        <form action="{{ route('players_store') }}" method="POST"
-            class="bg-gray-100 rounded-lg overflow-hidden">
-            <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
-                <h2 class="text-xl font-bold">Dodaj igralca</h2>
+    <div class="mb-6">
+        <form action="{{ route('players_store') }}" method="POST" class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div class="bg-gray-900 text-white px-5 py-3">
+                <h2 class="text-sm font-semibold">Dodaj igralca</h2>
             </div>
-            <div class="p-4">
+            <div class="p-5">
                 @csrf
-                <div class="flex flex-col mb-2 sm:flex-row">
-                    <div class="flex flex-col mr-4 mb-2 sm:mb-0">
-                        <label for="p_name" class="mb-2">Ime:</label>
+                <div class="flex flex-wrap gap-4 items-end">
+                    <div class="flex flex-col flex-1 min-w-[180px]">
+                        <label for="p_name" class="text-xs font-semibold text-gray-700 mb-1.5">Ime</label>
                         <input type="text" name="p_name" id="p_name" placeholder="Vnesi ime igralca"
-                            class="form-input rounded-lg py-3 px-4 w-full sm:w-64 mb-2 sm:mb-0 focus:outline-none "
+                            class="border border-gray-200 rounded-lg py-2.5 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                             value="{{ old('p_name') }}" required>
                         @error('p_name')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="flex flex-col mr-4 mb-2 sm:mb-0">
-                        <label for="points" class="mb-2">Točke:</label>
+                    <div class="flex flex-col w-28">
+                        <label for="points" class="text-xs font-semibold text-gray-700 mb-1.5">Točke</label>
                         <input type="number" name="points" id="points" value="0" min="0"
-                            class="form-input rounded-lg py-3 px-4 w-full sm:w-24 mb-2 sm:mb-0 focus:outline-none "
+                            class="border border-gray-200 rounded-lg py-2.5 px-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                             value="{{ old('points') }}" required>
                         @error('points')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="flex items-end pb-4 sm:mb-0">
+                    <div class="flex items-center gap-2 pb-2.5">
                         <input type="checkbox" name="is_fake" id="is_fake"
-                            class="mr-2 bg-gray-300 rounded-sm h-5 w-5" onchange="togglePointsInput()"
+                            class="w-4 h-4 rounded border-gray-300 text-amber-500 focus:ring-amber-500" onchange="togglePointsInput()"
                             value="1">
-                        <label for="is_fake" class="text-gray-700 font-semibold mr-4">Ni na ATP
-                            lestvici</label>
+                        <label for="is_fake" class="text-sm text-gray-700">Ni na ATP lestvici</label>
                         @error('is_fake')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                    <div class="flex flex-col mr-4">
+                    <div class="pb-0.5">
                         <button type="submit"
-                            class="bg-zinc-600 text-white mt-8 px-3 py-3 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-700">Dodaj</button>
+                            class="bg-gray-900 text-white text-sm px-5 py-2.5 rounded-lg hover:bg-gray-700 transition-colors whitespace-nowrap">
+                            Dodaj
+                        </button>
                     </div>
                 </div>
             </div>
         </form>
     </div>
 
-    <form action="" method="GET" class="flex flex-col items-start">
-        <div class="flex mb-4" id="players">
-            <input type="text" name="search_players" id="search_players" placeholder="Iskanje"
-                class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none"
+    <form action="" method="GET">
+        <div class="flex mb-5">
+            <input type="text" name="search_players" id="search_players" placeholder="Iskanje igralcev..."
+                class="border border-gray-200 rounded-l-lg py-2.5 px-3.5 text-sm w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value="{{ isset($search_players) ? $search_players : '' }}">
             <button type="submit"
-                class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
+                class="bg-gray-900 text-white text-sm px-5 rounded-r-lg hover:bg-gray-700 transition-colors flex-shrink-0">
+                Išči
             </button>
         </div>
     </form>
 
-    <!-- Display list of players with edit and delete buttons -->
     <ul class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3">
         @if ($players->isEmpty())
-            <h2 class="p-4 text-gray-900">Nismo našli nobenega igralca.</h2>
+            <p class="text-sm text-gray-500 col-span-3 py-4">Nismo našli nobenega igralca.</p>
         @else
             @foreach ($players as $player)
-                <li class="rounded-lg shadow-md p-3 bg-white">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <div class="mb-2 md:mb-0">
-                            <p
-                                class="text-xl font-semibold {{ $player->is_fake ? 'text-gray-400' : 'text-gray-900' }}">
-                                {{ $player->p_name }}</p>
-                            <p class="text-gray-600">Točke: {{ $player->points }}</p>
+                <li class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <div class="flex items-center justify-between px-4 py-3">
+                        <div>
+                            <p class="text-sm font-semibold {{ $player->is_fake ? 'text-gray-400' : 'text-gray-900' }}">
+                                {{ $player->p_name }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-0.5">{{ $player->points }} točk</p>
                         </div>
-                        <div class="flex items-center">
-                            <!-- Form to add points -->
+                        <div class="flex items-center gap-2">
                             <form action="{{ route('players_add_points', ['player_id' => $player->id]) }}"
-                                method="POST" class="mr-4">
+                                method="POST" class="flex items-center gap-1.5">
                                 @csrf
-                                <input type="number" name="points" id="points" placeholder="Točke"
-                                    class="form-input rounded-lg pl-2 h-8 w-16 focus:outline-none bg-gray-300"
+                                <input type="number" name="points" placeholder="±"
+                                    class="border border-gray-200 rounded-lg pl-2 h-8 w-14 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
                                     required>
                                 <button type="submit"
-                                    class="bg-green-500 text-white px-2 py-1 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Dodaj</button>
+                                    class="bg-amber-500 text-white text-xs px-2.5 h-8 rounded-lg hover:bg-amber-600 transition-colors font-medium">
+                                    +
+                                </button>
                             </form>
-                            <!-- Edit and Delete buttons -->
                             <a href="{{ route('player_edit', $player->id) }}"
-                                class="text-blue-500 hover:underline mr-4">Uredi</a>
+                                class="text-xs font-medium text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gray-300 transition-colors">
+                                Uredi
+                            </a>
                             <form id="deletePlayersForm{{ $player->id }}"
                                 action="{{ route('players_destroy', ['player' => $player->id]) }}"
                                 method="POST">
@@ -91,14 +93,15 @@
                                 @method('DELETE')
                                 <button type="button"
                                     onclick="showDeleteConfirmation('deletePlayersForm', {{ $player->id }})"
-                                    class="text-red-500 hover:underline">Izbriši</button>
+                                    class="text-xs font-medium text-red-600 bg-white border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">
+                                    Izbriši
+                                </button>
                             </form>
                         </div>
                     </div>
                 </li>
             @endforeach
-
         @endif
     </ul>
-    <div class="p-2">{{ $players->links('pagination::tailwind') }}</div>
+    <div class="mt-3">{{ $players->links('pagination::tailwind') }}</div>
 </div>

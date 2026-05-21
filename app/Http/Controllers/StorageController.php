@@ -8,9 +8,10 @@ class StorageController extends Controller
 {
     public function show($filename)
     {
-        $path = storage_path('app/public/' . $filename);
+        $base = realpath(storage_path('app/public'));
+        $path = realpath(storage_path('app/public/' . $filename));
 
-        if (!file_exists($path)) {
+        if (!$path || !str_starts_with($path, $base . DIRECTORY_SEPARATOR)) {
             abort(404);
         }
 

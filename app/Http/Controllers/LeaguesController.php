@@ -18,27 +18,19 @@ class LeaguesController extends Controller
 {
     public function index()
     {
-        // Get the leagues with their brackets (without teams)
-        $leagues = League::with('brackets')->get();
+        $leagues = League::with('brackets.teams')->get();
 
-        // Paginate the leagues
         $currentPage = request()->get('page') ?: 1;
-        $perPage = 9; // Adjust as needed
-        $path = Route::currentRouteName(); // Get the current route name
+        $perPage = 9;
+        $path = Route::currentRouteName();
         $paginatedLeagues = new LengthAwarePaginator(
             $leagues->forPage($currentPage, $perPage),
             $leagues->count(),
             $perPage,
             $currentPage,
-            ['path' => $path] // Specify the route
+            ['path' => $path]
         );
 
-        // Eager load teams for the paginated brackets
-        foreach ($paginatedLeagues as $league) {
-            $league->brackets->load('teams');
-        }
-
-        // Calculate the total number of players for each league
         $paginatedLeagues->each(function ($league) {
             $league->totalPlayers = $league->brackets->sum(function ($bracket) {
                 return $bracket->teams->count();
@@ -100,12 +92,11 @@ class LeaguesController extends Controller
 
     public function showScoreboard()
     {
+        $players = Player::where('is_fake', false)->orderByDesc('points')->orderBy('p_name')->get();
+
         return view('leagues.scoreboard', [
-            'players' => Player::where('is_fake', false)
-                ->orderByDesc('points')
-                ->orderBy('p_name')
-                ->get(),
-            'maxPoints' => Player::where('is_fake', false)->max('points')
+            'players' => $players,
+            'maxPoints' => $players->max('points') ?? 0,
         ]);
     }
 

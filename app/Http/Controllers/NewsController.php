@@ -39,7 +39,7 @@ class NewsController extends Controller
 
         News::create($formFields);
 
-        return back()->with(['message' => 'Novica uspešno posodobljiva']);
+        return back()->with(['message' => 'Novica uspešno dodana']);
     }
 
     //Edit news
@@ -48,9 +48,9 @@ class NewsController extends Controller
         $formFields = $request->validated();
 
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
-            Storage::disk('public')->delete($news->image);
-            // Store the new image
+            if ($news->image) {
+                Storage::disk('public')->delete($news->image);
+            }
             $formFields['image'] = $request->file('image')->store('images', 'public');
         }
 
@@ -61,12 +61,9 @@ class NewsController extends Controller
 
     public function destroy(News $news)
     {
-        // Delete the image from the server
-        Storage::disk('public')->delete($news->image);
-        // Delete the news item from the database
         $news->delete();
 
-        return back()->with(['message' => 'Novica uspešno zbirsana(a)']);
+        return back()->with(['message' => 'Novica uspešno zbrisana']);
     }
 
 }

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,8 +24,8 @@ class Event extends Model
     ];
     public function scopeFilter($query, array $filter) {
         if ($filter['search_events'] ?? false) {
-            $query->where('title', 'like', '%' . request('search_events') . '%')
-            ->orWhere('description', 'like', '%' . request('search_events') . '%');
+            $query->where('e_title', 'like', '%' . request('search_events') . '%')
+            ->orWhere('e_description', 'like', '%' . request('search_events') . '%');
         }
     }
 }

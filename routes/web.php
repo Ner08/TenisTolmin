@@ -26,7 +26,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // News
 Route::get('/news', [NewsController::class, 'index'])->name('news');
 Route::post('/news', [NewsController::class, 'store'])->name('news_store')->middleware('admin_api');
-Route::put('/news{news}', [NewsController::class, 'edit'])->name('news_edit')->middleware('admin_api');
+Route::put('/news/{news}', [NewsController::class, 'edit'])->name('news_edit')->middleware('admin_api');
 Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news_destroy')->middleware('admin_api');
 Route::get('/news/{news}', [NewsController::class, 'show'])->name('news_detail');
 
@@ -79,6 +79,7 @@ Route::delete('/events/{event}', [EventController::class, 'destroy'])->name('eve
 Route::get('/events/{event}', [EventController::class, 'show'])->name('events_detail');
 
 //Players
+Route::get('/players/{player}', [PlayerController::class, 'show'])->name('player.show');
 Route::post('/players', [PlayerController::class, 'store'])->name('players_store')->middleware('admin_api');
 Route::put('/players/{player}', [PlayerController::class, 'edit'])->name('players_edit')->middleware('admin_api');
 Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players_destroy')->middleware('admin_api');
@@ -93,6 +94,9 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery_store')->middleware('admin_api');
 Route::put('/gallery/{gallery}', [GalleryController::class, 'edit'])->name('gallery_edit')->middleware('admin_api');
 Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery_destroy')->middleware('admin_api');
+
+// Static pages
+Route::view('/terms', 'terms.index')->name('terms');
 
 //Exceptions
 Route::fallback(function () {

@@ -1,91 +1,97 @@
 <div class="container mx-auto mt-3 px-4" id="admin_galerija" style="display: none">
-    <!-- Add new gallery form -->
-    <div class="bg-zinc-900 text-white py-2 px-4 rounded-t-lg">
-        <h2 class="text-xl font-bold">Dodaj Sliko v Galerijo</h2>
+    <div class="bg-gray-900 text-white px-5 py-3 rounded-t-xl">
+        <h2 class="text-sm font-semibold">Dodaj sliko v galerijo</h2>
     </div>
-    <form action="{{ route('gallery_store') }}" method="POST" class="mb-5 bg-gray-100 rounded-lg p-6"
+    <form action="{{ route('gallery_store') }}" method="POST" class="mb-6 bg-white border border-gray-200 border-t-0 rounded-b-xl p-5"
         enctype="multipart/form-data">
         @csrf
         <div class="mb-4">
-            <label for="g_title" class="block text-gray-700 font-semibold">Naslov:</label>
-            <input type="text" name="g_title" id="g_title" placeholder="Vnesite naslov"
-                class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3 px-4"
+            <label for="g_title" class="block text-xs font-semibold text-gray-700 mb-1.5">Naslov</label>
+            <input type="text" name="g_title" id="g_title" placeholder="Vnesite naslov slike"
+                class="border border-gray-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-amber-500 py-2.5 px-3.5 text-sm"
                 value="{{ old('g_title') }}" required>
             @error('g_title')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
-        <div class="mb-4">
+        <div class="mb-4 flex items-center gap-2.5">
             <input type="checkbox" name="home_page" id="home_page"
-                class="mr-2 bg-gray-300 rounded-sm h-5 w-5" value="1">
-            <label for="is_standin" class="text-gray-700 font-semibold mr-4">Na domači strani</label>
+                class="w-4 h-4 rounded border-gray-300 text-amber-500 focus:ring-amber-500" value="1">
+            <label for="home_page" class="text-sm text-gray-700">Prikaži na domači strani</label>
             @error('home_page')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
-            <p class="mt-4 text-gray-600"><b>Informacija:</b> Na domači strani se pokažejo 3 najnovejše
-                slike označene z "Na domači strani"</p>
         </div>
-        <div class="mb-4">
-            <label for="file" class="block text-gray-700 font-semibold">Datoteka:</label>
-            <input type="file" name="g_image" id="g_image"
-                class="form-input rounded-lg w-full focus:outline-none  border-gray-300 py-3"
-                value="{{ old('g_image') }}">
+        <p class="text-xs text-gray-500 mb-4 -mt-2">Na domači strani se pokažejo 3 najnovejše slike označene s to možnostjo.</p>
+        <div class="mb-5">
+            <label class="block text-xs font-semibold text-gray-700 mb-1.5">Slika</label>
+            <label class="flex items-center gap-3 border border-gray-200 rounded-lg px-3.5 py-2.5 cursor-pointer hover:border-amber-400 transition-colors">
+                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span class="text-sm text-gray-500">Izberi sliko</span>
+                <input type="file" name="g_image" id="g_image" class="hidden">
+            </label>
             @error('g_image')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
             @enderror
         </div>
         <button type="submit"
-            class="bg-zinc-500 text-white px-8 py-3 rounded-lg hover:bg-zinc-600 focus:outline-none transition duration-300">Dodaj
+            class="bg-gray-900 text-white text-sm px-6 py-2.5 rounded-lg hover:bg-gray-700 transition-colors">
+            Dodaj sliko
         </button>
     </form>
 
-    <form action="" method="GET" class="flex flex-col items-start">
-        <div class="flex mb-4" id="news">
-            <input type="text" name="search_gallery" id="search_gallery" placeholder="Iskanje"
-                class="form-input rounded-lg py-3 px-4 w-full h-12 sm:w-64 mb-2 sm:mb-0 focus:outline-none "
+    <form action="" method="GET">
+        <div class="flex mb-5">
+            <input type="text" name="search_gallery" id="search_gallery" placeholder="Iskanje slik..."
+                class="border border-gray-200 rounded-l-lg py-2.5 px-3.5 text-sm w-full sm:w-72 focus:outline-none focus:ring-2 focus:ring-amber-500"
                 value="{{ isset($search_gallery) ? $search_gallery : '' }}">
             <button type="submit"
-                class="bg-zinc-600 text-white px-6 h-12 ml-2 rounded-lg hover:bg-zinc-700 focus:outline-none focus:bg-zinc-7s00">Iskanje
+                class="bg-gray-900 text-white text-sm px-5 rounded-r-lg hover:bg-gray-700 transition-colors flex-shrink-0">
+                Išči
             </button>
         </div>
     </form>
-    <!-- Display list of images with edit and delete buttons -->
-    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         @if ($gallery->isEmpty())
-            <h2 class="p-4 text-gray-900">Nismo našli nobene slike.</h2>
+            <p class="text-sm text-gray-500 col-span-3 py-4">Nismo našli nobene slike.</p>
         @else
             @foreach ($gallery as $item)
-                <li class="flex flex-col bg-gray-100 rounded-lg text-gray-900 shadow-md">
-                    <div class="w-full h-64 overflow-hidden rounded-t-lg">
+                <li class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <div class="w-full h-52 overflow-hidden">
                         <img class="object-cover w-full h-full"
                             src="{{ asset('storage/' . $item->g_image) }}" alt="{{ $item->g_title }}">
                     </div>
-                    <div class="flex justify-between items-center my-2 mx-5">
-                        <h2 class="text-lg font-bold mt-1 mb-2">{{ $item->g_title }}</h2>
-                        <div class="flex">
+                    <div class="px-4 py-3">
+                        <div class="flex items-center justify-between mb-0.5">
+                            <h2 class="text-sm font-semibold text-gray-900">{{ $item->g_title }}</h2>
                             @if ($item->home_page)
-                                <div class="mr-4">
-                                    <img src="{{ asset('images/home.png') }}" alt="Home"
-                                        class="w-5 h-5">
-                                </div>
+                                <span class="text-xs font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Domača</span>
                             @endif
-                            <a href="{{ route('gallery_edit', $item->id) }}"
-                                class="text-blue-500 hover:underline mr-4">Uredi</a>
-                            <!-- Delete Form with Confirmation Dialog -->
-                            <form id="deleteGallerysForm{{ $item->id }}"
-                                action="{{ route('gallery_destroy', ['gallery' => $item->id]) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button"
-                                    onclick="showDeleteConfirmation('deleteGallerysForm', {{ $item->id }})"
-                                    class="text-red-500 hover:underline">Izbriši</button>
-                            </form>
                         </div>
+                    </div>
+                    <div class="flex items-center justify-end gap-2 px-4 py-3 border-t border-gray-100 bg-gray-50">
+                        <a href="{{ route('gallery_edit', $item->id) }}"
+                            class="text-xs font-medium text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gray-300 transition-colors">
+                            Uredi
+                        </a>
+                        <form id="deleteGallerysForm{{ $item->id }}"
+                            action="{{ route('gallery_destroy', ['gallery' => $item->id]) }}"
+                            method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button"
+                                onclick="showDeleteConfirmation('deleteGallerysForm', {{ $item->id }})"
+                                class="text-xs font-medium text-red-600 bg-white border border-red-200 px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">
+                                Izbriši
+                            </button>
+                        </form>
                     </div>
                 </li>
             @endforeach
         @endif
     </ul>
-    <div class="p-4">{{ $gallery->links() }}</div>
+    <div class="mt-4">{{ $gallery->links() }}</div>
 </div>

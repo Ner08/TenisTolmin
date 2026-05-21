@@ -1,58 +1,40 @@
-<div class="container mx-auto py-8 px-4">
-    <h1 class="text-3xl font-bold mb-3">Lige in turnirji</h1>
-    <h4 class="text-lg text-gray-600 mb-8">V naši teniški ligi se igralci spodadamo v razburljivih tekmah, bodisi v
-        dvojicah ali posamično. Ne glede na to, ali tekmuješ v paru ali sam, vsak turnir je priložnost za strastno
-        tekmovanje in gradnjo športnih vezi.</h4>
-    {{-- If no leagues show empty component --}}
+<div class="container mx-auto py-10 px-4">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-1">Lige in turnirji</h2>
+        <p class="text-gray-500 text-sm">Tekmuj posamično ali v dvojicah — vsak turnir je nova priložnost.</p>
+    </div>
+
     @if ($leagues->isEmpty())
         <x-empty model1="Lige in turnirji" />
     @endif
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach ($leagues as $league)
             <a href="{{ route('league', $league->id) }}"
-                class="bg-gray-100 hover:bg-gray-200 cursor-pointer rounded-lg shadow-md overflow-hidden transition duration-300 ease-in-out transform hover:-translate-y-1">
+               class="group block bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
                 <div class="flex flex-col h-full">
-                    <div class="p-6 pb-3 flex-grow">
-                        <h3 class="text-xl font-semibold mb-4 text-gray-800">{{ $league->name }}</h3>
-                        <p class="text-gray-600 mb-6">{{ $league->description }}</p>
+                    <div class="p-5 pb-4 flex-grow">
+                        <h3 class="text-base font-semibold text-gray-900 mb-2 group-hover:text-amber-600 transition-colors duration-150">{{ $league->name }}</h3>
+                        <p class="text-gray-500 text-sm line-clamp-2">{{ $league->description }}</p>
                     </div>
-                    <div class="py-3 px-6 flex justify-between items-center text-gray-300 bg-gray-900">
-                        <div>
-                            <p class="flex items-center">
-                                <img src="/images/from.svg" class="w-4 h-4 mr-2" alt="From Icon">
-                                <span class="text-sm font-medium">
-                                    {{ \Carbon\Carbon::parse($league->start_date)->format('d.m.Y') }}</span>
-                            </p>
-                        </div>
-                        @if ($league->end_date)
-                            <div class="ml-auto">
-                                <p class="flex items-center">
-                                    <img src="/images/to.svg" class="w-4 h-4 mr-2" alt="To Icon">
-                                    <span class="text-sm font-medium">
-                                        {{ \Carbon\Carbon::parse($league->end_date)->format('d.m.Y') }}</span>
-                                </p>
-                            </div>
-                        @else
-                            <div class="ml-auto">
-                                <p class="flex items-center">
-                                    <img src="/images/to.svg" class="w-4 h-4 mr-2" alt="To Icon">
-                                    <span class="text-sm font-medium">Ni določen</span>
-                                </p>
-                            </div>
-                        @endif
+                    <div class="px-5 py-3 bg-gray-900 flex justify-between items-center text-gray-300 text-xs font-medium">
+                        <span>{{ \Carbon\Carbon::parse($league->start_date)->format('d.m.Y') }}</span>
+                        <span class="text-gray-500">&rarr;</span>
+                        <span>{{ $league->end_date ? \Carbon\Carbon::parse($league->end_date)->format('d.m.Y') : 'Ni določen' }}</span>
                     </div>
                 </div>
             </a>
         @endforeach
     </div>
-    <div class="flex justify-center mt-12 gap-2">
+
+    <div class="flex justify-center mt-8 gap-3">
         <a href="{{ route('leagues') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-center text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-            Več lig in turnirjev
+           class="bg-gray-900 hover:bg-gray-800 text-white text-sm font-semibold py-2.5 px-6 rounded-lg transition-colors duration-200">
+            Vse lige
         </a>
         <a href="{{ route('scoreboard') }}"
-            class="bg-gray-900 hover:bg-gray-800 text-center text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-            Tminska ATP lestvica
+           class="bg-white border border-gray-300 hover:border-gray-400 text-gray-700 text-sm font-semibold py-2.5 px-6 rounded-lg transition-colors duration-200">
+            ATP lestvica
         </a>
     </div>
 </div>

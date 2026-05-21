@@ -22,8 +22,8 @@
             </div>
             @if ($brackets->isEmpty() && $brackets_group->isEmpty())
                 <div class="m-6">
-                    <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
-                        Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
+                    <div class="bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium px-5 py-4 rounded-xl inline-block">
+                        Liga še ni nastavljena — preverite kmalu. 🎾
                     </div>
                 </div>
             @endif
@@ -43,26 +43,21 @@
             </div>
             @if ($brackets->isEmpty() && $brackets_group->isEmpty())
                 <div class="m-6">
-                    <div class="text-xl font-bold text-gray-700 bg-gray-300 p-4 rounded-lg inline-block">
-                        Liga še ni nastavljena, mogoče pa se prikaže kmalu :)
+                    <div class="bg-amber-50 border border-amber-200 text-amber-800 text-sm font-medium px-5 py-4 rounded-xl inline-block">
+                        Liga še ni nastavljena — preverite kmalu. 🎾
                     </div>
                 </div>
             @endif
         @endif
     </div>
-    {{-- <div class="h-3 bg-zinc-900"></div> --}}
 </x-layout>
 
 <script>
     window.onload = function() {
-        // Loop through each component ID stored in localStorage
         Object.keys(localStorage).forEach(function(key) {
-            // Get the visibility state from localStorage
             var displayState = localStorage.getItem(key);
-            // Check if the element exists in the DOM
             var component = document.getElementById(key);
             if (component) {
-                // Set the visibility of the component based on stored state
                 component.style.display = displayState;
             }
         });

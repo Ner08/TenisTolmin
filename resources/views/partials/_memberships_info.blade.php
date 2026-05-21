@@ -1,23 +1,36 @@
-<div class="container mx-auto py-8 px-4">
-    <h1 class="text-3xl font-bold mb-4">Članarina in pravila</h1>
-    <div class="flex flex-col md:flex-row items-start md:items-center mb-4">
-        <div class="text-lg text-gray-700 mb-4 md:mb-0 md:mr-12">
-            <p>
-                Postanite član našega teniškega kluba in uživajte v ekskluzivnih ugodnostih, kot so dostop do naših
-                športnih objektov, udeležba v ligah in turnirjih ter postanite del naše teniške skupnosti.
-            </p>
-            <p>
-                Za rezervacijo teniškega igrišča kliknite na spodnjo povezavo in se prijavite v svoj račun. Pogoj za rezervacijo igrišč je plačana članarina.
-            </p>
-        </div>
-        <a href="{{ route('membership') }}"
-            class="inline-block px-3 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none text-center mt-4 md:mt-0 text-l font-bold">Več
-            informacij</a>
+<div class="container mx-auto py-10 px-4">
+    <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-900 mb-1">Članstvo in rezervacije</h2>
+        <p class="text-gray-500 text-sm">Postanite član in uživajte v ekskluzivnih ugodnostih ter dostop do ligaškega tekmovanja.</p>
     </div>
-    <div class="flex p-4 bg-gray-900 text-white rounded-lg justify-between items-center">
-        <h1 class="text-2xl mx-4 font-bold">Rezervacije</h1>
-        <a href="https://tk-tolmin.sportifiq.com/" target='blank'
-            class="p-4 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition duration-300 shadow-md focus:outline-none text-center text-l font-bold">Nadaljuj
-            na spletno stran za rezervacije</a>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+            <h3 class="text-base font-semibold text-gray-900 mb-2">Včlanite se</h3>
+            <p class="text-gray-500 text-sm leading-relaxed mb-5">
+                Postanite član, dostopajte do igrišč in se pridružite ligam. Pogoj za rezervacijo igrišč je plačana članarina.
+            </p>
+            <a href="{{ route('membership') }}"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 hover:text-amber-600 transition-colors">
+                Več informacij
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+        </div>
+
+        <div class="bg-gray-900 rounded-xl p-6 shadow-sm">
+            <h3 class="text-base font-semibold text-white mb-2">Rezervacije igrišč</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                Rezervirajte teniško igrišče prek sistema Sportifiq.
+            </p>
+            <a href="https://tk-tolmin.sportifiq.com/" target="_blank"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors">
+                Odpri rezervacijski sistem
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+            </a>
+        </div>
     </div>
 </div>
