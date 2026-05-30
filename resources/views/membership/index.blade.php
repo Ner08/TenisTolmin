@@ -2,8 +2,8 @@
     @title('Članstvo - Tenis Tolmin')
     <x-title title="Članstvo" />
 
-    <section class="py-10 px-4">
-        <div class="container mx-auto max-w-6xl">
+    <section class="pt-4 pb-10 md:py-10 xl:py-14 px-4">
+        <div class="container mx-auto max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                 {{-- Left column --}}
@@ -127,8 +127,8 @@
     </section>
 
     {{-- Court rules section --}}
-    <section class="py-10 px-4 bg-gray-50 border-t border-gray-100">
-        <div class="container mx-auto max-w-6xl">
+    <section class="py-10 xl:py-14 px-4 bg-gray-50 border-t border-gray-100">
+        <div class="container mx-auto max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                 <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">

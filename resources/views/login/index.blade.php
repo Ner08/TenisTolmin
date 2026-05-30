@@ -44,6 +44,9 @@
                                 {{ old('remember') ? 'checked' : '' }}>
                             <span class="text-sm text-gray-400">Zapomni si me</span>
                         </label>
+                        <a href="{{ route('forgot-password') }}" class="text-sm text-gray-500 hover:text-amber-400 transition-colors">
+                            Pozabljeno geslo?
+                        </a>
                     </div>
 
                     <button type="submit"
@@ -52,6 +55,11 @@
                     </button>
                 </form>
             </div>
+
+            <p class="text-center text-sm text-gray-500 mt-5">
+                Nimate računa?
+                <a href="{{ route('register') }}" class="text-amber-400 hover:text-amber-300 font-medium">Registracija</a>
+            </p>
         </div>
     </div>
 

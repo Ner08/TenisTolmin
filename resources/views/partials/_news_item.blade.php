@@ -8,13 +8,11 @@
                          loading="lazy"
                          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
                 </div>
-            @else
-                <div class="h-2 bg-gradient-to-r from-amber-400 to-amber-600 flex-shrink-0"></div>
             @endif
-            <div class="p-5 flex flex-col flex-grow">
-                <h2 class="text-base font-semibold text-gray-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors duration-150">{{ $item['title'] }}</h2>
-                <p class="text-sm text-gray-500 line-clamp-3 flex-grow">{{ Str::limit(strip_tags($item['content']), 180) }}</p>
-                <p class="text-xs text-gray-400 mt-3 font-medium">{{ $item['created_at']->format('d. m. Y') }}</p>
+            <div class="p-5 xl:p-7 flex flex-col flex-grow">
+                <h2 class="text-base xl:text-lg font-semibold text-gray-900 mb-2 leading-snug group-hover:text-amber-600 transition-colors duration-150">{{ $item['title'] }}</h2>
+                <p class="text-sm xl:text-base text-gray-500 line-clamp-3 flex-grow">{{ Str::limit(strip_tags($item['content']), 180) }}</p>
+                <p class="text-xs xl:text-sm text-gray-400 mt-3 font-medium">{{ $item['created_at']->format('d. m. Y') }}</p>
             </div>
         </div>
     </a>

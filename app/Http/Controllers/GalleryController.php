@@ -37,15 +37,19 @@ class GalleryController extends Controller
     {
         $formFields = $request->validate([
             'g_title' => ['required', 'string', 'max:64'],
-            'g_image' => ['required', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'], // Add validation rules for image
+            'g_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:4096'],
             'home_page' => ['sometimes', 'boolean'],
         ]);
+
+        $formFields['home_page'] = $request->has('home_page') ? 1 : 0;
 
         if ($request->hasFile('g_image')) {
             if ($gallery->g_image) {
                 Storage::disk('public')->delete($gallery->g_image);
             }
             $formFields['g_image'] = $request->file('g_image')->store('images', 'public');
+        } else {
+            unset($formFields['g_image']);
         }
 
         $gallery->update($formFields);

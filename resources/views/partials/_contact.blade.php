@@ -1,9 +1,9 @@
-<section class="bg-gray-900 text-white py-12 px-4">
-    <div class="container mx-auto max-w-5xl">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+<section class="bg-gray-900 text-white py-12 xl:py-16 px-4">
+    <div class="container mx-auto max-w-5xl xl:max-w-6xl">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 xl:gap-16">
             <div>
-                <h2 class="text-xl font-bold mb-5 text-white">Kontaktne informacije</h2>
-                <div class="space-y-2.5 text-sm text-gray-400">
+                <h2 class="text-xl xl:text-2xl font-bold mb-5 text-white">Kontaktne informacije</h2>
+                <div class="space-y-2.5 text-sm xl:text-base text-gray-400">
                     <p>Dijaška ulica 12c, 5220 Tolmin</p>
                     <p>Matična številka: 5214955000</p>
                     <p>Davčna številka: 44248598</p>
@@ -13,10 +13,10 @@
                 </div>
             </div>
             <div>
-                <h2 class="text-xl font-bold mb-5 text-white">Lokacija</h2>
-                <div class="rounded-xl overflow-hidden border border-gray-700">
+                <h2 class="text-xl xl:text-2xl font-bold mb-5 text-white">Lokacija</h2>
+                <div class="rounded-xl overflow-hidden border border-gray-700 h-48 xl:h-64">
                     <iframe src="https://maps.google.com/maps?q=46.180976, 13.731363&z=15&output=embed"
-                        width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"
+                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>

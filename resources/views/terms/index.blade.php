@@ -2,7 +2,7 @@
     @title('Pogoji uporabe - Tenis Tolmin')
     <x-title title="Pogoji uporabe" />
 
-    <section class="py-10 px-4">
+    <section class="pt-4 pb-10 md:py-10 px-4">
         <div class="container mx-auto max-w-3xl space-y-8">
 
             <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CustomMatchUp extends Model
 {
@@ -23,8 +24,21 @@ class CustomMatchUp extends Model
         't2_third_set',
         'round',
         'exception',
-        'bracket_id'
+        'bracket_id',
+        'result_status',
+        'submitted_by_user_id',
+        'result_submitted_at',
     ];
+
+    public function submittedByUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'submitted_by_user_id');
+    }
+
+    public function hasPendingResult(): bool
+    {
+        return $this->result_status === 'pending';
+    }
 
     // Accessor mutator to generate end result string
     public function getEndResultAttribute()

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Player extends Model
 {
@@ -35,6 +36,11 @@ class Player extends Model
         if ($filter['search_players'] ?? false) {
             $query->where('p_name', 'like', '%' . request('search_players') . '%');
         }
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
     }
 
     public function ranking() {

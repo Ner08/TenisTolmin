@@ -1,8 +1,8 @@
 <x-layout>
     @title('Novice - Tenis Tolmin')
     <x-title title="Vse novice" />
-    <section class="py-8 px-4">
-        <div class="container mx-auto">
+    <section class="pt-4 pb-8 md:py-8 xl:py-12 px-4">
+        <div class="container mx-auto max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
             @if ($newsItems->isEmpty())
                 <x-empty model1="Novice" />
             @endif

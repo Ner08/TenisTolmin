@@ -1,14 +1,14 @@
-<div class="container px-4 mx-auto py-10">
-    <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 mb-1">Galerija</h2>
-        <p class="text-gray-500 text-sm">Igranje, druženje in nepozabni trenutki našega kluba.</p>
+<div class="container px-4 mx-auto py-10 xl:py-14 max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
+    <div class="mb-6" data-animate>
+        <h2 class="text-2xl xl:text-3xl font-bold text-gray-900 mb-1">Galerija</h2>
+        <p class="text-gray-500 text-sm xl:text-base">Igranje, druženje in nepozabni trenutki našega kluba.</p>
     </div>
 
     @if ($gallery->isEmpty())
         <x-empty model1="Slike" />
     @endif
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 xl:gap-5">
         @foreach ($gallery as $item)
             <div class="group relative aspect-square overflow-hidden rounded-xl bg-gray-200 cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
                  onclick="showFullImage('{{ asset('storage/' . $item->g_image) }}')">

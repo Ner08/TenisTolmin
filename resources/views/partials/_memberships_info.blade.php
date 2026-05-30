@@ -1,7 +1,7 @@
-<div class="container mx-auto py-10 px-4">
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-1">Članstvo in rezervacije</h2>
-        <p class="text-gray-500 text-sm">Postanite član in uživajte v ekskluzivnih ugodnostih ter dostop do ligaškega tekmovanja.</p>
+<div class="container mx-auto py-10 xl:py-14 px-4 max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
+    <div class="mb-8" data-animate>
+        <h2 class="text-2xl xl:text-3xl font-bold text-gray-900 mb-1">Članstvo in rezervacije</h2>
+        <p class="text-gray-500 text-sm xl:text-base">Postanite član in uživajte v ekskluzivnih ugodnostih ter dostop do ligaškega tekmovanja.</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

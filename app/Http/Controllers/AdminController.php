@@ -11,6 +11,7 @@ use App\Models\Membership;
 use App\Models\News;
 use App\Models\Player;
 use App\Models\Team;
+use App\Models\User;
 
 class AdminController extends Controller
 {
@@ -26,6 +27,12 @@ class AdminController extends Controller
                 ->filter(request(['search_gallery']))
                 ->paginate(12),
             'membership' => Membership::first(),
+            'pending_users' => User::where('registration_status', 'pending')->latest()->get(),
+            'all_users' => User::where('registration_status', 'approved')->with('player')->latest()->paginate(20),
+            'disputed_matchups' => CustomMatchUp::whereIn('result_status', ['disputed', 'admin_review'])
+                ->with(['submittedByUser'])
+                ->latest()->get(),
+            'unlinked_players' => Player::where('is_fake', false)->doesntHave('user')->orderBy('p_name')->get(),
             'search_players' => request('search_players'),
             'search_news' => request('search_news'),
             'search_events' => request('search_events'),
@@ -87,6 +94,13 @@ class AdminController extends Controller
     {
         return view('admin.event_edit', [
             'event' => $event,
+        ]);
+    }
+
+    public function gallery_edit(Gallery $gallery)
+    {
+        return view('admin.gallery_edit', [
+            'gallery' => $gallery,
         ]);
     }
 }

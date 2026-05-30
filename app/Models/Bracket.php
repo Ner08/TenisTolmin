@@ -24,6 +24,8 @@ class Bracket extends Model
         'tag',
         'points_description',
         'is_group_stage',
+        'places_from',
+        'places_to',
     ];
 
     /**
@@ -50,6 +52,11 @@ class Bracket extends Model
     public function league(): BelongsTo
     {
         return $this->belongsTo(League::class);
+    }
+
+    public function bracketComments(): HasMany
+    {
+        return $this->hasMany(BracketComment::class);
     }
 }
 

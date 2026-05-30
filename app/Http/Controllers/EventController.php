@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use App\Models\EventComment;
 use DateTime;
 
 class EventController extends Controller
@@ -19,9 +20,10 @@ class EventController extends Controller
     // Show a single event
     public function show(Event $event)
     {
+        $comments = EventComment::withTrashed()->where('event_id', $event->id)->with('user')->latest()->paginate(10);
         return view('events.show', [
             'event' => $event,
-            'comments' => []
+            'comments' => $comments,
         ]);
     }
 

@@ -69,7 +69,59 @@ class PlayerController extends Controller
         $played = $wins + $losses;
         $winRate = $played > 0 ? round(($wins / $played) * 100) : 0;
 
-        return view('players.show', compact('player', 'matchHistory', 'wins', 'losses', 'played', 'winRate'));
+        // Set and game stats
+        $setsWon = 0; $setsLost = 0; $gamesWon = 0; $gamesLost = 0;
+        foreach ($matchHistory as $entry) {
+            $m = $entry['matchup'];
+            $isT1 = $entry['is_team1'];
+            $setsWon   += $isT1 ? $m->t1SetsWon()  : $m->t2SetsWon();
+            $setsLost  += $isT1 ? $m->t2SetsWon()  : $m->t1SetsWon();
+            foreach ([[$m->t1_first_set,$m->t2_first_set],[$m->t1_second_set,$m->t2_second_set],[$m->t1_third_set,$m->t2_third_set]] as [$g1,$g2]) {
+                if ($g1 === null) continue;
+                $gamesWon  += $isT1 ? $g1 : $g2;
+                $gamesLost += $isT1 ? $g2 : $g1;
+            }
+        }
+
+        // Head-to-head per opponent player
+        $h2h = [];
+        foreach ($matchHistory as $entry) {
+            $opp = $entry['opponent'];
+            $oppPlayer = $opp->player1 ?? null;
+            if (!$oppPlayer || $oppPlayer->is_fake) continue;
+            $key = $oppPlayer->id;
+            if (!isset($h2h[$key])) {
+                $h2h[$key] = ['player' => $oppPlayer, 'wins' => 0, 'losses' => 0];
+            }
+            $entry['won'] ? $h2h[$key]['wins']++ : $h2h[$key]['losses']++;
+        }
+        usort($h2h, fn($a, $b) => ($b['wins'] + $b['losses']) - ($a['wins'] + $a['losses']));
+
+        // Form guide — last 10 matches chronologically
+        $formGuide = array_slice(array_reverse($matchHistory), 0, 10);
+
+        // Per-league chart data
+        $leagueStats = [];
+        foreach ($matchHistory as $entry) {
+            $leagueName = $entry['league']?->name ?? 'Ostalo';
+            if (!isset($leagueStats[$leagueName])) {
+                $leagueStats[$leagueName] = ['wins' => 0, 'losses' => 0];
+            }
+            $entry['won'] ? $leagueStats[$leagueName]['wins']++ : $leagueStats[$leagueName]['losses']++;
+        }
+
+        // Rolling win rate (cumulative) for line chart
+        $rollingForm = [];
+        $cumWins = 0;
+        foreach (array_reverse($matchHistory) as $i => $entry) {
+            $cumWins += $entry['won'] ? 1 : 0;
+            $rollingForm[] = round(($cumWins / ($i + 1)) * 100);
+        }
+
+        return view('players.show', compact(
+            'player', 'matchHistory', 'wins', 'losses', 'played', 'winRate',
+            'setsWon', 'setsLost', 'gamesWon', 'gamesLost', 'h2h', 'formGuide'
+        ));
     }
 
     public function store(PlayerRequest $request)

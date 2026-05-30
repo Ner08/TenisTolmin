@@ -21,7 +21,7 @@ class NewsController extends Controller
     //Show single news
     public function show(News $news)
     {
-        $comments = NewsComment::where('news_id', $news->id)->latest()->paginate(10);
+        $comments = NewsComment::withTrashed()->where('news_id', $news->id)->with('user')->latest()->paginate(10);
         return view('news.show', [
             'newsItem' => $news,
             'comments' => $comments,

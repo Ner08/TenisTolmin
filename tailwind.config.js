@@ -10,6 +10,9 @@ export default {
             fontFamily: {
                 sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             },
+            screens: {
+                nav: '900px',
+            },
         },
     },
     plugins: [],

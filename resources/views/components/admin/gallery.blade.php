@@ -73,7 +73,7 @@
                         </div>
                     </div>
                     <div class="flex items-center justify-end gap-2 px-4 py-3 border-t border-gray-100 bg-gray-50">
-                        <a href="{{ route('gallery_edit', $item->id) }}"
+                        <a href="{{ route('gallery_edit_view', $item->id) }}"
                             class="text-xs font-medium text-gray-700 bg-white border border-gray-200 px-3 py-1.5 rounded-lg hover:border-gray-300 transition-colors">
                             Uredi
                         </a>

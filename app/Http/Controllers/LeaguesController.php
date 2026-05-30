@@ -45,8 +45,14 @@ class LeaguesController extends Controller
     public function show(League $league)
     {
 
-        $brackets = Bracket::where('league_id', $league->id)->where('is_group_stage', false)->get();
-        $brackets_groupstage = Bracket::where('league_id', $league->id)->where('is_group_stage', true)->get();
+        $brackets = Bracket::where('league_id', $league->id)
+            ->where('is_group_stage', false)
+            ->with(['bracketComments' => fn($q) => $q->with('user')->latest()->limit(50)])
+            ->get();
+        $brackets_groupstage = Bracket::where('league_id', $league->id)
+            ->where('is_group_stage', true)
+            ->with(['bracketComments' => fn($q) => $q->with('user')->latest()->limit(50)])
+            ->get();
 
         // Check if the user is on a mobile device
         $isMobile = $this->isMobileDevice();
@@ -116,14 +122,13 @@ class LeaguesController extends Controller
             ]);
         } else {
             $validated_data_bracket = $request->validate([
-                'name' => [
-                    'required',
-                    'max:40'
-                ],
+                'name'               => ['required', 'max:40'],
                 'points_description' => ['nullable', 'string'],
-                'b_description' => 'max:500',
-                'is_group_stage' => ['boolean'],
-                'league_id' => ['required', 'integer'],
+                'b_description'      => ['max:500'],
+                'is_group_stage'     => ['boolean'],
+                'league_id'          => ['required', 'integer'],
+                'places_from'        => ['nullable', 'integer', 'min:1'],
+                'places_to'          => ['nullable', 'integer', 'min:1'],
             ]);
         }
 
@@ -272,7 +277,10 @@ class LeaguesController extends Controller
     public function matchup_edit(CustomMatchUp $customMatchup, StoreMatchupRequest $request)
     {
         $validated_data = $request->validated();
-        $customMatchup->update($validated_data);
+        $customMatchup->update(array_merge($validated_data, [
+            'result_status'        => 'confirmed',
+            'submitted_by_user_id' => null,
+        ]));
 
         $bracket_id = $request->input('bracket_id');
         $bracket = Bracket::findOrFail($bracket_id);

@@ -91,6 +91,26 @@
                     @enderror
                 </div>
 
+                {{-- Places range (elimination brackets only) --}}
+                <div class="mb-4" id="placesContainer">
+                    <label class="block text-gray-700 font-semibold mb-1">Mesta (od – do):</label>
+                    <p class="text-xs text-gray-500 mb-2">Npr. za finale od 1 do 4, za 5.–8. mesto od 5 do 8.</p>
+                    <div class="flex gap-3">
+                        <div class="flex-1">
+                            <label for="places_from" class="block text-xs text-gray-600 mb-1">Od mesta</label>
+                            <input type="number" name="places_from" id="places_from" min="1" placeholder="npr. 1"
+                                class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
+                                value="{{ old('places_from') }}">
+                        </div>
+                        <div class="flex-1">
+                            <label for="places_to" class="block text-xs text-gray-600 mb-1">Do mesta</label>
+                            <input type="number" name="places_to" id="places_to" min="1" placeholder="npr. 4"
+                                class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
+                                value="{{ old('places_to') }}">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mb-4" id="pointsDescriptionContainer">
                     <label for="points_description" class="block text-gray-700 font-semibold">Opis števila
                         točk:</label>

@@ -12,10 +12,14 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PlayerController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\LeaguesController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\MembershipController;
+use App\Http\Controllers\MatchResultController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\RegistrationController;
 
 //Storage
 Route::get('/storage/{filename}', [StorageController::class, 'show'])->name('storage.show');
@@ -51,7 +55,7 @@ Route::delete('/leagues/matchups/{matchup}', [LeaguesController::class, 'matchup
 Route::get('/scoreboard', [LeaguesController::class, 'showScoreBoard'])->name('scoreboard');
 
 // Login/Logout
-Route::get('/admin', [LoginController::class, 'index'])->name('login_view');
+Route::get('/login', [LoginController::class, 'index'])->name('login_view');
 
 //Admin
 Route::get('/admin_board', [AdminController::class, 'index'])->name('admin')->middleware('admin_view');
@@ -61,6 +65,7 @@ Route::get('/admin/league/matchup/{bracket}/{customMatchup}', [AdminController::
 Route::get('/admin/player/{player}', [AdminController::class, 'player_edit'])->name('player_edit')->middleware('admin_view');
 Route::get('/admin/news/{news}', [AdminController::class, 'news_edit'])->name('news_edit_view')->middleware('admin_view');
 Route::get('/admin/event/{event}', [AdminController::class, 'event_edit'])->name('event_edit')->middleware('admin_view');
+Route::get('/admin/gallery/{gallery}', [AdminController::class, 'gallery_edit'])->name('gallery_edit_view')->middleware('admin_view');
 
 //Contact
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
@@ -94,6 +99,76 @@ Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
 Route::post('/gallery', [GalleryController::class, 'store'])->name('gallery_store')->middleware('admin_api');
 Route::put('/gallery/{gallery}', [GalleryController::class, 'edit'])->name('gallery_edit')->middleware('admin_api');
 Route::delete('/gallery/{gallery}', [GalleryController::class, 'destroy'])->name('gallery_destroy')->middleware('admin_api');
+
+// Registration
+Route::get('/register', [RegistrationController::class, 'showForm'])->name('register');
+Route::post('/register', [RegistrationController::class, 'store'])->name('register.store');
+
+// Admin user management
+Route::post('/admin/users', [RegistrationController::class, 'adminCreate'])
+    ->name('admin.users.create')->middleware('admin_api');
+Route::post('/admin/users/{user}/approve', [RegistrationController::class, 'approve'])
+    ->name('admin.users.approve')->middleware('admin_api');
+Route::post('/admin/users/{user}/reject', [RegistrationController::class, 'reject'])
+    ->name('admin.users.reject')->middleware('admin_api');
+Route::post('/admin/users/{user}/make-admin', [RegistrationController::class, 'makeAdmin'])
+    ->name('admin.users.make-admin')->middleware('admin_api');
+Route::post('/admin/users/{user}/remove-admin', [RegistrationController::class, 'removeAdmin'])
+    ->name('admin.users.remove-admin')->middleware('admin_api');
+
+// Match results
+Route::post('/matchups/{matchup}/result', [MatchResultController::class, 'store'])
+    ->name('matchups.result.store')->middleware('user_api');
+Route::post('/matchups/{matchup}/confirm', [MatchResultController::class, 'confirm'])
+    ->name('matchups.result.confirm')->middleware('user_api');
+Route::post('/matchups/{matchup}/dispute', [MatchResultController::class, 'dispute'])
+    ->name('matchups.result.dispute')->middleware('user_api');
+Route::post('/admin/matchups/{matchup}/admin-confirm', [MatchResultController::class, 'adminConfirm'])
+    ->name('matchups.admin.confirm')->middleware('admin_api');
+Route::post('/admin/matchups/{matchup}/admin-clear', [MatchResultController::class, 'adminClear'])
+    ->name('matchups.admin.clear')->middleware('admin_api');
+
+// Comments on news
+Route::post('/news/{news}/comments', [CommentController::class, 'storeNews'])
+    ->name('news.comments.store')->middleware('user_api');
+Route::delete('/news/comments/{comment}', [CommentController::class, 'destroyNews'])
+    ->name('news.comments.destroy')->middleware('user_api');
+
+// Comments on events
+Route::post('/events/{event}/comments', [CommentController::class, 'storeEvent'])
+    ->name('events.comments.store')->middleware('user_api');
+Route::delete('/events/comments/{comment}', [CommentController::class, 'destroyEvent'])
+    ->name('events.comments.destroy')->middleware('user_api');
+
+// Group chat
+Route::get('/brackets/{bracket}/chat/poll', [CommentController::class, 'pollBracket'])
+    ->name('brackets.chat.poll')->middleware('user_api');
+Route::post('/brackets/{bracket}/chat', [CommentController::class, 'storeBracket'])
+    ->name('brackets.chat.store')->middleware('user_api');
+Route::delete('/brackets/chat/{comment}', [CommentController::class, 'destroyBracket'])
+    ->name('brackets.chat.destroy')->middleware('user_api');
+Route::patch('/brackets/chat/{comment}', [CommentController::class, 'updateBracket'])
+    ->name('brackets.chat.update')->middleware('user_api');
+
+// Notifications
+Route::get('/notifications', [NotificationController::class, 'index'])
+    ->name('notifications')->middleware('user_view');
+Route::post('/notifications/mark-all-read', [NotificationController::class, 'markAllRead'])
+    ->name('notifications.mark-all-read')->middleware('user_api');
+
+// User settings
+Route::get('/settings', [UserController::class, 'settings'])->name('settings')->middleware('user_view');
+Route::post('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile')->middleware('user_api');
+Route::post('/settings/password', [UserController::class, 'updatePassword'])->name('settings.password')->middleware('user_api');
+
+// Forgot password info page (no auth needed)
+Route::get('/forgot-password', [UserController::class, 'forgotPassword'])->name('forgot-password');
+
+// Admin: set temporary password
+Route::post('/admin/users/{user}/set-password', [RegistrationController::class, 'setTempPassword'])
+    ->name('admin.users.set-password')->middleware('admin_api');
+Route::post('/admin/users/{user}/link-player', [RegistrationController::class, 'linkPlayer'])
+    ->name('admin.users.link-player')->middleware('admin_api');
 
 // Static pages
 Route::view('/terms', 'terms.index')->name('terms');

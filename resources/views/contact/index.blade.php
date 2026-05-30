@@ -2,15 +2,15 @@
     @title('Kontaktne informacije - Tenis Tolmin')
     <x-title title="Kontaktne informacije" />
 
-    <section class="py-10 px-4">
-        <div class="container mx-auto max-w-6xl">
+    <section class="pt-4 pb-10 md:py-10 xl:py-14 px-4">
+        <div class="container mx-auto max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                 {{-- Info + map --}}
                 <div class="space-y-4">
                     <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
-                        <h2 class="text-base font-semibold text-gray-900 mb-4">Informacije</h2>
-                        <div class="space-y-2.5 text-sm">
+                        <h2 class="text-base xl:text-lg font-semibold text-gray-900 mb-4">Informacije</h2>
+                        <div class="space-y-2.5 text-sm xl:text-base">
                             <div class="flex gap-3">
                                 <span class="text-gray-400 w-32 flex-shrink-0">Naslov</span>
                                 <span class="text-gray-700">Dijaška ulica 12c, 5220 Tolmin</span>
@@ -35,7 +35,7 @@
                     </div>
 
                     <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                        <div class="h-64">
+                        <div class="h-64 xl:h-80">
                             <iframe src="https://maps.google.com/maps?q=46.180976, 13.731363&z=15&output=embed"
                                 width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
                                 class="w-full h-full"></iframe>

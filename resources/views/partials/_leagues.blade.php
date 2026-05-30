@@ -1,14 +1,14 @@
-<div class="container mx-auto py-10 px-4">
-    <div class="mb-8">
-        <h2 class="text-2xl font-bold text-gray-900 mb-1">Lige in turnirji</h2>
-        <p class="text-gray-500 text-sm">Tekmuj posamično ali v dvojicah — vsak turnir je nova priložnost.</p>
+<div class="container mx-auto py-10 xl:py-14 px-4 max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
+    <div class="mb-8" data-animate>
+        <h2 class="text-2xl xl:text-3xl font-bold text-gray-900 mb-1">Lige in turnirji</h2>
+        <p class="text-gray-500 text-sm xl:text-base">Tekmuj posamično ali v dvojicah — vsak turnir je nova priložnost.</p>
     </div>
 
     @if ($leagues->isEmpty())
         <x-empty model1="Lige in turnirji" />
     @endif
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         @foreach ($leagues as $league)
             <a href="{{ route('league', $league->id) }}"
                class="group block bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">

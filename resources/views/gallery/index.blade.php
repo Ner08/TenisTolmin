@@ -1,8 +1,8 @@
 <x-layout>
     @title('Galerija - Tenis Tolmin')
     <x-title title="Galerija" />
-    <section class="py-8 px-4">
-        <div class="container mx-auto">
+    <section class="pt-4 pb-4 md:pt-8 xl:pt-12 xl:pb-6 px-4">
+        <div class="container mx-auto max-w-6xl xl:max-w-7xl 2xl:max-w-screen-2xl">
             @if ($gallery->isEmpty())
                 <x-empty model1="Galerija" />
             @endif
