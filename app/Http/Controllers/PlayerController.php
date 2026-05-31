@@ -56,6 +56,11 @@ class PlayerController extends Controller
             if ($won) $wins++;
             else $losses++;
 
+            $partner = null;
+            if ($myTeam->p2_id) {
+                $partner = $myTeam->p1_id === $player->id ? $myTeam->player2 : $myTeam->player1;
+            }
+
             $matchHistory[] = [
                 'matchup'    => $matchup,
                 'opponent'   => $opponent,
@@ -64,6 +69,7 @@ class PlayerController extends Controller
                 'bracket'    => $myTeam->bracket,
                 'league'     => $myTeam->bracket?->league,
                 'is_doubles' => $myTeam->p2_id !== null,
+                'partner'    => $partner,
             ];
         }
 
