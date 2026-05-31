@@ -165,7 +165,7 @@
                             <p class="text-sm font-medium text-gray-900 truncate">{{ $oppName }}</p>
                             <p class="text-xs text-gray-400 truncate">
                                 @if (!empty($entry['partner']))
-                                    <span class="text-gray-500">met {{ $entry['partner']->p_name }}</span>@if ($context) · @endif
+                                    <span class="text-gray-500">igral z {{ $entry['partner']->p_name }}</span>@if ($context) · @endif
                                 @endif
                                 {{ $context }}
                             </p>
