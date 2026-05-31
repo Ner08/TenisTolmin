@@ -20,8 +20,8 @@ class PlayerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'p_name' => ['required', 'max:40'], // Use 'name' as the column name
-            'points' => ['nullable','integer'], // Set default value to 0
+            'p_name'  => ['required', 'max:40'],
+            'points'  => ['nullable', 'integer'],
             'is_fake' => ['nullable'],
         ];
     }

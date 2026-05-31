@@ -101,7 +101,7 @@ class LeaguesController extends Controller
         $players = Player::where('is_fake', false)->orderByDesc('points')->orderBy('p_name')->get();
 
         return view('leagues.scoreboard', [
-            'players' => $players,
+            'players'   => $players,
             'maxPoints' => $players->max('points') ?? 0,
         ]);
     }

@@ -29,268 +29,115 @@
                     </div>
                 </div>
 
-                {{-- Stats grid --}}
-                <div class="grid grid-cols-3 sm:grid-cols-6 divide-x divide-y sm:divide-y-0 divide-gray-100">
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-gray-900">{{ $played }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Tekme</p>
-                    </div>
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-green-600">{{ $wins }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Zmage</p>
-                    </div>
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-red-500">{{ $losses }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Porazi</p>
-                    </div>
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-amber-600">{{ $winRate }}%</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Uspešnost</p>
-                    </div>
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-gray-700">{{ $setsWon }}/{{ $setsLost }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Seti Z/P</p>
-                    </div>
-                    <div class="px-3 py-4 text-center">
-                        <p class="text-xl font-bold text-gray-700">{{ $gamesWon }}/{{ $gamesLost }}</p>
-                        <p class="text-xs text-gray-500 mt-0.5">Gemi Z/P</p>
-                    </div>
+                {{-- Tabs --}}
+                <div class="flex border-b border-gray-100">
+                    <button id="tab-singles" onclick="switchPlayerTab('singles')"
+                        class="player-tab flex-1 py-3 text-sm font-semibold transition-colors">
+                        Posamično
+                    </button>
+                    <button id="tab-doubles" onclick="switchPlayerTab('doubles')"
+                        class="player-tab flex-1 py-3 text-sm font-semibold transition-colors">
+                        Dvojice
+                    </button>
                 </div>
 
-                {{-- Win rate bar --}}
-                @if ($played > 0)
-                    <div class="px-6 pb-4 pt-1">
-                        <div class="flex h-2 rounded-full overflow-hidden bg-red-100">
-                            <div class="bg-green-500 h-full rounded-full transition-all" style="width: {{ $winRate }}%"></div>
-                        </div>
-                        <div class="flex justify-between text-xs text-gray-400 mt-1">
-                            <span>{{ $wins }} zmag</span>
-                            <span>{{ $losses }} porazov</span>
-                        </div>
-                    </div>
-                @endif
-            </div>
-
-            {{-- Form guide --}}
-            @if (!empty($formGuide))
-                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4">
-                    <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Zadnje tekme</h2>
-                    <div class="flex gap-1.5 flex-wrap">
-                        @foreach ($formGuide as $entry)
-                            <div title="{{ $entry['won'] ? 'Zmaga' : 'Poraz' }} vs {{ $entry['opponent']->player1->p_name ?? '?' }}"
-                                 @class([
-                                     'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold',
-                                     'bg-green-500 text-white' => $entry['won'],
-                                     'bg-red-400 text-white'   => !$entry['won'],
-                                 ])>
-                                {{ $entry['won'] ? 'Z' : 'P' }}
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @endif
-
-            {{-- Charts --}}
-            @if ($played > 0)
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    {{-- Doughnut: W/L --}}
-                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4 flex flex-col items-center">
-                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 self-start">Razmerje zmag</h2>
-                        <div class="relative w-36 h-36">
-                            <canvas id="chartDonut"></canvas>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                                <span class="text-2xl font-bold text-gray-900">{{ $winRate }}%</span>
-                                <span class="text-xs text-gray-400">uspešnost</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {{-- Bar: per league --}}
-                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4 sm:col-span-2">
-                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Zmage po ligah</h2>
-                        <div class="h-36">
-                            <canvas id="chartLeague"></canvas>
-                        </div>
-                    </div>
+                {{-- Singles panel --}}
+                <div id="panel-singles">
+                    @include('players._stats_panel', [
+                        'stats'   => $singles,
+                        'history' => $singlesHistory,
+                        'tabId'   => 'singles',
+                    ])
                 </div>
 
-                {{-- Line: rolling form --}}
-                @if (count($rollingForm) > 1)
-                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4">
-                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Kumulativna uspešnost (%)</h2>
-                        <div class="h-32">
-                            <canvas id="chartForm"></canvas>
-                        </div>
-                    </div>
-                @endif
-            @endif
-
-            {{-- Head-to-head --}}
-            @if (!empty($h2h))
-                <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                    <div class="px-5 py-3 border-b border-gray-100">
-                        <h2 class="text-sm font-semibold text-gray-800">Izkaz proti nasprotnikom</h2>
-                    </div>
-                    <ul class="divide-y divide-gray-100">
-                        @foreach ($h2h as $entry)
-                            @php
-                                $total = $entry['wins'] + $entry['losses'];
-                                $rate  = $total > 0 ? round(($entry['wins'] / $total) * 100) : 0;
-                            @endphp
-                            <li class="px-5 py-3">
-                                <div class="flex items-center gap-3">
-                                    <a href="{{ route('player.show', $entry['player']->id) }}"
-                                       class="text-sm font-medium text-gray-900 hover:text-amber-600 transition-colors flex-1 min-w-0 truncate">
-                                        {{ $entry['player']->p_name }}
-                                    </a>
-                                    <span class="text-xs font-semibold text-green-600 w-6 text-center">{{ $entry['wins'] }}</span>
-                                    <span class="text-xs text-gray-300">—</span>
-                                    <span class="text-xs font-semibold text-red-500 w-6 text-center">{{ $entry['losses'] }}</span>
-                                    <span class="text-xs text-gray-400 w-9 text-right">{{ $rate }}%</span>
-                                </div>
-                                <div class="mt-1.5 h-1.5 bg-red-100 rounded-full overflow-hidden">
-                                    <div class="h-full rounded-full transition-all {{ $rate >= 50 ? 'bg-green-500' : 'bg-red-400' }}"
-                                         style="width: {{ $rate }}%"></div>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
+                {{-- Doubles panel --}}
+                <div id="panel-doubles" class="hidden">
+                    @include('players._stats_panel', [
+                        'stats'   => $doubles,
+                        'history' => $doublesHistory,
+                        'tabId'   => 'doubles',
+                    ])
                 </div>
-            @endif
-
-            {{-- Match history --}}
-            <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-                <div class="px-5 py-3 border-b border-gray-100">
-                    <h2 class="text-sm font-semibold text-gray-800">Zgodovina tekem</h2>
-                </div>
-                @if (empty($matchHistory))
-                    <div class="px-5 py-10 text-center text-sm text-gray-400">Ni odigranih tekem.</div>
-                @else
-                    <ul class="divide-y divide-gray-100">
-                        @foreach ($matchHistory as $entry)
-                            @php
-                                $matchup  = $entry['matchup'];
-                                $opponent = $entry['opponent'];
-                                $won      = $entry['won'];
-                                $isTeam1  = $entry['is_team1'];
-                                $oppName  = $opponent->player2
-                                    ? $opponent->player1->p_name . ', ' . $opponent->player2->p_name
-                                    : $opponent->player1->p_name;
-                                $context  = $entry['league']?->name
-                                    ? $entry['league']->name . ($entry['bracket'] ? ' · ' . $entry['bracket']->name : '')
-                                    : ($entry['bracket']?->name ?? '');
-                                $score = $matchup->endResult;
-                                if (!$isTeam1 && $score !== 'Prihajajoča igra') {
-                                    $sets = explode('  ', $score);
-                                    $score = implode('  ', array_map(fn($s) => implode(':', array_reverse(explode(':', $s))), $sets));
-                                }
-                            @endphp
-                            <li class="flex items-center gap-3 px-5 py-3.5 hover:bg-gray-50 transition-colors">
-                                <span @class([
-                                    'flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold',
-                                    'bg-green-100 text-green-700' => $won,
-                                    'bg-red-100 text-red-600'     => !$won,
-                                ])>{{ $won ? 'Z' : 'P' }}</span>
-                                <div class="flex-1 min-w-0">
-                                    <a href="{{ route('player.show', $opponent->player1->id) }}"
-                                       class="text-sm font-medium text-gray-900 hover:text-amber-600 transition-colors truncate block">
-                                        {{ $oppName }}
-                                    </a>
-                                    @if ($context)
-                                        <p class="text-xs text-gray-400 truncate">{{ $context }}</p>
-                                    @endif
-                                </div>
-                                <span class="text-xs font-mono text-gray-600 flex-shrink-0 tabular-nums">
-                                    {{ $score !== 'Prihajajoča igra' ? $score : '' }}
-                                </span>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
             </div>
 
         </div>
     </section>
 
-    @if ($played > 0)
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
-        Chart.defaults.font.family = 'Inter, sans-serif';
-        Chart.defaults.color = '#6b7280';
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.color = '#6b7280';
 
-        // Doughnut
-        new Chart(document.getElementById('chartDonut'), {
+    function buildCharts(tabId, wins, losses, leagueLabels, leagueWins, leagueLosses, rollingForm) {
+        var donutEl = document.getElementById('chartDonut_' + tabId);
+        var leagueEl = document.getElementById('chartLeague_' + tabId);
+        var formEl = document.getElementById('chartForm_' + tabId);
+
+        if (donutEl) new Chart(donutEl, {
             type: 'doughnut',
-            data: {
-                labels: ['Zmage', 'Porazi'],
-                datasets: [{
-                    data: [{{ $wins }}, {{ $losses }}],
-                    backgroundColor: ['#22c55e', '#f87171'],
-                    borderWidth: 0,
-                    hoverOffset: 4,
-                }]
-            },
-            options: {
-                cutout: '72%',
-                plugins: { legend: { display: false }, tooltip: { callbacks: {
-                    label: ctx => ' ' + ctx.label + ': ' + ctx.raw
-                }}},
-                animation: { animateScale: true },
-            }
+            data: { labels: ['Zmage','Porazi'], datasets: [{ data: [wins, losses], backgroundColor: ['#22c55e','#f87171'], borderWidth: 0, hoverOffset: 4 }] },
+            options: { cutout: '72%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw }}}, animation: { animateScale: true }}
         });
 
-        // Bar: per league
-        const leagueLabels = @json(array_keys($leagueStats));
-        const leagueWins   = @json(array_column(array_values($leagueStats), 'wins'));
-        const leagueLosses = @json(array_column(array_values($leagueStats), 'losses'));
-
-        new Chart(document.getElementById('chartLeague'), {
+        if (leagueEl) new Chart(leagueEl, {
             type: 'bar',
-            data: {
-                labels: leagueLabels,
-                datasets: [
-                    { label: 'Zmage',  data: leagueWins,   backgroundColor: '#22c55e', borderRadius: 4, barPercentage: 0.6 },
-                    { label: 'Porazi', data: leagueLosses, backgroundColor: '#f87171', borderRadius: 4, barPercentage: 0.6 },
-                ]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
+            data: { labels: leagueLabels, datasets: [
+                { label: 'Zmage',  data: leagueWins,   backgroundColor: '#22c55e', borderRadius: 4, barPercentage: 0.6 },
+                { label: 'Porazi', data: leagueLosses, backgroundColor: '#f87171', borderRadius: 4, barPercentage: 0.6 },
+            ]},
+            options: { responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 10 }}},
-                scales: {
-                    x: { grid: { display: false }, ticks: { maxRotation: 30 }},
-                    y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f3f4f6' }},
-                }
+                scales: { x: { grid: { display: false }, ticks: { maxRotation: 30 }}, y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f3f4f6' }}}
             }
         });
 
-        @if (count($rollingForm) > 1)
-        // Line: rolling form
-        new Chart(document.getElementById('chartForm'), {
+        if (formEl && rollingForm.length > 1) new Chart(formEl, {
             type: 'line',
-            data: {
-                labels: @json(array_map(fn($i) => 'T' . ($i + 1), range(0, count($rollingForm) - 1))),
-                datasets: [{
-                    label: 'Uspešnost %',
-                    data: @json($rollingForm),
-                    borderColor: '#f59e0b',
-                    backgroundColor: 'rgba(245,158,11,0.08)',
-                    borderWidth: 2,
-                    pointRadius: 3,
-                    pointBackgroundColor: '#f59e0b',
-                    fill: true,
-                    tension: 0.3,
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
+            data: { labels: rollingForm.map((_,i) => 'T'+(i+1)), datasets: [{
+                label: 'Uspešnost %', data: rollingForm,
+                borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)',
+                borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#f59e0b', fill: true, tension: 0.3,
+            }]},
+            options: { responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { display: false }},
-                scales: {
-                    x: { grid: { display: false }},
-                    y: { min: 0, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f3f4f6' }},
-                }
+                scales: { x: { grid: { display: false }}, y: { min: 0, max: 100, ticks: { callback: v => v+'%' }, grid: { color: '#f3f4f6' }}}
             }
         });
-        @endif
+    }
+
+    @php
+        $sData = $singles;
+        $dData = $doubles;
+    @endphp
+
+    buildCharts('singles',
+        {{ $sData['wins'] }}, {{ $sData['losses'] }},
+        @json(array_keys($sData['leagueStats'])),
+        @json(array_column(array_values($sData['leagueStats']), 'wins')),
+        @json(array_column(array_values($sData['leagueStats']), 'losses')),
+        @json($sData['rollingForm'])
+    );
+
+    buildCharts('doubles',
+        {{ $dData['wins'] }}, {{ $dData['losses'] }},
+        @json(array_keys($dData['leagueStats'])),
+        @json(array_column(array_values($dData['leagueStats']), 'wins')),
+        @json(array_column(array_values($dData['leagueStats']), 'losses')),
+        @json($dData['rollingForm'])
+    );
+
+    function switchPlayerTab(tab) {
+        ['singles','doubles'].forEach(function(t) {
+            var btn   = document.getElementById('tab-' + t);
+            var panel = document.getElementById('panel-' + t);
+            var active = t === tab;
+            panel.classList.toggle('hidden', !active);
+            btn.classList.toggle('text-amber-600',   active);
+            btn.classList.toggle('border-b-2',       active);
+            btn.classList.toggle('border-amber-500', active);
+            btn.classList.toggle('text-gray-500',    !active);
+        });
+    }
+    switchPlayerTab('singles');
     </script>
-    @endif
 </x-layout>

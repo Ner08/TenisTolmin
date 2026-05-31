@@ -33,7 +33,6 @@
                               flex items-center gap-3 sm:gap-5 px-4 sm:px-6
                               {{ $isTop3 ? 'py-4 sm:py-5' : 'py-2.5 sm:py-3' }}">
 
-                        {{-- Rank badge --}}
                         <div class="flex-shrink-0 flex items-center justify-center {{ $isTop3 ? 'w-10 h-10' : 'w-8' }}">
                             @if ($isTop3)
                                 <span class="w-10 h-10 rounded-full flex items-center justify-center font-black text-lg {{ $medalBg }} shadow-sm">
@@ -44,7 +43,6 @@
                             @endif
                         </div>
 
-                        {{-- Name + subtitle --}}
                         <div class="flex-1 min-w-0">
                             <p class="font-bold truncate group-hover:text-amber-600 transition-colors
                                {{ $ranking === 1 ? 'text-lg text-gray-900' : ($isTop3 ? 'text-base text-gray-900' : 'text-sm text-gray-700') }}">
@@ -57,7 +55,6 @@
                             @endif
                         </div>
 
-                        {{-- Bar (desktop only, wider) --}}
                         <div class="hidden md:block flex-1 max-w-xs">
                             <div class="{{ $isTop3 ? 'h-2' : 'h-1' }} bg-gray-100 rounded-full overflow-hidden">
                                 <div class="h-full rounded-full {{ $barColor }} transition-all duration-500"
@@ -65,7 +62,6 @@
                             </div>
                         </div>
 
-                        {{-- Points --}}
                         <div class="flex-shrink-0 text-right">
                             <span class="font-black tabular-nums
                                 {{ $ranking === 1 ? 'text-xl text-amber-600' : ($isTop3 ? 'text-lg text-gray-700' : 'text-sm text-gray-500') }}">

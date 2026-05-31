@@ -8,7 +8,8 @@
       "Bash(npm run *)",
       "Bash(grep -c '$this->match\\(' database/seeders/LeagueSeeder.php)",
       "Bash(Get-ChildItem *)",
-      "Bash(Select-Object -ExpandProperty FullName)"
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(php -r \"echo 'test';\")"
     ]
   }
 }

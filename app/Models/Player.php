@@ -23,9 +23,9 @@ class Player extends Model
      * @var array
      */
     protected $fillable = [
-        'p_name', // Corrected the column name to 'p_name'
+        'p_name',
         'points',
-        'is_fake'
+        'is_fake',
     ];
 
     protected $attributes = [
