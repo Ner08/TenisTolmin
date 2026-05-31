@@ -131,32 +131,9 @@
 
     <x-title title="Igre v skupini" />
     @php
-        $lastRound = $bracket->matchUps->max('round') ?? 10;
-        $roundTitles = [
-            1 => ['Finale'],
-            2 => ['Polfinale', 'Finale'],
-            3 => ['Četrtfinale', 'Polfinale', 'Finale'],
-            4 => ['Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            5 => ['1.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            6 => ['1.Krog', '2.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            7 => ['1.Krog', '2.Krog', '3.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            8 => ['1.Krog', '2.Krog', '3.Krog', '4.Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            9 => [
-                '1.Krog',
-                '2.Krog',
-                '3.Krog',
-                '4.Krog',
-                '5.Krog',
-                'Osminafinala',
-                'Četrtfinale',
-                'Polfinale',
-                'Finale',
-            ],
-            10 => ['Tekme še niso določene.'],
-        ];
-
-        // Calculate the width of each column
-        $colWidth = 12 / $lastRound; // Divide 12 (the number of columns in Bootstrap grid system) by the total number of rounds
+        $roundGroups = $bracket->matchUps->sortBy('round')->groupBy('round');
+        $totalRounds = $roundGroups->count() ?: 1;
+        $colWidth    = 12 / $totalRounds;
     @endphp
     <div class="mt-4">
         @if ($bracket->is_group_stage)

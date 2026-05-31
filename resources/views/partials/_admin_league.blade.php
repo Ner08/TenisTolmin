@@ -1,19 +1,28 @@
 <div
     class="mb-4 grid-flow-col items-center border-0 border-b-2 border-gray-200 text-center text-lg font-bold uppercase hidden md:grid">
-    @foreach ($roundTitles[$lastRound] as $title)
-        <div class="w-full md:w-auto md:flex-grow-0 md:w-{{ $colWidth }}">{{ $title }}
-        </div>
+    @foreach ($roundGroups as $roundNum => $_)
+        @php
+            $rev = $totalRounds - 1 - $loop->index;
+            $title = match($rev) {
+                0 => 'Finale',
+                1 => 'Polfinale',
+                2 => 'Četrtfinale',
+                3 => 'Osminafinala',
+                default => ($rev - 3) . '. Krog',
+            };
+        @endphp
+        <div class="w-full md:w-{{ $colWidth }}">{{ $title }}</div>
     @endforeach
 </div>
 
 <div @class([
     'grid',
     'grid-flow-col',
-    'grid-cols-' . $lastRound,
+    'grid-cols-' . $totalRounds,
     'items-center',
     'pt-4',
 ])>
-    @foreach ($bracket->matchUps->sortBy('round')->groupBy('round') as $key => $match)
+    @foreach ($roundGroups as $key => $match)
         <div @class([
             'mx-2',
             'h-1/' . 2 ** ($key + 1) => $key != 1,
