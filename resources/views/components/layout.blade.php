@@ -178,6 +178,7 @@
     </div>
 
     <x-delete-confirmation />
+    <x-score-dialog />
 
     <div class="mt-14 flex-1 @if (session()->has('flash') && session()->has('message')) blurred @endif">
         {{ $slot }}
@@ -376,64 +377,60 @@
         document.getElementById('confirmActionDialog').classList.add('hidden');
     }
 
-    // Submit match result via AJAX
-    function submitScoreForm(matchId) {
-        var form = document.getElementById('form_' + matchId);
-        var inputs = form.querySelectorAll('input[type="number"][required]');
-        var valid = true;
+    // Score entry dialog
+    var _sdlgMatchId = null, _sdlgIsAdmin = false;
 
-        inputs.forEach(function(input) {
-            if (!input.value || input.value === '') {
-                valid = false;
-                input.classList.add('border-red-400');
-            } else {
-                input.classList.remove('border-red-400');
-            }
+    function openScoreDialog(matchId, t1Name, t2Name, isAdmin, prefill) {
+        _sdlgMatchId = matchId;
+        _sdlgIsAdmin = isAdmin;
+        document.getElementById('scoreDialogTitle').textContent = t1Name + ' — ' + t2Name;
+        document.getElementById('scoreDialogT1').textContent = t1Name;
+        document.getElementById('scoreDialogT2').textContent = t2Name;
+        var fields = ['sdlg_t1s1','sdlg_t2s1','sdlg_t1s2','sdlg_t2s2','sdlg_t1s3','sdlg_t2s3'];
+        var keys   = ['t1s1','t2s1','t1s2','t2s2','t1s3','t2s3'];
+        fields.forEach(function(id, i) {
+            var el = document.getElementById(id);
+            el.value = (prefill && prefill[keys[i]] != null && prefill[keys[i]] !== '') ? prefill[keys[i]] : '';
+            el.classList.remove('border-red-400');
         });
-
-        if (!valid) return;
-
-        var formData = new FormData(form);
-
-        fetch('{{ route("matchups.result.store", ":matchId") }}'.replace(':matchId', matchId), {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || formData.get('_token'),
-                'Accept': 'application/json'
-            },
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                if (typeof currentLeagueTab !== 'undefined' && currentLeagueTab) {
-                    sessionStorage.setItem('leagueReturnPanel', currentLeagueTab);
-                    sessionStorage.setItem('leagueReturnSub', typeof currentSubTab !== 'undefined' ? currentSubTab : 'content');
-                }
-                location.reload();
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Napaka pri pošiljanju rezultata');
-        });
+        document.getElementById('scoreDialog').classList.remove('hidden');
+        document.getElementById('sdlg_t1s1').focus();
     }
 
-    // Submit admin match result via AJAX
-    function submitAdminScoreForm(matchId) {
-        var form = document.getElementById('admin_form_' + matchId);
-        var inputs = form.querySelectorAll('input[type="number"][required]');
+    function closeScoreDialog() {
+        document.getElementById('scoreDialog').classList.add('hidden');
+        _sdlgMatchId = null;
+    }
+
+    function submitScoreFromDialog() {
+        if (!_sdlgMatchId) return;
+        var required = ['sdlg_t1s1','sdlg_t2s1','sdlg_t1s2','sdlg_t2s2'];
         var valid = true;
-        inputs.forEach(function(input) {
-            if (input.value === '') { valid = false; input.classList.add('border-red-400'); }
-            else input.classList.remove('border-red-400');
+        required.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el.value === '') { valid = false; el.classList.add('border-red-400'); }
+            else el.classList.remove('border-red-400');
         });
         if (!valid) return;
 
-        var formData = new FormData(form);
-        formData.append('_method', 'POST');
+        var formData = new FormData();
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+        formData.append('t1_first_set',  document.getElementById('sdlg_t1s1').value);
+        formData.append('t2_first_set',  document.getElementById('sdlg_t2s1').value);
+        formData.append('t1_second_set', document.getElementById('sdlg_t1s2').value);
+        formData.append('t2_second_set', document.getElementById('sdlg_t2s2').value);
+        var t1s3 = document.getElementById('sdlg_t1s3').value;
+        var t2s3 = document.getElementById('sdlg_t2s3').value;
+        if (t1s3 !== '') formData.append('t1_third_set', t1s3);
+        if (t2s3 !== '') formData.append('t2_third_set', t2s3);
 
-        fetch('{{ route("matchups.admin.confirm", ":id") }}'.replace(':id', matchId) + '?_score=1', {
+        var url = _sdlgIsAdmin
+            ? '{{ route("matchups.admin.confirm", ":id") }}'.replace(':id', _sdlgMatchId) + '?_score=1'
+            : '{{ route("matchups.result.store", ":id") }}'.replace(':id', _sdlgMatchId);
+
+        closeScoreDialog();
+
+        fetch(url, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
@@ -441,8 +438,8 @@
             },
             body: formData,
         })
-        .then(r => r.json())
-        .then(data => {
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
             if (data.success) {
                 if (typeof currentLeagueTab !== 'undefined' && currentLeagueTab) {
                     sessionStorage.setItem('leagueReturnPanel', currentLeagueTab);
@@ -451,7 +448,7 @@
                 location.reload();
             }
         })
-        .catch(() => alert('Napaka pri shranjevanju'));
+        .catch(function() { alert('Napaka pri pošiljanju rezultata'); });
     }
 
     // Admin section toggle

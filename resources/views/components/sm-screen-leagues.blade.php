@@ -1,24 +1,23 @@
 @foreach ($brackets as $key => $bracket)
     @php
-        $lastRound = $bracket->matchUps->max('round') ?? 10;
-        $roundTitles = [
-            1 => ['Finale'],
-            2 => ['Polfinale', 'Finale'],
-            3 => ['Četrtfinale', 'Polfinale', 'Finale'],
-            4 => ['Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            5 => ['1. Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            6 => ['1. Krog', '2. Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            7 => ['1. Krog', '2. Krog', '3. Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            8 => ['1. Krog', '2. Krog', '3. Krog', '4. Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            9 => ['1. Krog', '2. Krog', '3. Krog', '4. Krog', '5. Krog', 'Osminafinala', 'Četrtfinale', 'Polfinale', 'Finale'],
-            10 => ['Tekme še niso določene.'],
-        ];
+        $roundGroups = $bracket->matchUps->sortBy('round')->groupBy('round');
+        $totalRounds = $roundGroups->count();
     @endphp
 
-    <div class="p-3 space-y-1">
-        @foreach ($bracket->matchUps->sortBy('round')->groupBy('round') as $key => $match)
-            <div class="px-4 py-2 bg-gray-50 border-b border-gray-100">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">{{ $roundTitles[$lastRound][$key - 1] }}</span>
+    <div class="py-1">
+        @foreach ($roundGroups as $key => $match)
+            @php
+                $rev = $totalRounds - 1 - $loop->index;
+                $roundTitle = match($rev) {
+                    0 => 'Finale',
+                    1 => 'Polfinale',
+                    2 => 'Četrtfinale',
+                    3 => 'Osminafinala',
+                    default => ($rev - 3) . '. Krog',
+                };
+            @endphp
+            <div class="px-4 py-2.5 bg-gray-100 border-y border-gray-200 flex items-center">
+                <span class="text-xs font-bold text-gray-700 uppercase tracking-widest">{{ $roundTitle }}</span>
             </div>
             <div class="grid grid-cols-1 gap-2 px-3 py-3">
                 @foreach ($bracket->matchUps->where('round', $key) as $match)

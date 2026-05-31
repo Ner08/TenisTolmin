@@ -1,17 +1,6 @@
 @foreach ($brackets as $key => $bracket)
     @php
         $lastRound = $bracket->matchUps->max('round');
-        $roundTitles = [
-            1 => ['1. Kolo'],
-            2 => ['1. Kolo', '2. Kolo'],
-            3 => ['1. Kolo', '2. Kolo', '3. Kolo'],
-            4 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo'],
-            5 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo', '5. Kolo'],
-            6 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo', '5. Kolo', '6. Kolo'],
-            7 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo', '5. Kolo', '6. Kolo', '7. Kolo'],
-            8 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo', '5. Kolo', '6. Kolo', '7. Kolo', '8. Kolo'],
-            9 => ['1. Kolo', '2. Kolo', '3. Kolo', '4. Kolo', '5. Kolo', '6. Kolo', '7. Kolo', '8. Kolo', '9. Kolo'],
-        ];
     @endphp
 
     <div id="group{{ $key }}" class="max-w-screen-2xl mx-auto px-4 py-4">
@@ -62,7 +51,7 @@
         {{-- Match rounds --}}
         @foreach ($bracket->matchUps->sortBy('round')->groupBy('round') as $key => $match)
             <div class="py-2.5 bg-gray-100 border-y border-gray-200 mt-4 rounded-lg">
-                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest px-3">{{ $roundTitles[$lastRound][$key - 1] }}</span>
+                <span class="text-xs font-bold text-gray-500 uppercase tracking-widest px-3">{{ $key . '. Kolo' }}</span>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 pt-3 pb-2 items-start">
                 @foreach ($bracket->matchUps->where('round', $key) as $match)

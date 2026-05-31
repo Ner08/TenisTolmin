@@ -18,7 +18,7 @@ class LeaguesController extends Controller
 {
     public function index()
     {
-        $leagues = League::with('brackets.teams')->get();
+        $leagues = League::with('brackets.teams')->orderByDesc('id')->get();
 
         $currentPage = request()->get('page') ?: 1;
         $perPage = 9;
