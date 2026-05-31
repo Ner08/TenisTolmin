@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace Database\Seeders;
 
@@ -9,416 +9,281 @@ class LeagueSeeder extends Seeder
 {
     public function run(): void
     {
-        // ── Resolve test accounts created by UserSeeder ──────────────────
-        $nejcPlayerId     = DB::table('players')->where('p_name', 'Nejc Robič')->value('id');
-        $opponentPlayerId = DB::table('players')->where('p_name', 'Test Nasprotnik')->value('id');
-        $nejcUserId       = DB::table('users')->where('email', 'robic.nejc12@gmail.com')->value('id');
-        $opponentUserId   = DB::table('users')->where('email', 'opponent@test.com')->value('id');
+        $nejcId = DB::table('players')->where('p_name', 'Nejc RobiÄ')->value('id');
+        $oppId  = DB::table('players')->where('p_name', 'Test Nasprotnik')->value('id');
 
-        // ── Background players (regular leaderboard players) ─────────────
-        $players = [
-            ['p_name' => 'Luka Peršič',     'points' => 220],
-            ['p_name' => 'Gregor Mežnar',   'points' => 185],
-            ['p_name' => 'Matej Božič',     'points' => 160],
-            ['p_name' => 'Nina Zorman',     'points' => 130],
-            ['p_name' => 'Simon Klinc',     'points' => 110],
-            ['p_name' => 'Tomaž Šuštar',    'points' =>  90],
-            ['p_name' => 'Rok Urankar',     'points' =>  75],
-            ['p_name' => 'Maja Fortuna',    'points' =>  60],
-            ['p_name' => 'Andrej Kos',      'points' =>  45],
-            ['p_name' => 'Petra Leban',     'points' =>  35],
-            ['p_name' => 'Jure Batagelj',   'points' =>  22],
-            ['p_name' => 'Sara Markič',     'points' =>  14],
-            ['p_name' => 'Bojan Vidmar',    'points' =>  50],
-            ['p_name' => 'Katja Novak',     'points' =>  42],
-            ['p_name' => 'Miha Bertoncelj', 'points' =>  30],
-            ['p_name' => 'Tina Kravanja',   'points' =>  18],
+        // 14 named players
+        $defs = [
+            ['Luka PerÅ¡iÄ',     220], ['Gregor MeÅ¾nar',   185], ['Matej BoÅ¾iÄ',     160],
+            ['Nina Zorman',     130], ['Simon Klinc',     110], ['Rok Urankar',      90],
+            ['Maja Fortuna',     75], ['TomaÅ¾ Å uÅ¡tar',    70], ['Andrej Kos',       65],
+            ['Petra Leban',      55], ['Jure Batagelj',   45], ['Sara MarkiÄ',      35],
+            ['Bojan Vidmar',     30], ['Katja Novak',      25],
         ];
-
-        $playerIds = [];
-        foreach ($players as $p) {
-            $playerIds[] = DB::table('players')->insertGetId([
-                'p_name'     => $p['p_name'],
-                'points'     => $p['points'],
-                'is_fake'    => false,
-                'created_at' => now(),
-                'updated_at' => now(),
+        $pids = [];
+        foreach ($defs as [$name, $pts]) {
+            $pids[] = DB::table('players')->insertGetId([
+                'p_name' => $name, 'points' => $pts,
+                'is_fake' => false, 'created_at' => now(), 'updated_at' => now(),
             ]);
         }
+        [$luka,$gregor,$matej,$nina,$simon,$rok,$maja,$tomaz,$andrej,$petra,$jure,$sara,$bojan,$katja] = $pids;
 
-        [
-            $luka, $gregor, $matej, $nina, $simon, $tomaz,
-            $rok, $maja, $andrej, $petra, $jure, $sara,
-            $bojan, $katja, $miha, $tina
-        ] = $playerIds;
-        $bye = 1;
+        $bye = DB::table('players')->insertGetId([
+            'p_name' => 'NedoloÄen', 'points' => 0,
+            'is_fake' => true, 'created_at' => now(), 'updated_at' => now(),
+        ]);
 
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 1 – Poletna liga 2024  (group stage only, 2 groups)
-        // ─────────────────────────────────────────────────────────────────
-        $league1 = DB::table('leagues')->insertGetId([
-            'name'        => 'Poletna liga 2024',
-            'description' => 'Klubska poletna liga za sezono 2024. Tekmovanje v skupinskem sistemu.',
-            'start_date'  => '2024-06-01',
-            'end_date'    => '2024-08-31',
+        // â”€â”€ LIGA TOLMIN 2026 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        $league = DB::table('leagues')->insertGetId([
+            'name'        => 'Liga Tolmin 2026',
+            'description' => 'Glavna liga za sezono 2026. Skupinski del z dvema skupinama in izloÄitveni del.',
+            'start_date'  => '2026-01-15',
+            'end_date'    => '2026-11-30',
             'l_home_page' => true,
             'created_at'  => now(), 'updated_at' => now(),
         ]);
 
-        $b1a = $this->bracket($league1, 'Skupina A', 'A', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$t1a1, $t1a2, $t1a3, $t1a4] = $this->makeTeams($b1a, [$luka, $simon, $petra, $jure]);
-        $this->m($b1a, $t1a1, $t1a2, 6,3, 6,4, null,null, 1);
-        $this->m($b1a, $t1a3, $t1a4, 6,4, 3,6, 6,3,   1);
-        $this->m($b1a, $t1a1, $t1a3, 6,2, 6,4, null,null, 2);
-        $this->m($b1a, $t1a2, $t1a4, 6,3, 4,6, 6,4,   2);
-        $this->m($b1a, $t1a1, $t1a4, 6,4, 7,5, null,null, 3);
-        $this->m($b1a, $t1a2, $t1a3, 5,7, 6,4, 6,3,   3);
+        $pts = 'Zmaga: 3 toÄke Â· Poraz 1:2: 1 toÄka Â· Poraz 0:2: 0 toÄk';
 
-        $b1b = $this->bracket($league1, 'Skupina B', 'B', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$t1b1, $t1b2, $t1b3, $t1b4] = $this->makeTeams($b1b, [$rok, $maja, $andrej, $sara]);
-        $this->m($b1b, $t1b1, $t1b2, 6,3, 6,4, null,null, 1);
-        $this->m($b1b, $t1b3, $t1b4, 7,5, 4,6, 6,4,   1);
-        $this->m($b1b, $t1b1, $t1b3, 6,4, 3,6, 7,5,   2);
-        $this->m($b1b, $t1b2, $t1b4, 6,2, 6,3, null,null, 2);
-        $this->m($b1b, $t1b1, $t1b4, null,null, null,null, null,null, 3);
-        $this->m($b1b, $t1b2, $t1b3, null,null, null,null, null,null, 3);
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        // SKUPINA A â€” 8 players, full round-robin, 28 matches (rounds 1-7)
+        // Players: Nejc(1) Luka(2) Gregor(3) Matej(4) Nina(5) Simon(6) Rok(7) Maja(8)
+        // Circle-method schedule: fix p8, rotate others
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        $gA = $this->bracket($league, 'Skupina A', 'A', true, $pts);
+        [$a1,$a2,$a3,$a4,$a5,$a6,$a7,$a8] = $this->makeTeams(
+            $gA, [$nejcId,$luka,$gregor,$matej,$nina,$simon,$rok,$maja]
+        );
 
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 2 – Zimska liga 2024  (knockout only, with places)
-        // ─────────────────────────────────────────────────────────────────
-        $league2 = DB::table('leagues')->insertGetId([
-            'name'        => 'Zimska liga 2024',
-            'description' => 'Zimska notranja liga za člane kluba. Tekme v dvorani.',
-            'start_date'  => '2024-10-15',
-            'end_date'    => '2025-02-28',
-            'l_home_page' => false,
-            'created_at'  => now(), 'updated_at' => now(),
+        // Round 1: (1,8)(2,7)(3,6)(4,5) â€” all played
+        $this->m($gA,$a1,$a8, 6,3, 6,2, null,null,        1); // Nejc def. Maja 2:0
+        $this->m($gA,$a2,$a7, 6,4, 4,6, 7,5,        1); // Luka def. Rok 2:1
+        $this->m($gA,$a3,$a6, 6,2, 6,3, null,null,        1); // Gregor def. Simon 2:0
+        $this->m($gA,$a4,$a5, 7,5, 4,6, 6,4,        1); // Matej def. Nina 2:1
+
+        // Round 2: (2,8)(3,1)(4,7)(5,6) â€” all played
+        $this->m($gA,$a2,$a8, 6,1, 6,3, null,null,        2); // Luka def. Maja 2:0
+        $this->m($gA,$a3,$a1, 4,6, 6,4, 6,4,        2); // Gregor def. Nejc 2:1
+        $this->m($gA,$a4,$a7, 6,3, 6,4, null,null,        2); // Matej def. Rok 2:0 (sets reversed)
+        $this->m($gA,$a5,$a6, 6,4, 3,6, 7,5,        2); // Nina def. Simon 2:1
+
+        // Round 3: (3,8)(4,2)(5,1)(6,7) â€” all played
+        $this->m($gA,$a3,$a8, 6,2, 6,1, null,null,        3); // Gregor def. Maja 2:0
+        $this->m($gA,$a4,$a2, 3,6, 7,5, 6,4,        3); // Matej def. Luka 2:1
+        $this->m($gA,$a5,$a1, 4,6, 3,6, null,null,        3); // Nejc def. Nina 2:0
+        $this->m($gA,$a6,$a7, 6,4, 6,3, null,null,        3); // Simon def. Rok 2:0
+
+        // Round 4: (4,8)(5,3)(6,2)(7,1) â€” all played
+        $this->m($gA,$a4,$a8, 6,0, 6,2, null,null,        4); // Matej def. Maja 2:0
+        $this->m($gA,$a5,$a3, 6,4, 2,6, 6,4,        4); // Nina def. Gregor 2:1
+        $this->m($gA,$a6,$a2, 4,6, 6,3, 3,6,        4); // Luka def. Simon 2:1
+        $this->m($gA,$a7,$a1, 3,6, 4,6, null,null,        4); // Nejc def. Rok 2:0
+
+        // Round 5: (5,8)(6,4)(7,3)(1,2) â€” all played
+        $this->m($gA,$a5,$a8, 6,1, 6,3, null,null,        5); // Nina def. Maja 2:0
+        $this->m($gA,$a6,$a4, 6,4, 3,6, 6,4,        5); // Simon def. Matej 2:1
+        $this->m($gA,$a7,$a3, 6,4, 6,3, null,null,        5); // Rok def. Gregor 2:0
+        $this->m($gA,$a1,$a2, 6,4, 7,5, null,null,        5); // Nejc def. Luka 2:0
+
+        // Round 6: (6,8)(7,5)(1,4)(2,3) â€” unplayed
+        $this->m($gA,$a6,$a8, null,null, null,null, null,null,        6);
+        $this->m($gA,$a7,$a5, null,null, null,null, null,null,        6);
+        $this->m($gA,$a1,$a4, null,null, null,null, null,null,        6);
+        $this->m($gA,$a2,$a3, null,null, null,null, null,null,        6);
+
+        // Round 7: (7,8)(1,6)(2,5)(3,4) â€” unplayed
+        $this->m($gA,$a7,$a8, null,null, null,null, null,null,        7);
+        $this->m($gA,$a1,$a6, null,null, null,null, null,null,        7);
+        $this->m($gA,$a2,$a5, null,null, null,null, null,null,        7);
+        $this->m($gA,$a3,$a4, null,null, null,null, null,null,        7);
+
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        // SKUPINA B â€” 8 players, full round-robin, 28 matches (rounds 1-7)
+        // Players: Opp(1) TomaÅ¾(2) Andrej(3) Petra(4) Jure(5) Sara(6) Bojan(7) Katja(8)
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        $gB = $this->bracket($league, 'Skupina B', 'B', true, $pts);
+        [$b1,$b2,$b3,$b4,$b5,$b6,$b7,$b8] = $this->makeTeams(
+            $gB, [$oppId,$tomaz,$andrej,$petra,$jure,$sara,$bojan,$katja]
+        );
+
+        // Round 1 â€” all played
+        $this->m($gB,$b1,$b8, 6,4, 6,3, null,null,        1); // Opp def. Katja 2:0
+        $this->m($gB,$b2,$b7, 7,5, 6,4, null,null,        1); // TomaÅ¾ def. Bojan 2:0
+        $this->m($gB,$b3,$b6, 6,3, 4,6, 6,4,        1); // Andrej def. Sara 2:1
+        $this->m($gB,$b4,$b5, 6,2, 6,4, null,null,        1); // Petra def. Jure 2:0
+
+        // Round 2 â€” all played
+        $this->m($gB,$b2,$b8, 6,2, 6,1, null,null,        2); // TomaÅ¾ def. Katja 2:0
+        $this->m($gB,$b3,$b1, 4,6, 6,3, 6,4,        2); // Andrej def. Opp 2:1
+        $this->m($gB,$b4,$b7, 6,4, 6,2, null,null,        2); // Petra def. Bojan 2:0
+        $this->m($gB,$b5,$b6, 3,6, 6,4, 6,3,        2); // Jure def. Sara 2:1
+
+        // Round 3 â€” all played
+        $this->m($gB,$b3,$b8, 6,3, 6,4, null,null,        3); // Andrej def. Katja 2:0
+        $this->m($gB,$b4,$b2, 6,4, 7,5, null,null,        3); // Petra def. TomaÅ¾ 2:0
+        $this->m($gB,$b5,$b1, 4,6, 3,6, null,null,        3); // Opp def. Jure 2:0
+        $this->m($gB,$b6,$b7, 6,3, 6,4, null,null,        3); // Sara def. Bojan 2:0
+
+        // Round 4 â€” all played
+        $this->m($gB,$b4,$b8, 6,1, 6,0, null,null,        4); // Petra def. Katja 2:0
+        $this->m($gB,$b5,$b3, 6,4, 3,6, 7,5,        4); // Jure def. Andrej 2:1
+        $this->m($gB,$b6,$b2, 6,3, 4,6, 7,5,        4); // Sara def. TomaÅ¾ 2:1
+        $this->m($gB,$b7,$b1, 6,4, 7,5, null,null,        4); // Bojan def. Opp 2:0
+
+        // Round 5 â€” all played
+        $this->m($gB,$b5,$b8, 6,2, 6,3, null,null,        5); // Jure def. Katja 2:0
+        $this->m($gB,$b6,$b4, 4,6, 7,5, 6,4,        5); // Sara def. Petra 2:1
+        $this->m($gB,$b7,$b3, 6,3, 6,4, null,null,        5); // Bojan def. Andrej 2:0
+        $this->m($gB,$b1,$b2, 6,4, 3,6, 7,5,        5); // Opp def. TomaÅ¾ 2:1
+
+        // Round 6 â€” unplayed
+        $this->m($gB,$b6,$b8, null,null, null,null, null,null,        6);
+        $this->m($gB,$b7,$b5, null,null, null,null, null,null,        6);
+        $this->m($gB,$b1,$b4, null,null, null,null, null,null,        6);
+        $this->m($gB,$b2,$b3, null,null, null,null, null,null,        6);
+
+        // Round 7 â€” unplayed
+        $this->m($gB,$b7,$b8, null,null, null,null, null,null,        7);
+        $this->m($gB,$b1,$b6, null,null, null,null, null,null,        7);
+        $this->m($gB,$b2,$b5, null,null, null,null, null,null,        7);
+        $this->m($gB,$b3,$b4, null,null, null,null, null,null,        7);
+
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        // IZLOÄŒITVENI DEL A â€” 16 teams, 8 rounds, places 1-16
+        // Rounds 1-4 empty (byes already happened). Real play from round 5.
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        $brA = $this->bracket($league, 'IzloÄitveni del A', null, false,
+            'Top 8 iz vsake skupine se uvrsti v izloÄitveni del.', 1, 16);
+
+        [$ka1,$ka2,$ka3,$ka4,$ka5,$ka6,$ka7,$ka8,
+         $ka9,$ka10,$ka11,$ka12,$ka13,$ka14,$ka15,$ka16] = $this->makeTeams($brA, [
+            $nejcId,$luka,$gregor,$matej,$nina,$simon,$rok,$maja,
+            $oppId,$tomaz,$andrej,$petra,$jure,$sara,$bojan,$katja,
         ]);
 
-        $b2ko = $this->bracket($league2, 'Izločitveni del', null, false, null, 1, 4);
-        [$t2k1, $t2k2, $t2k3, $t2k4] = $this->makeTeams($b2ko, [$matej, $nina, $tomaz, $andrej]);
-        $this->m($b2ko, $t2k1, $t2k4, 6,3, 6,4, null,null, 1, null, 'A1', 'B2');
-        $this->m($b2ko, $t2k3, $t2k2, 4,6, 7,5, 6,4,   1, null, 'B1', 'A2');
-        $ff1 = $this->faketeam($b2ko, $bye);
-        $ff2 = $this->faketeam($b2ko, $bye);
-        $this->m($b2ko, $ff1, $ff2, null,null, null,null, null,null, 2, null, 'Zm. SF1', 'Zm. SF2');
+        // Round 5 (Osminafinala): first 4 played, last 4 unplayed
+        $this->m($brA,$ka1,$ka16,  6,3, 6,4, null,null,   5, null,'A1','B8');  // Nejc wins
+        $this->m($brA,$ka2,$ka15,  7,5, 6,3, null,null,   5, null,'A2','B7');  // Luka wins
+        $this->m($brA,$ka3,$ka14,  6,4, 4,6, 7,5,   5, null,'A3','B6');  // Gregor wins
+        $this->m($brA,$ka4,$ka13,  6,2, 6,3, null,null,   5, null,'A4','B5');  // Matej wins
+        $this->m($brA,$ka5,$ka12,  null,null, null,null, null,null,   5, null,'A5','B4');
+        $this->m($brA,$ka6,$ka11,  null,null, null,null, null,null,   5, null,'A6','B3');
+        $this->m($brA,$ka7,$ka10,  null,null, null,null, null,null,   5, null,'A7','B2');
+        $this->m($brA,$ka8,$ka9,   null,null, null,null, null,null,   5, null,'A8','B1');
 
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 3 – Letna liga Tolmin 2025  (3 groups + knockout)
-        // ─────────────────────────────────────────────────────────────────
-        $league3 = DB::table('leagues')->insertGetId([
-            'name'        => 'Letna liga Tolmin 2025',
-            'description' => 'Glavna sezonska liga za leto 2025. Skupinski del in izločitveni turnir.',
-            'start_date'  => '2025-03-01',
-            'end_date'    => '2025-06-30',
-            'l_home_page' => true,
-            'created_at'  => now(), 'updated_at' => now(),
+        // Round 6 (ÄŒetrtfinale): fake placeholders
+        [$f6a1,$f6a2,$f6a3,$f6a4,$f6a5,$f6a6,$f6a7,$f6a8] = array_map(fn() => $this->ft($brA,$bye), range(1,8));
+        $this->m($brA,$f6a1,$f6a2, null,null, null,null, null,null,  6, null,'Zm. OF1','Zm. OF8');
+        $this->m($brA,$f6a3,$f6a4, null,null, null,null, null,null,  6, null,'Zm. OF2','Zm. OF7');
+        $this->m($brA,$f6a5,$f6a6, null,null, null,null, null,null,  6, null,'Zm. OF3','Zm. OF6');
+        $this->m($brA,$f6a7,$f6a8, null,null, null,null, null,null,  6, null,'Zm. OF4','Zm. OF5');
+
+        // Round 7 (Polfinale)
+        [$f7a1,$f7a2,$f7a3,$f7a4] = array_map(fn() => $this->ft($brA,$bye), range(1,4));
+        $this->m($brA,$f7a1,$f7a2, null,null, null,null, null,null,  7, null,'Zm. ÄŒF1','Zm. ÄŒF2');
+        $this->m($brA,$f7a3,$f7a4, null,null, null,null, null,null,  7, null,'Zm. ÄŒF3','Zm. ÄŒF4');
+
+        // Round 8 (Finale)
+        [$f8a1,$f8a2] = array_map(fn() => $this->ft($brA,$bye), range(1,2));
+        $this->m($brA,$f8a1,$f8a2, null,null, null,null, null,null,  8, null,'Zm. PF1','Zm. PF2');
+
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        // IZLOÄŒITVENI DEL B â€” 16 teams, 8 rounds, places 1-16
+        // All matches unplayed (upcoming bracket)
+        // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+        $brB = $this->bracket($league, 'IzloÄitveni del B', null, false,
+            'UteÅ¡eni del izloÄitvenega turnirja.', 1, 16);
+
+        [$kb1,$kb2,$kb3,$kb4,$kb5,$kb6,$kb7,$kb8,
+         $kb9,$kb10,$kb11,$kb12,$kb13,$kb14,$kb15,$kb16] = $this->makeTeams($brB, [
+            $matej,$nina,$simon,$rok,$maja,$tomaz,$andrej,$petra,
+            $jure,$sara,$bojan,$katja,$luka,$gregor,$nejcId,$oppId,
         ]);
 
-        $b3a = $this->bracket($league3, 'Skupina A', 'A', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$tA1, $tA2, $tA3, $tA4] = $this->makeTeams($b3a, [$luka, $matej, $rok, $simon]);
-        $this->m($b3a, $tA1, $tA2, 6,3, 6,4, null,null, 1);
-        $this->m($b3a, $tA3, $tA4, 3,6, 4,6, null,null, 1);
-        $this->m($b3a, $tA1, $tA3, 6,2, 6,3, null,null, 2);
-        $this->m($b3a, $tA2, $tA4, 7,5, 4,6, 6,3,   2);
-        $this->m($b3a, $tA1, $tA4, 6,4, 7,5, null,null, 3);
-        $this->m($b3a, $tA2, $tA3, 6,4, 6,1, null,null, 3);
+        // Round 5 (Osminafinala): all unplayed
+        $this->m($brB,$kb1,$kb16,  null,null, null,null, null,null,  5, null,'M1','M16');
+        $this->m($brB,$kb2,$kb15,  null,null, null,null, null,null,  5, null,'M2','M15');
+        $this->m($brB,$kb3,$kb14,  null,null, null,null, null,null,  5, null,'M3','M14');
+        $this->m($brB,$kb4,$kb13,  null,null, null,null, null,null,  5, null,'M4','M13');
+        $this->m($brB,$kb5,$kb12,  null,null, null,null, null,null,  5, null,'M5','M12');
+        $this->m($brB,$kb6,$kb11,  null,null, null,null, null,null,  5, null,'M6','M11');
+        $this->m($brB,$kb7,$kb10,  null,null, null,null, null,null,  5, null,'M7','M10');
+        $this->m($brB,$kb8,$kb9,   null,null, null,null, null,null,  5, null,'M8','M9');
 
-        $b3b = $this->bracket($league3, 'Skupina B', 'B', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$tB1, $tB2, $tB3, $tB4] = $this->makeTeams($b3b, [$gregor, $tomaz, $nina, $maja]);
-        $this->m($b3b, $tB1, $tB2, 6,4, 7,5, null,null, 1);
-        $this->m($b3b, $tB3, $tB4, 6,4, 3,6, 6,3,   1);
-        $this->m($b3b, $tB1, $tB3, 6,2, 6,4, null,null, 2);
-        $this->m($b3b, $tB2, $tB4, 6,3, 6,2, null,null, 2);
-        $this->m($b3b, $tB1, $tB4, null,null, null,null, null,null, 3);
-        $this->m($b3b, $tB2, $tB3, null,null, null,null, null,null, 3);
+        // Round 6
+        [$f6b1,$f6b2,$f6b3,$f6b4,$f6b5,$f6b6,$f6b7,$f6b8] = array_map(fn() => $this->ft($brB,$bye), range(1,8));
+        $this->m($brB,$f6b1,$f6b2, null,null, null,null, null,null,  6, null,'Zm. OF1','Zm. OF8');
+        $this->m($brB,$f6b3,$f6b4, null,null, null,null, null,null,  6, null,'Zm. OF2','Zm. OF7');
+        $this->m($brB,$f6b5,$f6b6, null,null, null,null, null,null,  6, null,'Zm. OF3','Zm. OF6');
+        $this->m($brB,$f6b7,$f6b8, null,null, null,null, null,null,  6, null,'Zm. OF4','Zm. OF5');
 
-        $b3c = $this->bracket($league3, 'Skupina C', 'C', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$tC1, $tC2, $tC3, $tC4] = $this->makeTeams($b3c, [$andrej, $petra, $jure, $sara]);
-        $this->m($b3c, $tC1, $tC2, 7,5, 6,4, null,null, 1);
-        $this->m($b3c, $tC3, $tC4, 6,3, 3,6, 7,5,   1);
-        $this->m($b3c, $tC1, $tC3, 6,4, 4,6, 6,4,   2);
-        $this->m($b3c, $tC2, $tC4, 6,1, 6,2, null,null, 2);
-        $this->m($b3c, $tC1, $tC4, null,null, null,null, null,null, 3);
-        $this->m($b3c, $tC2, $tC3, null,null, null,null, null,null, 3);
+        // Round 7
+        [$f7b1,$f7b2,$f7b3,$f7b4] = array_map(fn() => $this->ft($brB,$bye), range(1,4));
+        $this->m($brB,$f7b1,$f7b2, null,null, null,null, null,null,  7, null,'Zm. ÄŒF1','Zm. ÄŒF2');
+        $this->m($brB,$f7b3,$f7b4, null,null, null,null, null,null,  7, null,'Zm. ÄŒF3','Zm. ÄŒF4');
 
-        $b3ko = $this->bracket($league3, 'Izločitveni del', null, false,
-            'Top 2 iz vsake skupine napreduje v izločitveni del.', 1, 6);
-        [$tkLuka, $tkMatej, $tkGregor, $tkTomaz, $tkAndrej, $tkPetra] =
-            $this->makeTeams($b3ko, [$luka, $matej, $gregor, $tomaz, $andrej, $petra]);
-        $this->m($b3ko, $tkLuka,   $tkPetra,  6,2, 6,1, null,null, 1);
-        $this->m($b3ko, $tkGregor, $tkMatej,  7,5, 3,6, 6,4,   1);
-        $this->m($b3ko, $tkAndrej, $tkTomaz,  4,6, 6,4, 6,4,   1);
-        $this->m($b3ko, $tkLuka,   $tkAndrej, 6,3, 7,5, null,null, 2);
-        $fSemi = $this->faketeam($b3ko, $bye);
-        $this->m($b3ko, $tkGregor, $fSemi,    null,null, null,null, null,null, 2, null, null, 'Zm. SF2');
-        $fFin1 = $this->faketeam($b3ko, $bye);
-        $fFin2 = $this->faketeam($b3ko, $bye);
-        $this->m($b3ko, $fFin1, $fFin2, null,null, null,null, null,null, 3, null, 'Zm. SF1', 'Zm. SF2');
-
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 4 – Pokalno tekmovanje 2025  (4 groups + 8-player knockout)
-        // ─────────────────────────────────────────────────────────────────
-        $league4 = DB::table('leagues')->insertGetId([
-            'name'        => 'Pokalno tekmovanje 2025',
-            'description' => 'Klubski pokal 2025. Štiri skupine in izločitveni del z osmino finala.',
-            'start_date'  => '2025-04-01',
-            'end_date'    => '2025-09-30',
-            'l_home_page' => true,
-            'created_at'  => now(), 'updated_at' => now(),
-        ]);
-
-        $pts = 'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk';
-
-        $g4a = $this->bracket($league4, 'Skupina A', 'A', true, $pts);
-        [$g4a1, $g4a2, $g4a3, $g4a4] = $this->makeTeams($g4a, [$luka, $bojan, $nina, $miha]);
-        $this->m($g4a, $g4a1, $g4a2, 6,1, 6,2, null,null, 1);
-        $this->m($g4a, $g4a3, $g4a4, 7,5, 6,4, null,null, 1);
-        $this->m($g4a, $g4a1, $g4a3, 6,3, 7,5, null,null, 2);
-        $this->m($g4a, $g4a2, $g4a4, 4,6, 6,3, 7,5,   2);
-        $this->m($g4a, $g4a1, $g4a4, null,null, null,null, null,null, 3);
-        $this->m($g4a, $g4a2, $g4a3, null,null, null,null, null,null, 3);
-
-        $g4b = $this->bracket($league4, 'Skupina B', 'B', true, $pts);
-        [$g4b1, $g4b2, $g4b3, $g4b4] = $this->makeTeams($g4b, [$gregor, $katja, $simon, $tina]);
-        $this->m($g4b, $g4b1, $g4b2, 6,4, 6,3, null,null, 1);
-        $this->m($g4b, $g4b3, $g4b4, 6,2, 6,1, null,null, 1);
-        $this->m($g4b, $g4b1, $g4b3, 3,6, 7,5, 6,4,   2);
-        $this->m($g4b, $g4b2, $g4b4, 6,3, 6,4, null,null, 2);
-        $this->m($g4b, $g4b1, $g4b4, null,null, null,null, null,null, 3);
-        $this->m($g4b, $g4b2, $g4b3, null,null, null,null, null,null, 3);
-
-        $g4c = $this->bracket($league4, 'Skupina C', 'C', true, $pts);
-        [$g4c1, $g4c2, $g4c3, $g4c4] = $this->makeTeams($g4c, [$matej, $rok, $andrej, $jure]);
-        $this->m($g4c, $g4c1, $g4c2, 6,2, 7,5, null,null, 1);
-        $this->m($g4c, $g4c3, $g4c4, 6,4, 6,3, null,null, 1);
-        $this->m($g4c, $g4c1, $g4c3, 7,5, 6,4, null,null, 2);
-        $this->m($g4c, $g4c2, $g4c4, 3,6, 6,4, 6,3,   2);
-        $this->m($g4c, $g4c1, $g4c4, null,null, null,null, null,null, 3);
-        $this->m($g4c, $g4c2, $g4c3, null,null, null,null, null,null, 3);
-
-        $g4d = $this->bracket($league4, 'Skupina D', 'D', true, $pts);
-        [$g4d1, $g4d2, $g4d3, $g4d4] = $this->makeTeams($g4d, [$tomaz, $maja, $petra, $sara]);
-        $this->m($g4d, $g4d1, $g4d2, 6,3, 6,2, null,null, 1);
-        $this->m($g4d, $g4d3, $g4d4, 6,4, 7,5, null,null, 1);
-        $this->m($g4d, $g4d1, $g4d3, 4,6, 5,7, null,null, 2);
-        $this->m($g4d, $g4d2, $g4d4, 6,1, 6,3, null,null, 2);
-        $this->m($g4d, $g4d1, $g4d4, null,null, null,null, null,null, 3);
-        $this->m($g4d, $g4d2, $g4d3, null,null, null,null, null,null, 3);
-
-        $g4ko = $this->bracket($league4, 'Izločitveni del', null, false,
-            'Najboljša 2 iz vsake skupine se uvrstita v izločitveni del.', 1, 8);
-        [
-            $k4a1, $k4a2, $k4b1, $k4b2,
-            $k4c1, $k4c2, $k4d1, $k4d2,
-        ] = $this->makeTeams($g4ko, [$luka, $bojan, $gregor, $simon, $matej, $rok, $petra, $maja]);
-        $this->m($g4ko, $k4a1, $k4d2, 6,3, 6,4, null,null, 1, null, 'A1', 'D2');
-        $this->m($g4ko, $k4b1, $k4c2, 6,2, 7,5, null,null, 1, null, 'B1', 'C2');
-        $this->m($g4ko, $k4c1, $k4b2, 4,6, 6,3, 7,5,   1, null, 'C1', 'B2');
-        $this->m($g4ko, $k4d1, $k4a2, null,null, null,null, null,null, 1, null, 'D1', 'A2');
-        $sf1 = $this->faketeam($g4ko, $bye);
-        $sf2 = $this->faketeam($g4ko, $bye);
-        $sf3 = $this->faketeam($g4ko, $bye);
-        $sf4 = $this->faketeam($g4ko, $bye);
-        $this->m($g4ko, $sf1, $sf2, null,null, null,null, null,null, 2, null, 'Zm. ČF1', 'Zm. ČF2');
-        $this->m($g4ko, $sf3, $sf4, null,null, null,null, null,null, 2, null, 'Zm. ČF3', 'Zm. ČF4');
-        $fin1 = $this->faketeam($g4ko, $bye);
-        $fin2 = $this->faketeam($g4ko, $bye);
-        $this->m($g4ko, $fin1, $fin2, null,null, null,null, null,null, 3, null, 'Zm. SF1', 'Zm. SF2');
-
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 5 – Velika skupina 2025  (1 group, 8 players, 28 matches)
-        // ─────────────────────────────────────────────────────────────────
-        $league5 = DB::table('leagues')->insertGetId([
-            'name'        => 'Velika skupina 2025',
-            'description' => 'Testna liga z eno veliko skupino — 8 igralcev, 7 krogov, 28 tekem.',
-            'start_date'  => '2025-05-01',
-            'end_date'    => '2025-10-31',
-            'l_home_page' => false,
-            'created_at'  => now(), 'updated_at' => now(),
-        ]);
-
-        $big = $this->bracket($league5, 'Velika skupina', 'V', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$v1,$v2,$v3,$v4,$v5,$v6,$v7,$v8] = $this->makeTeams($big,
-            [$luka, $gregor, $matej, $nina, $simon, $tomaz, $rok, $maja]);
-        $this->m($big,$v1,$v8, 6,3, 6,4, null,null, 1);
-        $this->m($big,$v2,$v7, 7,5, 4,6, 6,3,   1);
-        $this->m($big,$v3,$v6, 6,2, 6,4, null,null, 1);
-        $this->m($big,$v4,$v5, 3,6, 6,3, 6,4,   1);
-        $this->m($big,$v2,$v8, 6,4, 6,2, null,null, 2);
-        $this->m($big,$v3,$v1, 4,6, 3,6, null,null, 2);
-        $this->m($big,$v4,$v7, 6,3, 6,4, null,null, 2);
-        $this->m($big,$v5,$v6, 7,5, 5,7, 7,5,   2);
-        $this->m($big,$v3,$v8, 6,1, 6,3, null,null, 3);
-        $this->m($big,$v4,$v2, 6,4, 4,6, 7,5,   3);
-        $this->m($big,$v5,$v1, 3,6, 6,4, 3,6,   3);
-        $this->m($big,$v6,$v7, 6,3, 3,6, 6,4,   3);
-        $this->m($big,$v4,$v8, 6,2, 6,3, null,null, 4);
-        $this->m($big,$v5,$v3, 6,4, 7,5, null,null, 4);
-        $this->m($big,$v6,$v2, 4,6, 6,3, 6,4,   4);
-        $this->m($big,$v7,$v1, 6,4, 3,6, 7,5,   4);
-        $this->m($big,$v5,$v8, 6,3, 6,4, null,null, 5);
-        $this->m($big,$v6,$v4, null,null, null,null, null,null, 5);
-        $this->m($big,$v7,$v3, null,null, null,null, null,null, 5);
-        $this->m($big,$v1,$v2, null,null, null,null, null,null, 5);
-        $this->m($big,$v6,$v8, null,null, null,null, null,null, 6);
-        $this->m($big,$v7,$v5, null,null, null,null, null,null, 6);
-        $this->m($big,$v1,$v4, null,null, null,null, null,null, 6);
-        $this->m($big,$v2,$v3, null,null, null,null, null,null, 6);
-        $this->m($big,$v7,$v8, null,null, null,null, null,null, 7);
-        $this->m($big,$v1,$v6, null,null, null,null, null,null, 7);
-        $this->m($big,$v2,$v5, null,null, null,null, null,null, 7);
-        $this->m($big,$v3,$v4, null,null, null,null, null,null, 7);
-
-        // ─────────────────────────────────────────────────────────────────
-        // LEAGUE 6 – Aktivna testna liga 2026 (Nejc + Opponent + others)
-        // Tests: result entry, pending confirmation, disputed, confirmed
-        // ─────────────────────────────────────────────────────────────────
-        $league6 = DB::table('leagues')->insertGetId([
-            'name'        => 'Aktivna testna liga 2026',
-            'description' => 'Liga za testiranje vnosa rezultatov, potrditev in sporov.',
-            'start_date'  => '2026-01-01',
-            'end_date'    => '2026-12-31',
-            'l_home_page' => true,
-            'created_at'  => now(), 'updated_at' => now(),
-        ]);
-
-        // ── Group A: Nejc, Opponent, Luka, Gregor ──────────────────────
-        $gA = $this->bracket($league6, 'Skupina A', 'A', true,
-            'Zmaga: 3 točke • Poraz 1:2: 1 točka • Poraz 0:2: 0 točk');
-        [$tNejc, $tOpp, $tLukaA, $tGregorA] = $this->makeTeams($gA,
-            [$nejcPlayerId, $opponentPlayerId, $luka, $gregor]);
-
-        // Match 1 – Nejc vs Opponent  → UNPLAYED (Nejc can enter result here)
-        $this->m($gA, $tNejc, $tOpp, null,null, null,null, null,null, 1);
-
-        // Match 2 – Luka vs Gregor → confirmed by admin
-        $this->m($gA, $tLukaA, $tGregorA, 6,3, 6,4, null,null, 1, null, null, null,
-            'confirmed', null);
-
-        // Match 3 – Nejc vs Luka → PENDING (Nejc submitted, Luka must confirm)
-        $this->m($gA, $tNejc, $tLukaA, 6,4, 3,6, 7,5, 2, null, null, null,
-            'pending', $nejcUserId);
-
-        // Match 4 – Opponent vs Gregor → DISPUTED
-        $this->m($gA, $tOpp, $tGregorA, 7,5, 6,3, null,null, 2, null, null, null,
-            'disputed', $opponentUserId);
-
-        // Match 5 – Nejc vs Gregor → unplayed (round 3)
-        $this->m($gA, $tNejc, $tGregorA, null,null, null,null, null,null, 3);
-
-        // Match 6 – Opponent vs Luka → unplayed (round 3)
-        $this->m($gA, $tOpp, $tLukaA, null,null, null,null, null,null, 3);
-
-        // ── Elimination bracket: Nejc, Opponent, Matej, Nina (places 1-4) ─
-        $gKO = $this->bracket($league6, 'Izločitveni del', null, false,
-            'Najboljši iz skupin.', 1, 4);
-        [$tkNejc, $tkOpp, $tkMatej, $tkNina] = $this->makeTeams($gKO,
-            [$nejcPlayerId, $opponentPlayerId, $matej, $nina]);
-
-        // SF1: Nejc vs Nina → Nejc wins (confirmed)
-        $this->m($gKO, $tkNejc, $tkNina, 6,3, 6,4, null,null, 1, null, 'A1', 'B2',
-            'confirmed', null);
-
-        // SF2: Opponent vs Matej → UNPLAYED (enter result)
-        $this->m($gKO, $tkOpp, $tkMatej, null,null, null,null, null,null, 1, null, 'B1', 'A2');
-
-        // Final: placeholder
-        $fkFin1 = $this->faketeam($gKO, $bye);
-        $fkFin2 = $this->faketeam($gKO, $bye);
-        $this->m($gKO, $fkFin1, $fkFin2, null,null, null,null, null,null, 2, null, 'Zm. SF1', 'Zm. SF2');
+        // Round 8
+        [$f8b1,$f8b2] = array_map(fn() => $this->ft($brB,$bye), range(1,2));
+        $this->m($brB,$f8b1,$f8b2, null,null, null,null, null,null,  8, null,'Zm. PF1','Zm. PF2');
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────
+    // â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-    private function bracket(
-        int $leagueId,
-        string $name,
-        ?string $tag,
-        bool $isGroup,
-        ?string $pointsDesc = null,
-        ?int $placesFrom = null,
-        ?int $placesTo = null
-    ): int {
+    private function bracket(int $lid, string $name, ?string $tag, bool $isGroup,
+        ?string $ptDesc = null, ?int $from = null, ?int $to = null): int
+    {
         return DB::table('brackets')->insertGetId([
-            'league_id'          => $leagueId,
-            'name'               => $name,
-            'tag'                => $tag,
-            'b_description'      => null,
-            'points_description' => $pointsDesc,
-            'is_group_stage'     => $isGroup,
-            'places_from'        => $placesFrom,
-            'places_to'          => $placesTo,
-            'created_at'         => now(),
-            'updated_at'         => now(),
+            'league_id' => $lid, 'name' => $name, 'tag' => $tag,
+            'b_description' => null, 'points_description' => $ptDesc,
+            'is_group_stage' => $isGroup, 'places_from' => $from, 'places_to' => $to,
+            'created_at' => now(), 'updated_at' => now(),
         ]);
     }
 
     private function makeTeams(int $bracketId, array $p1Ids): array
     {
-        $ids = [];
-        foreach ($p1Ids as $p1Id) {
-            $ids[] = DB::table('teams')->insertGetId([
-                'bracket_id' => $bracketId,
-                'p1_id'      => $p1Id,
-                'p2_id'      => null,
-                'name'       => null,
-                'is_fake'    => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
-        return $ids;
+        return array_map(fn($pid) => DB::table('teams')->insertGetId([
+            'bracket_id' => $bracketId, 'p1_id' => $pid, 'p2_id' => null,
+            'name' => null, 'is_fake' => false,
+            'created_at' => now(), 'updated_at' => now(),
+        ]), $p1Ids);
     }
 
-    private function faketeam(int $bracketId, int $fakePlayerId): int
+    private function ft(int $bracketId, int $fakePid): int
     {
         return DB::table('teams')->insertGetId([
-            'bracket_id' => $bracketId,
-            'p1_id'      => $fakePlayerId,
-            'p2_id'      => null,
-            'name'       => null,
-            'is_fake'    => true,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'bracket_id' => $bracketId, 'p1_id' => $fakePid, 'p2_id' => null,
+            'name' => null, 'is_fake' => true,
+            'created_at' => now(), 'updated_at' => now(),
         ]);
     }
 
-    private function m(
-        int $bracketId, int $team1Id, int $team2Id,
+    private function m(int $bid, int $t1, int $t2,
         $t1s1, $t2s1, $t1s2, $t2s2, $t1s3, $t2s3,
-        int $round,
-        ?string $exception = null,
-        ?string $t1Tag = null,
-        ?string $t2Tag = null,
-        string $resultStatus = 'none',
-        ?int $submittedByUserId = null
-    ): int {
+        int $round, ?string $exc = null, ?string $t1tag = null, ?string $t2tag = null,
+        string $status = 'none', ?int $submitter = null): int
+    {
         return DB::table('custom_match_ups')->insertGetId([
-            'bracket_id'          => $bracketId,
-            'team1_id'            => $team1Id,
-            'team2_id'            => $team2Id,
-            't1_first_set'        => $t1s1,
-            't2_first_set'        => $t2s1,
-            't1_second_set'       => $t1s2,
-            't2_second_set'       => $t2s2,
-            't1_third_set'        => $t1s3,
-            't2_third_set'        => $t2s3,
-            't1_tag'              => $t1Tag,
-            't2_tag'              => $t2Tag,
-            'round'               => $round,
-            'exception'           => $exception,
-            'result_status'       => $resultStatus,
-            'submitted_by_user_id'=> $submittedByUserId,
-            'result_submitted_at' => $submittedByUserId ? now() : null,
-            'created_at'          => now(),
-            'updated_at'          => now(),
+            'bracket_id'           => $bid,
+            'team1_id'             => $t1,
+            'team2_id'             => $t2,
+            't1_first_set'         => $t1s1,
+            't2_first_set'         => $t2s1,
+            't1_second_set'        => $t1s2,
+            't2_second_set'        => $t2s2,
+            't1_third_set'         => $t1s3,
+            't2_third_set'         => $t2s3,
+            't1_tag'               => $t1tag,
+            't2_tag'               => $t2tag,
+            'round'                => $round,
+            'exception'            => $exc,
+            'result_status'        => $status,
+            'submitted_by_user_id' => $submitter,
+            'result_submitted_at'  => $submitter ? now() : null,
+            'created_at'           => now(),
+            'updated_at'           => now(),
         ]);
     }
 }
+

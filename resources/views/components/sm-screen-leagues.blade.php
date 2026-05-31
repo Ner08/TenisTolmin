@@ -93,27 +93,28 @@
         {{-- Final standings --}}
         @if ($bracket->places_from)
             @php
-                $standingsRows = [];
+                $standingsGroups = [];
                 $place = $bracket->places_from;
-                $roundsDesc = $bracket->matchUps->sortByDesc('round')->groupBy('round');
                 $isFirst = true;
-                foreach ($roundsDesc as $round => $matches) {
-                    foreach ($matches as $m) {
-                        if (!$m->game_played() || $m->winner() === null) continue;
-                        $w = $m->winner();
-                        $winTeam  = $w ? $m->team1  : $m->team2;
-                        $loseTeam = $w ? $m->team2  : $m->team1;
-                        if ($isFirst) {
-                            $standingsRows[] = ['place' => $place++, 'team' => $winTeam];
-                            $standingsRows[] = ['place' => $place++, 'team' => $loseTeam];
-                            $isFirst = false;
-                        } else {
-                            $standingsRows[] = ['place' => $place++, 'team' => $loseTeam];
-                        }
+                foreach ($bracket->matchUps->sortByDesc('round')->groupBy('round') as $matches) {
+                    $played = $matches->filter(fn($m) => $m->game_played() && $m->winner() !== null);
+                    if ($played->isEmpty()) continue;
+                    if ($isFirst) {
+                        $final = $played->first();
+                        $w = $final->winner();
+                        $standingsGroups[] = ['from' => $place, 'to' => $place, 'teams' => [$w ? $final->team1 : $final->team2]];
+                        $place++;
+                        $standingsGroups[] = ['from' => $place, 'to' => $place, 'teams' => [$w ? $final->team2 : $final->team1]];
+                        $place++;
+                        $isFirst = false;
+                    } else {
+                        $losers = $played->map(fn($m) => $m->winner() ? $m->team2 : $m->team1)->values()->all();
+                        $standingsGroups[] = ['from' => $place, 'to' => $place + count($losers) - 1, 'teams' => $losers];
+                        $place += count($losers);
                     }
                 }
             @endphp
-            @if (count($standingsRows))
+            @if (count($standingsGroups))
                 <div class="px-3 pb-4 mt-2">
                     <div class="flex items-center gap-2 mb-2 px-1">
                         <div class="w-1 h-5 bg-amber-500 rounded-full"></div>
@@ -123,18 +124,21 @@
                         </h3>
                     </div>
                     <div class="relative bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-                        @foreach ($standingsRows as $row)
+                        @foreach ($standingsGroups as $group)
                             @php
-                                $p1 = $row['team']?->player1;
-                                $p2 = $row['team']?->player2;
-                                $name = $p1 ? ($p2 ? $p1->p_name . ' & ' . $p2->p_name : $p1->p_name) : '—';
-                                $medal = match($row['place']) { 1 => '🥇', 2 => '🥈', 3 => '🥉', default => null };
+                                $tied  = $group['to'] > $group['from'];
+                                $label = $tied ? ($group['from'] . '–' . $group['to'] . '.') : $group['from'] . '.';
+                                $medal = !$tied ? match($group['from']) { 1 => '🥇', 2 => '🥈', 3 => '🥉', default => null } : null;
+                                $names = collect($group['teams'])->map(function($t) {
+                                    $p1 = $t?->player1; $p2 = $t?->player2;
+                                    return $p1 ? ($p2 ? $p1->p_name . ' & ' . $p2->p_name : $p1->p_name) : '—';
+                                })->join(', ');
                             @endphp
-                            <div class="flex items-center gap-3 px-4 py-3 {{ !$loop->last ? 'border-b border-gray-100' : '' }} {{ $row['place'] === $bracket->places_from ? 'bg-amber-50/50' : '' }}">
-                                <span class="w-8 text-sm font-bold {{ $row['place'] === $bracket->places_from ? 'text-amber-600' : 'text-gray-400' }} flex-shrink-0">
-                                    @if ($medal) {{ $medal }} @else {{ $row['place'] }}. @endif
+                            <div class="flex items-center gap-3 px-4 py-3 {{ !$loop->last ? 'border-b border-gray-100' : '' }} {{ $group['from'] === $bracket->places_from ? 'bg-amber-50/50' : '' }}">
+                                <span class="@if($tied) w-12 text-xs @else w-8 text-sm @endif font-bold {{ $group['from'] === $bracket->places_from ? 'text-amber-600' : 'text-gray-400' }} flex-shrink-0">
+                                    {{ $medal ?? $label }}
                                 </span>
-                                <span class="text-sm font-medium text-gray-800">{{ $name }}</span>
+                                <span class="text-sm font-medium text-gray-800">{{ $names }}</span>
                             </div>
                         @endforeach
                     </div>

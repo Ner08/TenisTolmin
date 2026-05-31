@@ -120,7 +120,8 @@ class PlayerController extends Controller
 
         return view('players.show', compact(
             'player', 'matchHistory', 'wins', 'losses', 'played', 'winRate',
-            'setsWon', 'setsLost', 'gamesWon', 'gamesLost', 'h2h', 'formGuide'
+            'setsWon', 'setsLost', 'gamesWon', 'gamesLost', 'h2h', 'formGuide',
+            'leagueStats', 'rollingForm'
         ));
     }
 

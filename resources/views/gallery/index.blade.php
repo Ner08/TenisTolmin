@@ -13,7 +13,7 @@
                         <img src="{{ asset('storage/' . $item->g_image) }}"
                              alt="{{ $item->g_title }}"
                              loading="lazy"
-                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                             class="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105">
                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-colors duration-300"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                             <p class="text-white text-xs font-medium drop-shadow-lg truncate">{{ $item->g_title }}</p>

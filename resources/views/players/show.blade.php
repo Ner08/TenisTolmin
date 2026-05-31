@@ -4,7 +4,7 @@
     <x-title :title="$player->p_name" back-route="scoreboard" back-label="Lestvica" />
 
     <section class="pt-4 pb-10 md:py-10 px-4">
-        <div class="container mx-auto max-w-3xl space-y-4">
+        <div class="max-w-screen-2xl mx-auto space-y-4">
 
             {{-- Header card --}}
             <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
@@ -88,6 +88,41 @@
                         @endforeach
                     </div>
                 </div>
+            @endif
+
+            {{-- Charts --}}
+            @if ($played > 0)
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {{-- Doughnut: W/L --}}
+                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4 flex flex-col items-center">
+                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3 self-start">Razmerje zmag</h2>
+                        <div class="relative w-36 h-36">
+                            <canvas id="chartDonut"></canvas>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                                <span class="text-2xl font-bold text-gray-900">{{ $winRate }}%</span>
+                                <span class="text-xs text-gray-400">uspešnost</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Bar: per league --}}
+                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4 sm:col-span-2">
+                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Zmage po ligah</h2>
+                        <div class="h-36">
+                            <canvas id="chartLeague"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Line: rolling form --}}
+                @if (count($rollingForm) > 1)
+                    <div class="bg-white border border-gray-200 rounded-2xl shadow-sm px-5 py-4">
+                        <h2 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Kumulativna uspešnost (%)</h2>
+                        <div class="h-32">
+                            <canvas id="chartForm"></canvas>
+                        </div>
+                    </div>
+                @endif
             @endif
 
             {{-- Head-to-head --}}
@@ -176,4 +211,86 @@
 
         </div>
     </section>
+
+    @if ($played > 0)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        Chart.defaults.font.family = 'Inter, sans-serif';
+        Chart.defaults.color = '#6b7280';
+
+        // Doughnut
+        new Chart(document.getElementById('chartDonut'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Zmage', 'Porazi'],
+                datasets: [{
+                    data: [{{ $wins }}, {{ $losses }}],
+                    backgroundColor: ['#22c55e', '#f87171'],
+                    borderWidth: 0,
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                cutout: '72%',
+                plugins: { legend: { display: false }, tooltip: { callbacks: {
+                    label: ctx => ' ' + ctx.label + ': ' + ctx.raw
+                }}},
+                animation: { animateScale: true },
+            }
+        });
+
+        // Bar: per league
+        const leagueLabels = @json(array_keys($leagueStats));
+        const leagueWins   = @json(array_column(array_values($leagueStats), 'wins'));
+        const leagueLosses = @json(array_column(array_values($leagueStats), 'losses'));
+
+        new Chart(document.getElementById('chartLeague'), {
+            type: 'bar',
+            data: {
+                labels: leagueLabels,
+                datasets: [
+                    { label: 'Zmage',  data: leagueWins,   backgroundColor: '#22c55e', borderRadius: 4, barPercentage: 0.6 },
+                    { label: 'Porazi', data: leagueLosses, backgroundColor: '#f87171', borderRadius: 4, barPercentage: 0.6 },
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 10 }}},
+                scales: {
+                    x: { grid: { display: false }, ticks: { maxRotation: 30 }},
+                    y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: '#f3f4f6' }},
+                }
+            }
+        });
+
+        @if (count($rollingForm) > 1)
+        // Line: rolling form
+        new Chart(document.getElementById('chartForm'), {
+            type: 'line',
+            data: {
+                labels: @json(array_map(fn($i) => 'T' . ($i + 1), range(0, count($rollingForm) - 1))),
+                datasets: [{
+                    label: 'Uspešnost %',
+                    data: @json($rollingForm),
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245,158,11,0.08)',
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: '#f59e0b',
+                    fill: true,
+                    tension: 0.3,
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false }},
+                scales: {
+                    x: { grid: { display: false }},
+                    y: { min: 0, max: 100, ticks: { callback: v => v + '%' }, grid: { color: '#f3f4f6' }},
+                }
+            }
+        });
+        @endif
+    </script>
+    @endif
 </x-layout>

@@ -465,7 +465,8 @@
     // Fullscreen image modal — used by gallery, news, carousel
     function showFullImage(imageUrl) {
         const overlay = document.createElement('div');
-        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;justify-content:center;align-items:center;z-index:9999;cursor:zoom-out;animation:fadeIn 0.2s ease';
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);display:flex;justify-content:center;align-items:center;z-index:9999;cursor:zoom-out;opacity:0;transition:opacity 0.3s ease';
+        requestAnimationFrame(() => requestAnimationFrame(() => overlay.style.opacity = '1'));
 
         // Spinner
         const spinner = document.createElement('div');

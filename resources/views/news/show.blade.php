@@ -4,7 +4,7 @@
     <x-title :title="$newsItem->title" back-route="news" back-label="Novice" />
     <style>body { background-color: #f9fafb; }</style>
 
-    <section class="pt-4 pb-10 md:py-10 xl:py-14 px-4">
+    <section class="pt-4 pb-10 md:pt-6 md:pb-10 xl:pt-8 xl:pb-14 px-4">
         <div class="container mx-auto max-w-2xl xl:max-w-3xl 2xl:max-w-4xl">
 
             {{-- Date --}}
