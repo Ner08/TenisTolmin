@@ -286,7 +286,7 @@
                 <div class="mb-4 grid grid-cols-2 gap-4">
                     <div>
                         <label for="round" class="block text-gray-700 font-semibold mb-2">Runda:</label>
-                        <input type="number" name="round" min="1" max="9"
+                        <input type="number" name="round" min="1" max="99"
                             class="form-input rounded-lg w-full focus:outline-none focus:border-blue-500 border-gray-300 py-3 px-4 mt-3"
                             placeholder="Vnesi rundo (v katerem krogu bo igra potekala)"
                             value="{{ old('round') }}" />
