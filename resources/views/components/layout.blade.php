@@ -198,24 +198,21 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('in-view');
-                        io.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
-
+            // Animate elements in once on initial page load (no scroll-triggered reveal).
             document.querySelectorAll('[data-animate]').forEach(function (el) {
-                io.observe(el);
+                el.classList.add('in-view');
             });
 
             document.querySelectorAll('.grid').forEach(function (grid) {
                 Array.from(grid.children).forEach(function (child, i) {
                     child.classList.add('ga');
                     child.style.transitionDelay = Math.min(i * 80, 320) + 'ms';
-                    io.observe(child);
+                });
+            });
+            // Defer to next frame so the initial opacity:0 state is painted before transitioning in.
+            requestAnimationFrame(function () {
+                document.querySelectorAll('.ga').forEach(function (el) {
+                    el.classList.add('in-view');
                 });
             });
 
