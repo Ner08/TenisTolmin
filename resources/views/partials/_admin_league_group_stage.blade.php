@@ -47,6 +47,7 @@
                     // Combine all criteria into a single value for sorting
                     return [$points, $setDelta, $gameDelta];
                 });
+                $total = $sortedTeams->count();
             @endphp
             @foreach ($sortedTeams as $team)
                 @php
@@ -73,8 +74,14 @@
 
                     $t1_ranking = ($p1->ranking() ?? '') . (isset($p2) ? '-' . $p2->ranking() : '');
                     // Calculate total points for the team
+                    $zone = $bracket->zoneColor($loop->iteration, $total);
                 @endphp
-                <tr class="hover:bg-gray-100">
+                <tr @class([
+                    'hover:bg-gray-100' => !$zone,
+                    'bg-green-50 hover:bg-green-100' => $zone === 'green',
+                    'bg-orange-50 hover:bg-orange-100' => $zone === 'orange',
+                    'bg-red-50 hover:bg-red-100' => $zone === 'red',
+                ])>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span>{!! $bracket->tag . $loop->iteration !!}</span>
                     </td>

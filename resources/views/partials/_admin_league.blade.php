@@ -1,3 +1,6 @@
+@php
+    $lastRound = $bracket->matchUps->max('round');
+@endphp
 <div
     class="mb-4 grid-flow-col items-center border-0 border-b-2 border-gray-200 text-center text-lg font-bold uppercase hidden md:grid">
     @foreach ($roundGroups as $roundNum => $_)

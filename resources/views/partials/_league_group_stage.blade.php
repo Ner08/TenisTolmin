@@ -22,6 +22,7 @@
                         $sortedTeams = $bracket->teams->where('is_fake', false)->sortByDesc(function ($team) {
                             return [$team->group_points(), $team->group_set_delta(), $team->group_game_delta()];
                         });
+                        $total = $sortedTeams->count();
                     @endphp
                     @foreach ($sortedTeams as $team)
                         @php
@@ -34,8 +35,16 @@
                                     ? '<a href="' . $pUrl($p1) . '" class="hover:text-amber-600 transition-colors">' . e($p1->p_name) . '</a><span class="text-amber-700"> (' . $p1->ranking() . ')</span>, <a href="' . $pUrl($p2) . '" class="hover:text-amber-600 transition-colors">' . e($p2->p_name) . '</a><span class="inline-flex items-center bg-gray-100 text-gray-600 text-xs font-medium px-1.5 py-0.5 rounded ml-1">' . $p2->ranking() . '</span>'
                                     : '<a href="' . $pUrl($p1) . '" class="hover:text-amber-600 transition-colors">' . e($p1->p_name) . '</a><span class="inline-flex items-center bg-gray-100 text-gray-600 text-xs font-medium px-1.5 py-0.5 rounded ml-1">' . $p1->ranking() . '</span>');
                             $playedMatchupsCount = $team->matchups->filter(fn($m) => $m->game_played())->count();
+                            $zone = $bracket->zoneColor($loop->iteration, $total);
                         @endphp
-                        <tr class="hover:bg-amber-50 transition-colors text-sm {{ $loop->first ? 'bg-amber-50/50' : '' }}">
+                        <tr @class([
+                            'transition-colors text-sm',
+                            'hover:bg-amber-50' => !$zone,
+                            'bg-amber-50/50' => !$zone && $loop->first,
+                            'bg-green-50 hover:bg-green-100' => $zone === 'green',
+                            'bg-orange-50 hover:bg-orange-100' => $zone === 'orange',
+                            'bg-red-50 hover:bg-red-100' => $zone === 'red',
+                        ])>
                             <td class="px-4 py-3 font-semibold text-gray-700">{!! $bracket->tag . $loop->iteration !!}</td>
                             <td class="px-4 py-3 text-gray-900 font-medium">{!! $team_name !!}</td>
                             <td class="px-4 py-3 text-center text-gray-600">{{ $playedMatchupsCount }}</td>
