@@ -119,9 +119,10 @@ class LeaguesController extends Controller
                 'b_description' => 'max:500',
                 'is_group_stage' => ['boolean'],
                 'league_id' => ['required', 'integer'],
-                'green_rows'  => ['nullable', 'integer', 'min:0'],
-                'orange_rows' => ['nullable', 'integer', 'min:0'],
-                'red_rows'    => ['nullable', 'integer', 'min:0'],
+                'green_rows'       => ['nullable', 'integer', 'min:0'],
+                'orange_up_rows'   => ['nullable', 'integer', 'min:0'],
+                'orange_down_rows' => ['nullable', 'integer', 'min:0'],
+                'red_rows'         => ['nullable', 'integer', 'min:0'],
             ]);
         } else {
             $validated_data_bracket = $request->validate([
@@ -182,9 +183,10 @@ class LeaguesController extends Controller
                 'b_description' => 'max:500',
                 'is_group_stage' => ['boolean'],
                 'league_id' => ['required', 'integer'],
-                'green_rows'  => ['nullable', 'integer', 'min:0'],
-                'orange_rows' => ['nullable', 'integer', 'min:0'],
-                'red_rows'    => ['nullable', 'integer', 'min:0'],
+                'green_rows'       => ['nullable', 'integer', 'min:0'],
+                'orange_up_rows'   => ['nullable', 'integer', 'min:0'],
+                'orange_down_rows' => ['nullable', 'integer', 'min:0'],
+                'red_rows'         => ['nullable', 'integer', 'min:0'],
             ]);
         } else {
             $validated_data_bracket = $request->validate([

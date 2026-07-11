@@ -18,6 +18,10 @@
                 </th>
                 <th scope="col"
                     class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                    Status
+                </th>
+                <th scope="col"
+                    class="px-6 py-3 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider">
                     Št. Tekem
                 </th>
                 <th scope="col"
@@ -74,19 +78,24 @@
 
                     $t1_ranking = ($p1->ranking() ?? '') . (isset($p2) ? '-' . $p2->ranking() : '');
                     // Calculate total points for the team
-                    $zone = $bracket->zoneColor($loop->iteration, $total);
+                    $zoneInfo = $bracket->zoneInfo($loop->iteration, $total);
                 @endphp
-                <tr @class([
-                    'hover:bg-gray-100' => !$zone,
-                    'bg-green-50 hover:bg-green-100' => $zone === 'green',
-                    'bg-orange-50 hover:bg-orange-100' => $zone === 'orange',
-                    'bg-red-50 hover:bg-red-100' => $zone === 'red',
-                ])>
+                <tr class="hover:bg-gray-100">
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span>{!! $bracket->tag . $loop->iteration !!}</span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <span>{!! $team_name !!}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @if ($zoneInfo)
+                            <span @class([
+                                'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap',
+                                'bg-green-100 text-green-800' => $zoneInfo['color'] === 'green',
+                                'bg-orange-100 text-orange-800' => $zoneInfo['color'] === 'orange',
+                                'bg-red-100 text-red-800' => $zoneInfo['color'] === 'red',
+                            ])>{{ $zoneInfo['label'] }}</span>
+                        @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         {{ $playedMatchupsCount }}

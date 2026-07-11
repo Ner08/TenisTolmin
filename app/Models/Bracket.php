@@ -27,33 +27,42 @@ class Bracket extends Model
         'places_from',
         'places_to',
         'green_rows',
-        'orange_rows',
+        'orange_up_rows',
+        'orange_down_rows',
         'red_rows',
     ];
 
     /**
-     * Determine the promotion/relegation zone color for a standings position.
+     * Determine the promotion/relegation zone for a standings position.
      *
      * @param  int  $position  1-based rank (1 = top of the standings).
      * @param  int  $total     Total number of ranked rows.
-     * @return string|null     'green' | 'orange' | 'red', or null for no tint.
+     * @return array{color:string,label:string}|null  Zone color + label, or null.
      */
-    public function zoneColor(int $position, int $total): ?string
+    public function zoneInfo(int $position, int $total): ?array
     {
-        $green  = (int) $this->green_rows;
-        $orange = (int) $this->orange_rows;
-        $red    = (int) $this->red_rows;
+        $green      = (int) $this->green_rows;
+        $orangeUp   = (int) $this->orange_up_rows;
+        $orangeDown = (int) $this->orange_down_rows;
+        $red        = (int) $this->red_rows;
 
-        // Green sits at the top, red at the bottom, and orange directly above
-        // the red band (green → uncolored middle → orange → red).
+        // Layout, top to bottom:
+        //   green       – advance directly
+        //   orange up   – qualification match to advance (just below green)
+        //   (uncoloured middle)
+        //   orange down – qualification match to stay    (just above red)
+        //   red         – out
         if ($green > 0 && $position <= $green) {
-            return 'green';
+            return ['color' => 'green', 'label' => 'Napreduje'];
         }
         if ($red > 0 && $position > $total - $red) {
-            return 'red';
+            return ['color' => 'red', 'label' => 'Izpade'];
         }
-        if ($orange > 0 && $position > $total - $red - $orange && $position <= $total - $red) {
-            return 'orange';
+        if ($orangeUp > 0 && $position > $green && $position <= $green + $orangeUp) {
+            return ['color' => 'orange', 'label' => 'Kval. naprej'];
+        }
+        if ($orangeDown > 0 && $position > $total - $red - $orangeDown && $position <= $total - $red) {
+            return ['color' => 'orange', 'label' => 'Kval. obstanek'];
         }
         return null;
     }

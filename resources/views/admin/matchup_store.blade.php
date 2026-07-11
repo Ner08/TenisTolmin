@@ -56,21 +56,28 @@
 
             {{-- Promotion / relegation zones (group stage only) --}}
             <div class="mb-4" id="zoneRowsContainer">
-                <label class="block text-gray-700 font-semibold mb-1">Cone (napredovanje / obstanek / izpad):</label>
-                <p class="text-xs text-gray-500 mb-2">Št. mest od vrha (zeleno = napredovanje), nato oranžno, ter št. mest od dna (rdeče = izpad).</p>
+                <label class="block text-gray-700 font-semibold mb-1">Cone (od vrha navzdol):</label>
+                <p class="text-xs text-gray-500 mb-2">Zeleno = napredovanje, oranžno zgoraj = kvalifikacije za napredovanje, oranžno spodaj = kvalifikacije za obstanek, rdeče = izpad.</p>
                 <div class="flex gap-3">
                     <div class="flex-1">
                         <label for="green_rows" class="block text-xs text-gray-600 mb-1">Zeleno</label>
-                        <input type="number" name="green_rows" id="green_rows" min="0" placeholder="npr. 3"
+                        <input type="number" name="green_rows" id="green_rows" min="0" placeholder="npr. 2"
                             class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
                             value="{{ old('green_rows', $bracket->green_rows) }}"
                             @if ($bracket->is_group_stage == 0) disabled @endif>
                     </div>
                     <div class="flex-1">
-                        <label for="orange_rows" class="block text-xs text-gray-600 mb-1">Oranžno</label>
-                        <input type="number" name="orange_rows" id="orange_rows" min="0" placeholder="npr. 1"
+                        <label for="orange_up_rows" class="block text-xs text-gray-600 mb-1">Oranžno zgoraj</label>
+                        <input type="number" name="orange_up_rows" id="orange_up_rows" min="0" placeholder="npr. 1"
                             class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
-                            value="{{ old('orange_rows', $bracket->orange_rows) }}"
+                            value="{{ old('orange_up_rows', $bracket->orange_up_rows) }}"
+                            @if ($bracket->is_group_stage == 0) disabled @endif>
+                    </div>
+                    <div class="flex-1">
+                        <label for="orange_down_rows" class="block text-xs text-gray-600 mb-1">Oranžno spodaj</label>
+                        <input type="number" name="orange_down_rows" id="orange_down_rows" min="0" placeholder="npr. 2"
+                            class="form-input rounded-lg w-full focus:outline-none border-gray-300 py-3 px-4"
+                            value="{{ old('orange_down_rows', $bracket->orange_down_rows) }}"
                             @if ($bracket->is_group_stage == 0) disabled @endif>
                     </div>
                     <div class="flex-1">
@@ -505,7 +512,7 @@
         var tagInput = document.getElementById('tag');
         pointsDescriptionInput.disabled = this.checked;
         tagInput.disabled = !this.checked;
-        ['green_rows', 'orange_rows', 'red_rows'].forEach(function(id) {
+        ['green_rows', 'orange_up_rows', 'orange_down_rows', 'red_rows'].forEach(function(id) {
             document.getElementById(id).disabled = !this.checked;
         }, this);
     });

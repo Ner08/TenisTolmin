@@ -10,6 +10,7 @@
                 <tr class="bg-gray-100 text-gray-500 text-xs font-semibold uppercase tracking-wide border-b border-gray-200">
                     <th class="px-3 py-2.5 text-left">#</th>
                     <th class="px-3 py-2.5 text-left">Ime</th>
+                    <th class="px-3 py-2.5 text-center">Status</th>
                     <th class="px-3 py-2.5 text-center">Tekme</th>
                     <th class="px-3 py-2.5 text-center">Seti</th>
                     <th class="px-3 py-2.5 text-center">Gemi</th>
@@ -33,18 +34,21 @@
                                 ? '<a href="' . $pUrl($p1) . '" class="hover:text-amber-600 transition-colors">' . e($p1->p_name) . '</a><span class="text-amber-500"> (' . $p1->ranking() . ')</span>, <a href="' . $pUrl($p2) . '" class="hover:text-amber-600 transition-colors">' . e($p2->p_name) . '</a><span class="text-amber-500"> (' . $p2->ranking() . ')</span>'
                                 : '<a href="' . $pUrl($p1) . '" class="hover:text-amber-600 transition-colors">' . e($p1->p_name) . '</a><span class="text-amber-500"> (' . $p1->ranking() . ')</span>');
                         $playedMatchupsCount = $team->matchups->filter(fn($m) => $m->game_played())->count();
-                        $zone = $bracket->zoneColor($loop->iteration, $total);
+                        $zoneInfo = $bracket->zoneInfo($loop->iteration, $total);
                     @endphp
-                    <tr @class([
-                        'transition-colors',
-                        'hover:bg-amber-50' => !$zone,
-                        'bg-amber-50/30' => !$zone && $loop->first,
-                        'bg-green-50 hover:bg-green-100' => $zone === 'green',
-                        'bg-orange-50 hover:bg-orange-100' => $zone === 'orange',
-                        'bg-red-50 hover:bg-red-100' => $zone === 'red',
-                    ])>
+                    <tr class="hover:bg-amber-50 transition-colors {{ $loop->first ? 'bg-amber-50/30' : '' }}">
                         <td class="px-3 py-2 font-semibold text-gray-700">{!! $bracket->tag . $loop->iteration !!}</td>
                         <td class="px-3 py-2 text-gray-900">{!! $team_name !!}</td>
+                        <td class="px-3 py-2 text-center">
+                            @if ($zoneInfo)
+                                <span @class([
+                                    'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap',
+                                    'bg-green-100 text-green-800' => $zoneInfo['color'] === 'green',
+                                    'bg-orange-100 text-orange-800' => $zoneInfo['color'] === 'orange',
+                                    'bg-red-100 text-red-800' => $zoneInfo['color'] === 'red',
+                                ])>{{ $zoneInfo['label'] }}</span>
+                            @endif
+                        </td>
                         <td class="px-3 py-2 text-center text-gray-600">{{ $playedMatchupsCount }}</td>
                         <td class="px-3 py-2 text-center text-gray-600">{{ $team->group_set_delta() }}</td>
                         <td class="px-3 py-2 text-center text-gray-600">{{ $team->group_game_delta() }}</td>
